@@ -5,17 +5,24 @@
 @layer base {
   html, body {
     font-family: "Plus Jakarta Sans", sans-serif;
-    background-color: #071d19;
-    color: #e6e1d5;
-    overflow: hidden;
+    scroll-behavior: smooth;
   }
 }
 
-.floating-garment {
-  filter: drop-shadow(0 28px 32px rgba(0, 0, 0, 0.55));
+.floating-garment-dark {
+  filter: drop-shadow(0 32px 36px rgba(0, 0, 0, 0.6));
 }
 
-.garment-floor-shadow {
-  background: radial-gradient(50% 50% at 50% 50%, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0.25) 55%, rgba(0, 0, 0, 0) 100%);
-  filter: blur(8px);
+.floating-garment-light {
+  filter: drop-shadow(0 28px 30px rgba(8, 31, 26, 0.26));
+}
+
+.garment-floor-shadow-dark {
+  background: radial-gradient(50% 50% at 50% 50%, rgba(0, 0, 0, 0.72) 0%, rgba(0, 0, 0, 0.28) 55%, rgba(0, 0, 0, 0) 100%);
+  filter: blur(10px);
+}
+
+.garment-floor-shadow-light {
+  background: radial-gradient(50% 50% at 50% 50%, rgba(8, 31, 26, 0.36) 0%, rgba(8, 31, 26, 0.14) 55%, rgba(8, 31, 26, 0) 100%);
+  filter: blur(10px);
 }
