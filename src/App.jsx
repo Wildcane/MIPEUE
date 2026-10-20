@@ -850,7 +850,7 @@ export default function App() {
       {/* ================= HERO SHOWCASE (TRANSICIONES FLUIDAS Y ESQUINAS INFERIORES LIMPIAS) ================= */}
       <section
         id="hero"
-        className="min-h-screen h-screen overflow-hidden flex flex-col justify-between p-6 md:p-10 pt-20 md:pt-24 relative"
+        className="min-h-screen flex flex-col justify-between p-6 md:p-10 pt-20 md:pt-24 relative"
       >
         <div className="flex-1 grid grid-cols-1 md:grid-cols-12 items-center gap-4 my-auto">
           {/* Columna Izquierda: Flechas en bucle infinito + Título y descripción con AnimatePresence mode="wait" */}
