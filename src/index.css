@@ -3,58 +3,49 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    --color-burgundy: #5c1d24;
-    --color-slate: #1f2a33;
-    --color-pine: #153d35;
-    --color-forest: #0e3831;
-    --color-cream: #e6e1d5;
-    color-scheme: dark;
-  }
-
-  * {
-    border-color: rgba(230, 225, 213, 0.14);
-  }
-
-  body {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    background-color: #0e3831;
-    color: #ffffff;
-    overflow-x: hidden;
-  }
-
-  ::selection {
-    background-color: #e6e1d5;
-    color: #0e3831;
-  }
-
-  /* Custom editorial scrollbar */
-  ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-  }
-  ::-webkit-scrollbar-track {
-    background: #0e3831;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: rgba(230, 225, 213, 0.28);
-    border-radius: 9999px;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: rgba(230, 225, 213, 0.5);
+  html {
+    scroll-behavior: smooth;
+    font-family: "Plus Jakarta Sans", sans-serif;
   }
 }
 
-.font-editorial-title {
-  font-family: 'Oswald', 'Syne', sans-serif;
-  letter-spacing: -0.025em;
-  line-height: 0.92;
+/* Tactile Linen & Paper Noise Overlay */
+.bg-paper-grain {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
 }
 
-.font-serif-accent {
-  font-family: 'Instrument Serif', Georgia, serif;
+/* Custom Realistic Product Floor Shadow (matches Lace Up UI reference) */
+.product-floor-shadow {
+  background: radial-gradient(50% 50% at 50% 50%, rgba(18, 64, 56, 0.34) 0%, rgba(18, 64, 56, 0.12) 52%, rgba(18, 64, 56, 0) 100%);
+  filter: blur(10px);
 }
 
-.garment-drop-shadow {
-  filter: drop-shadow(0 28px 42px rgba(0, 0, 0, 0.62)) drop-shadow(0 8px 16px rgba(0, 0, 0, 0.45));
+.product-floor-shadow-dark {
+  background: radial-gradient(50% 50% at 50% 50%, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0.25) 55%, rgba(0, 0, 0, 0) 100%);
+  filter: blur(12px);
+}
+
+/* Cutout drop shadow for floating studio feel */
+.cutout-elevation {
+  filter: drop-shadow(0 24px 28px rgba(18, 64, 56, 0.22)) drop-shadow(0 6px 10px rgba(18, 64, 56, 0.12));
+}
+
+.cutout-elevation-dark {
+  filter: drop-shadow(0 28px 34px rgba(0, 0, 0, 0.55)) drop-shadow(0 8px 14px rgba(0, 0, 0, 0.35));
+}
+
+/* Subtle custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #EFE8DE;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(18, 64, 56, 0.3);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(18, 64, 56, 0.6);
 }
