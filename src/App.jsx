@@ -426,6 +426,24 @@ const heroItemVariants = {
   })
 };
 
+// Variantes de transición para carruseles inferiores (0.45s cubic-bezier(0.25, 1, 0.5, 1))
+const carouselMotionVariants = {
+  enter: (dir) => ({
+    opacity: 0,
+    x: dir >= 0 ? 35 : -35
+  }),
+  center: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.45, ease: [0.25, 1, 0.5, 1] }
+  },
+  exit: (dir) => ({
+    opacity: 0,
+    x: dir >= 0 ? -35 : 35,
+    transition: { duration: 0.25, ease: [0.25, 1, 0.5, 1] }
+  })
+};
+
 export default function App() {
   // Modo Oscuro (false) vs Modo Claro Invertido (true)
   const [isInverted, setIsInverted] = useState(false);
@@ -528,6 +546,23 @@ export default function App() {
       const idx = (startIndex + offset) % total;
       return { item: items[idx], index: idx };
     });
+  };
+
+  const touchStartX = useRef(null);
+
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e, stepFn) => {
+    if (touchStartX.current === null) return;
+    const diff = touchStartX.current - e.changedTouches[0].clientX;
+    if (diff > 40) {
+      stepFn(1);
+    } else if (diff < -40) {
+      stepFn(-1);
+    }
+    touchStartX.current = null;
   };
 
   const stepOctubre = (dir) => {
@@ -1034,7 +1069,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* ================= SECCIÓN A: #drop-octubre (LOS 6 DISEÑOS EN BUCLE INFINITO) ================= */}
+      {/* ================= SECCIÓN A: #drop-octubre (6 MODELOS EN BUCLE INFINITO) ================= */}
       <section
         id="drop-octubre"
         className={`py-24 px-6 md:px-10 border-t transition-colors duration-500 ${
@@ -1043,16 +1078,13 @@ export default function App() {
       >
         <div className="max-w-7xl mx-auto space-y-10">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-            <div className="space-y-2">
-              <span className="text-xs uppercase tracking-[0.24em] opacity-65 font-semibold">
-                EDICIÓN ESPECIAL • 6 MODELOS OFICIALES
-              </span>
+            <div>
               <h2
-                className={`text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight uppercase ${
+                className={`text-3xl md:text-5xl font-bold tracking-tight uppercase ${
                   isInverted ? 'text-[#081f1a]' : 'text-white'
                 }`}
               >
-                DROP OCTUBRE • MITOS DE NICARAGUA
+                DROP OCTUBRE
               </h2>
             </div>
 
@@ -1086,7 +1118,7 @@ export default function App() {
             <button
               onClick={() => stepOctubre(-1)}
               aria-label="Anterior en Drop Octubre"
-              className={`hidden md:flex absolute -left-5 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full border shadow-xl items-center justify-center transition-all cursor-pointer ${
+              className={`flex absolute -left-2 sm:-left-4 md:-left-6 top-1/2 -translate-y-1/2 z-20 w-9 h-9 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-full border shadow-2xl items-center justify-center transition-all cursor-pointer ${
                 isInverted
                   ? 'bg-[#081f1a] text-[#e6e1d5] border-[#e6e1d5]/20 hover:scale-105'
                   : 'bg-[#e6e1d5] text-[#081f1a] border-[#081f1a]/20 hover:scale-105'
@@ -1098,7 +1130,7 @@ export default function App() {
             <button
               onClick={() => stepOctubre(1)}
               aria-label="Siguiente en Drop Octubre"
-              className={`hidden md:flex absolute -right-5 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full border shadow-xl items-center justify-center transition-all cursor-pointer ${
+              className={`flex absolute -right-2 sm:-right-4 md:-right-6 top-1/2 -translate-y-1/2 z-20 w-9 h-9 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-full border shadow-2xl items-center justify-center transition-all cursor-pointer ${
                 isInverted
                   ? 'bg-[#081f1a] text-[#e6e1d5] border-[#e6e1d5]/20 hover:scale-105'
                   : 'bg-[#e6e1d5] text-[#081f1a] border-[#081f1a]/20 hover:scale-105'
@@ -1111,18 +1143,22 @@ export default function App() {
               <motion.div
                 key={octubreIdx}
                 custom={octubreDir}
-                variants={heroItemVariants}
+                variants={carouselMotionVariants}
                 initial="enter"
                 animate="center"
                 exit="exit"
+                onTouchStart={handleTouchStart}
+                onTouchEnd={(e) => handleTouchEnd(e, stepOctubre)}
                 className="grid grid-cols-1 md:grid-cols-3 gap-6"
               >
-                {visibleOctubre.map(({ item }) => {
+                {visibleOctubre.map(({ item }, index) => {
                   const selectedSz = octubreSizes[item.id] || item.sizes[0];
                   return (
                     <div
                       key={item.id}
-                      className={`rounded-3xl overflow-hidden border flex flex-col justify-between transition-colors duration-300 ${
+                      className={`rounded-3xl overflow-hidden border flex-col justify-between transition-colors duration-300 ${
+                        index > 0 ? 'hidden md:flex' : 'flex w-full md:w-auto'
+                      } ${
                         isInverted
                           ? 'bg-white/60 border-[#081f1a]/15'
                           : 'bg-black/35 border-[#e6e1d5]/15'
@@ -1235,16 +1271,13 @@ export default function App() {
       >
         <div className="max-w-7xl mx-auto space-y-10">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-            <div className="space-y-2">
-              <span className="text-xs uppercase tracking-[0.24em] opacity-65 font-semibold">
-                CATÁLOGO OFICIAL • 12 CAMISETAS 100% ALGODÓN (FRENTE O ESPALDA)
-              </span>
+            <div>
               <h2
-                className={`text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight uppercase ${
+                className={`text-3xl md:text-5xl font-bold tracking-tight uppercase ${
                   isInverted ? 'text-[#081f1a]' : 'text-white'
                 }`}
               >
-                COLECCIÓN CULTURAL • CLÁSICOS
+                COLECCIÓN CULTURAL
               </h2>
             </div>
 
@@ -1278,7 +1311,7 @@ export default function App() {
             <button
               onClick={() => stepCultural(-1)}
               aria-label="Anterior en Colección Cultural"
-              className={`hidden md:flex absolute -left-5 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full border shadow-xl items-center justify-center transition-all cursor-pointer ${
+              className={`flex absolute -left-2 sm:-left-4 md:-left-6 top-1/2 -translate-y-1/2 z-20 w-9 h-9 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-full border shadow-2xl items-center justify-center transition-all cursor-pointer ${
                 isInverted
                   ? 'bg-[#081f1a] text-[#e6e1d5] border-[#e6e1d5]/20 hover:scale-105'
                   : 'bg-[#e6e1d5] text-[#081f1a] border-[#081f1a]/20 hover:scale-105'
@@ -1290,7 +1323,7 @@ export default function App() {
             <button
               onClick={() => stepCultural(1)}
               aria-label="Siguiente en Colección Cultural"
-              className={`hidden md:flex absolute -right-5 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full border shadow-xl items-center justify-center transition-all cursor-pointer ${
+              className={`flex absolute -right-2 sm:-right-4 md:-right-6 top-1/2 -translate-y-1/2 z-20 w-9 h-9 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-full border shadow-2xl items-center justify-center transition-all cursor-pointer ${
                 isInverted
                   ? 'bg-[#081f1a] text-[#e6e1d5] border-[#e6e1d5]/20 hover:scale-105'
                   : 'bg-[#e6e1d5] text-[#081f1a] border-[#081f1a]/20 hover:scale-105'
@@ -1303,13 +1336,15 @@ export default function App() {
               <motion.div
                 key={culturalIdx}
                 custom={culturalDir}
-                variants={heroItemVariants}
+                variants={carouselMotionVariants}
                 initial="enter"
                 animate="center"
                 exit="exit"
+                onTouchStart={handleTouchStart}
+                onTouchEnd={(e) => handleTouchEnd(e, stepCultural)}
                 className="grid grid-cols-1 md:grid-cols-3 gap-6"
               >
-                {visibleCultural.map(({ item: product }) => {
+                {visibleCultural.map(({ item: product }, index) => {
                   const cfg = culturalConfig[product.id] || {
                     size: 'M',
                     tone: 'blanco'
@@ -1319,7 +1354,9 @@ export default function App() {
                   return (
                     <div
                       key={product.id}
-                      className={`rounded-3xl overflow-hidden border flex flex-col justify-between transition-colors duration-300 ${
+                      className={`rounded-3xl overflow-hidden border flex-col justify-between transition-colors duration-300 ${
+                        index > 0 ? 'hidden md:flex' : 'flex w-full md:w-auto'
+                      } ${
                         isInverted
                           ? 'bg-white/60 border-[#081f1a]/15'
                           : 'bg-black/35 border-[#e6e1d5]/15'
@@ -1459,7 +1496,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* ================= SECCIÓN C: #tote-bags (LOS 3 BOLSOS OFICIALES EN BUCLE INFINITO) ================= */}
+      {/* ================= SECCIÓN C: #tote-bags (LOS 3 BOLSOS EN BUCLE INFINITO) ================= */}
       <section
         id="tote-bags"
         className={`py-24 px-6 md:px-10 border-t transition-colors duration-500 ${
@@ -1468,16 +1505,13 @@ export default function App() {
       >
         <div className="max-w-7xl mx-auto space-y-10">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-            <div className="space-y-2">
-              <span className="text-xs uppercase tracking-[0.24em] opacity-65 font-semibold">
-                ACCESORIOS ARTESANALES • 3 BOLSOS OFICIALES
-              </span>
+            <div>
               <h2
-                className={`text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight uppercase ${
+                className={`text-3xl md:text-5xl font-bold tracking-tight uppercase ${
                   isInverted ? 'text-[#081f1a]' : 'text-white'
                 }`}
               >
-                TOTE BAGS • LONA CRUDA 32×35 CM
+                TOTE BAGS
               </h2>
             </div>
 
@@ -1511,7 +1545,7 @@ export default function App() {
             <button
               onClick={() => stepTote(-1)}
               aria-label="Anterior en Tote Bags"
-              className={`hidden md:flex absolute -left-5 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full border shadow-xl items-center justify-center transition-all cursor-pointer ${
+              className={`flex absolute -left-2 sm:-left-4 md:-left-6 top-1/2 -translate-y-1/2 z-20 w-9 h-9 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-full border shadow-2xl items-center justify-center transition-all cursor-pointer ${
                 isInverted
                   ? 'bg-[#081f1a] text-[#e6e1d5] border-[#e6e1d5]/20 hover:scale-105'
                   : 'bg-[#e6e1d5] text-[#081f1a] border-[#081f1a]/20 hover:scale-105'
@@ -1523,7 +1557,7 @@ export default function App() {
             <button
               onClick={() => stepTote(1)}
               aria-label="Siguiente en Tote Bags"
-              className={`hidden md:flex absolute -right-5 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full border shadow-xl items-center justify-center transition-all cursor-pointer ${
+              className={`flex absolute -right-2 sm:-right-4 md:-right-6 top-1/2 -translate-y-1/2 z-20 w-9 h-9 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-full border shadow-2xl items-center justify-center transition-all cursor-pointer ${
                 isInverted
                   ? 'bg-[#081f1a] text-[#e6e1d5] border-[#e6e1d5]/20 hover:scale-105'
                   : 'bg-[#e6e1d5] text-[#081f1a] border-[#081f1a]/20 hover:scale-105'
@@ -1536,18 +1570,22 @@ export default function App() {
               <motion.div
                 key={toteIdx}
                 custom={toteDir}
-                variants={heroItemVariants}
+                variants={carouselMotionVariants}
                 initial="enter"
                 animate="center"
                 exit="exit"
+                onTouchStart={handleTouchStart}
+                onTouchEnd={(e) => handleTouchEnd(e, stepTote)}
                 className="grid grid-cols-1 md:grid-cols-3 gap-6"
               >
-                {visibleTotes.map(({ item: tote }) => {
+                {visibleTotes.map(({ item: tote }, index) => {
                   const qty = toteQty[tote.id] || 1;
                   return (
                     <div
                       key={tote.id}
-                      className={`rounded-3xl overflow-hidden border flex flex-col justify-between transition-colors duration-300 ${
+                      className={`rounded-3xl overflow-hidden border flex-col justify-between transition-colors duration-300 ${
+                        index > 0 ? 'hidden md:flex' : 'flex w-full md:w-auto'
+                      } ${
                         isInverted
                           ? 'bg-white/60 border-[#081f1a]/15'
                           : 'bg-black/35 border-[#e6e1d5]/15'
