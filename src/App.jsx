@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ChevronLeft,
@@ -25,39 +25,70 @@ const TONE_SWATCHES = [
   { id: 'crema', label: 'Crema', bgClass: 'bg-[#e6e1d5]', price: 490 }
 ];
 
-// ================= SELECCIÓN HERO SHOWCASE CON GRADIENTES EN MODO OSCURO Y CLARO =================
+// ================= HERO SHOWCASE (INCLUYE LOS 6 DISEÑOS DEL DROP OCTUBRE + CULTURAL + TOTE BAGS) =================
 const HERO_SHOWCASE = [
+  // --- 6 DISEÑOS OFICIALES DROP OCTUBRE ---
   {
-    id: 'cadejo',
+    id: 'cadejo-morado',
     category: 'octubre',
-    name: 'CADEJO',
+    name: 'CADEJO (MORADO / LILA)',
     description:
-      'Inspirada en el mítico guardián nocturno de los caminos de Nicaragua. Estampado artesanal de alto contraste con trazos de grabado folclórico.',
+      'Inspirada en el mítico guardián nocturno de los caminos de Nicaragua. Edición especial en tono morado/azul profundo con trazos de grabado folclórico.',
     detail: '100% Algodón peinado • Hecho en Nicaragua',
     price: 490,
     sizes: ['S', 'M', 'L', 'XL'],
     image: '/assets/products/cadejo-cutout-1.png',
     soldOut: true,
+    soldOutLabel: 'AGOTADO TEMPORALMENTE',
     hasSwatches: false,
-    darkGradient: 'from-[#2d090e] via-[#4d161d] to-[#1a0407]',
-    lightGradient: 'from-[#f4e3e5] via-[#edd6d9] to-[#e3c5c9]',
-    accentDark: '#4d161d'
+    darkBg: '#32111c',
+    lightBg: '#eadce1'
   },
   {
-    id: 'cegua',
+    id: 'cadejo-crema',
     category: 'octubre',
-    name: 'LA CEGUA',
+    name: 'CADEJO (CREMA / BEIGE)',
     description:
-      'Reinterpretación gráfica de la leyenda colonial nicaragüense. Arte serigráfico en tono hueso sobre algodón negro profundo.',
+      'La dualidad del espectro nocturno nicaragüense plasmada sobre algodón crema cálido con serigrafía artesanal de alto contraste.',
+    detail: '100% Algodón peinado • Hecho en Nicaragua',
+    price: 490,
+    sizes: ['S', 'M', 'L', 'XL'],
+    image: '/assets/products/cadejo-cutout-2.png',
+    soldOut: true,
+    soldOutLabel: 'AGOTADO TEMPORALMENTE',
+    hasSwatches: false,
+    darkBg: '#2e1d16',
+    lightBg: '#efe4d8'
+  },
+  {
+    id: 'cegua-frente',
+    category: 'octubre',
+    name: 'LA CEGUA (FRENTE)',
+    description:
+      'Reinterpretación gráfica de la leyenda colonial nicaragüense que sorprende a los trasnochadores. Arte serigráfico sobre algodón negro profundo.',
+    detail: '100% Algodón peinado • Hecho en Nicaragua',
+    price: 490,
+    sizes: ['S', 'M', 'L', 'XL'],
+    image: '/assets/products/cegua-cutout-1.png',
+    soldOut: false,
+    hasSwatches: false,
+    darkBg: '#141e28',
+    lightBg: '#dde4ec'
+  },
+  {
+    id: 'cegua-variante',
+    category: 'octubre',
+    name: 'LA CEGUA (VARIANTE / MODELO)',
+    description:
+      'Silueta individual de nuestra edición mística de La Cegua en tinta color hueso envejecido sobre tejido suave 100% algodón.',
     detail: '100% Algodón peinado • Hecho en Nicaragua',
     price: 490,
     sizes: ['S', 'M', 'L', 'XL'],
     image: '/assets/products/cegua-cutout-2.png',
     soldOut: false,
     hasSwatches: false,
-    darkGradient: 'from-[#0f171f] via-[#1a2530] to-[#0a0f14]',
-    lightGradient: 'from-[#e3e8ee] via-[#dae1e9] to-[#cdd6e0]',
-    accentDark: '#1a2530'
+    darkBg: '#101820',
+    lightBg: '#d8e0e8'
   },
   {
     id: 'deacachimba',
@@ -65,15 +96,14 @@ const HERO_SHOWCASE = [
     name: 'TOP MUY DEACACHIMBA',
     description:
       'Homenaje al habla popular pinolera coronado por el Guardabarranco en vuelo. Silueta raglán bicolor de calce cómodo y fresco.',
-    detail: 'Top Raglán Algodón • Hecho en Nicaragua',
+    detail: 'Top Raglán Unitalla • Hecho en Nicaragua',
     price: 550,
     sizes: ['Unitalla'],
     image: '/assets/products/deacachimba-cutout.png',
     soldOut: false,
     hasSwatches: false,
-    darkGradient: 'from-[#0a241e] via-[#12362f] to-[#061713]',
-    lightGradient: 'from-[#e2eee9] via-[#d6e7e1] to-[#c7ddd5]',
-    accentDark: '#12362f'
+    darkBg: '#0d2b24',
+    lightBg: '#dbeae4'
   },
   {
     id: 'top-nicaragua',
@@ -81,16 +111,17 @@ const HERO_SHOWCASE = [
     name: 'TOP NICARAGUA',
     description:
       'Tierra de lagos y volcanes plasmada en un corte raglán clásico con mangas en contraste verde bosque y arte colonial.',
-    detail: 'Top Raglán Algodón • Hecho en Nicaragua',
+    detail: 'Top Raglán Unitalla • Hecho en Nicaragua',
     price: 550,
     sizes: ['Unitalla'],
     image: '/assets/products/nicaragua-cutout.png',
     soldOut: false,
     hasSwatches: false,
-    darkGradient: 'from-[#08201b] via-[#0d2f28] to-[#051411]',
-    lightGradient: 'from-[#e5efe8] via-[#d9e7de] to-[#cbe0d3]',
-    accentDark: '#0d2f28'
+    darkBg: '#0a241e',
+    lightBg: '#d8e8df'
   },
+
+  // --- SELECCIÓN COLECCIÓN CULTURAL ---
   {
     id: 'sopa-queso',
     category: 'cultural',
@@ -103,9 +134,8 @@ const HERO_SHOWCASE = [
     image: '/assets/products/page2-cutout-2.png',
     soldOut: false,
     hasSwatches: true,
-    darkGradient: 'from-[#292209] via-[#3d330d] to-[#171305]',
-    lightGradient: 'from-[#f5eed8] via-[#eee3c4] to-[#e5d7b0]',
-    accentDark: '#3d330d'
+    darkBg: '#2e260c',
+    lightBg: '#f0e6c8'
   },
   {
     id: 'catedral',
@@ -118,10 +148,10 @@ const HERO_SHOWCASE = [
     sizes: ['S', 'M', 'L', 'XL'],
     image: '/assets/products/cultural-cutout-2.png',
     soldOut: true,
+    soldOutLabel: 'AGOTADO',
     hasSwatches: true,
-    darkGradient: 'from-[#2e1310] via-[#451c17] to-[#180a08]',
-    lightGradient: 'from-[#f4e4df] via-[#ecd7d0] to-[#e2c8bf]',
-    accentDark: '#451c17'
+    darkBg: '#361713',
+    lightBg: '#eedbd5'
   },
   {
     id: 'isletas',
@@ -134,11 +164,13 @@ const HERO_SHOWCASE = [
     sizes: ['S', 'M', 'L', 'XL'],
     image: '/assets/products/cultural-cutout-1.png',
     soldOut: true,
+    soldOutLabel: 'AGOTADO',
     hasSwatches: true,
-    darkGradient: 'from-[#0a2126] via-[#113138] to-[#061417]',
-    lightGradient: 'from-[#e0eef0] via-[#d3e6e9] to-[#c4dce0]',
-    accentDark: '#113138'
+    darkBg: '#0e282e',
+    lightBg: '#d8eaec'
   },
+
+  // --- SELECCIÓN TOTE BAGS ---
   {
     id: 'tote-guardabarranco',
     category: 'totebags',
@@ -150,10 +182,10 @@ const HERO_SHOWCASE = [
     sizes: ['Unitalla'],
     image: '/assets/products/page2-cutout-1.png',
     soldOut: true,
+    soldOutLabel: 'AGOTADO',
     hasSwatches: false,
-    darkGradient: 'from-[#0c2420] via-[#143630] to-[#071714]',
-    lightGradient: 'from-[#e2efe9] via-[#d5e7df] to-[#c6ddd3]',
-    accentDark: '#143630'
+    darkBg: '#102b26',
+    lightBg: '#dbe9e2'
   },
   {
     id: 'tote-bunuelos',
@@ -167,9 +199,8 @@ const HERO_SHOWCASE = [
     image: '/assets/products/page2-cutout-2.png',
     soldOut: false,
     hasSwatches: false,
-    darkGradient: 'from-[#29170a] via-[#3b220e] to-[#140b05]',
-    lightGradient: 'from-[#f4e8dc] via-[#ecdcce] to-[#e2cebc]',
-    accentDark: '#3b220e'
+    darkBg: '#2e1b0d',
+    lightBg: '#eee0d2'
   },
   {
     id: 'tote-nicaragua',
@@ -182,27 +213,38 @@ const HERO_SHOWCASE = [
     sizes: ['Unitalla'],
     image: '/assets/products/cultural-cutout-2.png',
     soldOut: true,
+    soldOutLabel: 'AGOTADO',
     hasSwatches: false,
-    darkGradient: 'from-[#0a1c2b] via-[#122b42] to-[#06111a]',
-    lightGradient: 'from-[#e2ebf2] via-[#d5e1ec] to-[#c5d5e3]',
-    accentDark: '#122b42'
+    darkBg: '#0e2235',
+    lightBg: '#dae4ee'
   }
 ];
 
-// ================= SECCIÓN A: DROP OCTUBRE (4 PRENDAS) =================
+// ================= SECCIÓN A: DROP OCTUBRE (LOS 6 DISEÑOS OFICIALES DE CANVA) =================
 const DROP_OCTUBRE_ITEMS = [
   {
-    id: 'oct-cadejo',
-    name: 'Cadejo',
+    id: 'oct-cadejo-morado',
+    name: 'CADEJO (Morado / Lila)',
     subtitle: 'Leyenda nocturna • 100% Algodón peinado',
     price: 490,
     sizes: ['S', 'M', 'L', 'XL'],
     image: '/assets/products/cadejo-photo-1.jpg',
-    soldOut: true
+    soldOut: true,
+    soldOutText: 'AGOTADO TEMPORALMENTE'
   },
   {
-    id: 'oct-cegua',
-    name: 'La Cegua',
+    id: 'oct-cadejo-crema',
+    name: 'CADEJO (Crema / Beige)',
+    subtitle: 'Edición Crema Natural • 100% Algodón peinado',
+    price: 490,
+    sizes: ['S', 'M', 'L', 'XL'],
+    image: '/assets/products/cadejo-photo-2.png',
+    soldOut: true,
+    soldOutText: 'AGOTADO TEMPORALMENTE'
+  },
+  {
+    id: 'oct-cegua-frente',
+    name: 'LA CEGUA (Frente)',
     subtitle: 'Espectro colonial • 100% Algodón negro profundo',
     price: 490,
     sizes: ['S', 'M', 'L', 'XL'],
@@ -210,9 +252,18 @@ const DROP_OCTUBRE_ITEMS = [
     soldOut: false
   },
   {
+    id: 'oct-cegua-variante',
+    name: 'LA CEGUA (Variante / Modelo)',
+    subtitle: 'Grabado folclórico • 100% Algodón negro profundo',
+    price: 490,
+    sizes: ['S', 'M', 'L', 'XL'],
+    image: '/assets/products/cegua-photo-2.png',
+    soldOut: false
+  },
+  {
     id: 'oct-deacachimba',
-    name: 'Top Muy Deacachimba',
-    subtitle: 'Baby Tee Raglán Bicolor • Guardabarranco',
+    name: 'TOP MUY DEACACHIMBA',
+    subtitle: 'Baby Tee Raglán Bicolor • Unitalla',
     price: 550,
     sizes: ['Unitalla'],
     image: '/assets/products/deacachimba-photo.png',
@@ -220,8 +271,8 @@ const DROP_OCTUBRE_ITEMS = [
   },
   {
     id: 'oct-top-nicaragua',
-    name: 'Top Nicaragua',
-    subtitle: 'Baby Tee Raglán Bicolor • Tierra de Lagos y Volcanes',
+    name: 'TOP NICARAGUA',
+    subtitle: 'Tierra de Lagos y Volcanes • Unitalla',
     price: 550,
     sizes: ['Unitalla'],
     image: '/assets/products/nicaragua-photo.png',
@@ -357,25 +408,54 @@ const TOTE_BAGS_ITEMS = [
   }
 ];
 
+// Variantes de transición suave requeridas (Entrada 0.35s easeOut, Salida 0.25s easeIn)
+const heroItemVariants = {
+  enter: (dir) => ({
+    opacity: 0,
+    x: dir >= 0 ? 25 : -25
+  }),
+  center: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.35, ease: 'easeOut' }
+  },
+  exit: (dir) => ({
+    opacity: 0,
+    x: dir >= 0 ? -25 : 25,
+    transition: { duration: 0.25, ease: 'easeIn' }
+  })
+};
+
 export default function App() {
   // Modo Oscuro (false) vs Modo Claro Invertido (true)
   const [isInverted, setIsInverted] = useState(false);
 
-  // Estado del Hero Showcase
-  const [currentIndex, setCurrentIndex] = useState(1); // Inicia en La Cegua (disponible)
+  // Estado del Hero Showcase en bucle infinito
+  const [currentIndex, setCurrentIndex] = useState(2); // Inicia en La Cegua (Frente)
   const [direction, setDirection] = useState(1);
   const [heroSize, setHeroSize] = useState('M');
   const [heroTone, setHeroTone] = useState('blanco');
 
-  // Estados de selección para Drop Octubre
-  const [octubreSizes, setOctubreSizes] = useState({
-    'oct-cadejo': 'M',
-    'oct-cegua': 'M',
-    'oct-deacachimba': 'Unitalla',
-    'oct-top-nicaragua': 'Unitalla'
+  // Índices de bucle infinito para los 3 carruseles inferiores
+  const [octubreIdx, setOctubreIdx] = useState(0);
+  const [octubreDir, setOctubreDir] = useState(1);
+
+  const [culturalIdx, setCulturalIdx] = useState(0);
+  const [culturalDir, setCulturalDir] = useState(1);
+
+  const [toteIdx, setToteIdx] = useState(0);
+  const [toteDir, setToteDir] = useState(1);
+
+  // Tallas seleccionadas en Drop Octubre
+  const [octubreSizes, setOctubreSizes] = useState(() => {
+    const init = {};
+    DROP_OCTUBRE_ITEMS.forEach((item) => {
+      init[item.id] = item.sizes.includes('M') ? 'M' : item.sizes[0];
+    });
+    return init;
   });
 
-  // Estados de selección para las 12 camisetas de Colección Cultural
+  // Configuración de talla y tono (Blanco/Crema) en las 12 camisetas de Colección Cultural
   const [culturalConfig, setCulturalConfig] = useState(() => {
     const initial = {};
     COLECCION_CULTURAL_ITEMS.forEach((item) => {
@@ -384,21 +464,24 @@ export default function App() {
     return initial;
   });
 
-  // Estados de cantidad para Tote Bags
+  // Cantidades para Tote Bags
   const [toteQty, setToteQty] = useState({
     'tote-fauna-local': 1,
     'tote-bunuelos-bag': 1,
     'tote-nicaragua-bag': 1
   });
 
-  // Referencias de los 3 carruseles inferiores
-  const octubreCarouselRef = useRef(null);
-  const culturalCarouselRef = useRef(null);
-  const toteCarouselRef = useRef(null);
-
   // Carrito Lateral (Drawer)
   const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+
+  // Precargar imágenes del Hero para evitar cualquier parpadeo al animar
+  useEffect(() => {
+    HERO_SHOWCASE.forEach((item) => {
+      const img = new Image();
+      img.src = item.image;
+    });
+  }, []);
 
   const currentHeroProduct = HERO_SHOWCASE[currentIndex];
   const activeCategory = currentHeroProduct.category;
@@ -408,12 +491,15 @@ export default function App() {
     return heroTone === 'crema' ? 490 : 480;
   }, [currentHeroProduct, heroTone]);
 
-  // Cambio instantáneo de prenda en el Hero
+  // Navegación en bucle infinito del Hero: (currentIndex + 1) % totalItems
   const handleSlide = useCallback((dir) => {
     setDirection(dir);
     setCurrentIndex((prev) => {
+      const totalItems = HERO_SHOWCASE.length;
       const nextIdx =
-        (prev + dir + HERO_SHOWCASE.length) % HERO_SHOWCASE.length;
+        dir > 0
+          ? (prev + 1) % totalItems
+          : (prev - 1 + totalItems) % totalItems;
       const nextProd = HERO_SHOWCASE[nextIdx];
       setHeroSize(nextProd.sizes.includes('M') ? 'M' : nextProd.sizes[0]);
       setHeroTone('blanco');
@@ -421,7 +507,7 @@ export default function App() {
     });
   }, []);
 
-  // Listener de teclado global (ArrowRight / ArrowLeft) con respuesta instantánea
+  // Listener de teclado global (ArrowRight / ArrowLeft)
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (isCartOpen) return;
@@ -435,14 +521,37 @@ export default function App() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [handleSlide, isCartOpen]);
 
-  // Función de scroll horizontal para los 3 carruseles
-  const scrollCarousel = (ref, dir) => {
-    if (!ref.current) return;
-    const cardWidth = ref.current.firstElementChild?.clientWidth || 360;
-    ref.current.scrollBy({
-      left: dir * (cardWidth + 24),
-      behavior: 'smooth'
+  // Helpers para obtener las 3 tarjetas visibles en bucle infinito circular
+  const getVisibleCyclicItems = (items, startIndex, count = 3) => {
+    const total = items.length;
+    return Array.from({ length: count }, (_, offset) => {
+      const idx = (startIndex + offset) % total;
+      return { item: items[idx], index: idx };
     });
+  };
+
+  const stepOctubre = (dir) => {
+    setOctubreDir(dir);
+    const total = DROP_OCTUBRE_ITEMS.length;
+    setOctubreIdx((prev) =>
+      dir > 0 ? (prev + 1) % total : (prev - 1 + total) % total
+    );
+  };
+
+  const stepCultural = (dir) => {
+    setCulturalDir(dir);
+    const total = COLECCION_CULTURAL_ITEMS.length;
+    setCulturalIdx((prev) =>
+      dir > 0 ? (prev + 1) % total : (prev - 1 + total) % total
+    );
+  };
+
+  const stepTote = (dir) => {
+    setToteDir(dir);
+    const total = TOTE_BAGS_ITEMS.length;
+    setToteIdx((prev) =>
+      dir > 0 ? (prev + 1) % total : (prev - 1 + total) % total
+    );
   };
 
   // Agregar al carrito
@@ -551,14 +660,36 @@ export default function App() {
     return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
   };
 
-  // Gradiente adaptativo tanto en Modo Oscuro como en Modo Claro
-  const activeBgClass = isInverted
-    ? `bg-gradient-to-br ${currentHeroProduct.lightGradient} text-[#081f1a]`
-    : `bg-gradient-to-br ${currentHeroProduct.darkGradient} text-[#e6e1d5]`;
+  // Fondo adaptativo con transición CSS suave: transition: background 0.7s cubic-bezier(0.4, 0, 0.2, 1)
+  const adaptiveSurfaceStyle = {
+    backgroundColor: isInverted
+      ? currentHeroProduct.lightBg
+      : currentHeroProduct.darkBg,
+    backgroundImage: isInverted
+      ? 'radial-gradient(circle at 50% 42%, rgba(255, 255, 255, 0.55) 0%, rgba(8, 31, 26, 0.06) 100%)'
+      : 'radial-gradient(circle at 50% 42%, rgba(255, 255, 255, 0.08) 0%, rgba(0, 0, 0, 0.55) 100%)',
+    transition:
+      'background-color 0.7s cubic-bezier(0.4, 0, 0.2, 1), background 0.7s cubic-bezier(0.4, 0, 0.2, 1), color 0.5s ease'
+  };
+
+  const visibleOctubre = getVisibleCyclicItems(
+    DROP_OCTUBRE_ITEMS,
+    octubreIdx,
+    3
+  );
+  const visibleCultural = getVisibleCyclicItems(
+    COLECCION_CULTURAL_ITEMS,
+    culturalIdx,
+    3
+  );
+  const visibleTotes = getVisibleCyclicItems(TOTE_BAGS_ITEMS, toteIdx, 3);
 
   return (
     <div
-      className={`min-h-screen transition-colors duration-500 ease-in-out select-none ${activeBgClass}`}
+      style={adaptiveSurfaceStyle}
+      className={`min-h-screen select-none ${
+        isInverted ? 'text-[#081f1a]' : 'text-[#e6e1d5]'
+      }`}
     >
       {/* ================= HEADER SUPERIOR FIJO ================= */}
       <header className="fixed top-0 left-0 right-0 z-30 px-6 md:px-10 py-5 flex items-center justify-between gap-4 pointer-events-none">
@@ -603,7 +734,8 @@ export default function App() {
                   const targetIdx = HERO_SHOWCASE.findIndex(
                     (p) => p.category === tab.id
                   );
-                  if (targetIdx !== -1) {
+                  if (targetIdx !== -1 && targetIdx !== currentIndex) {
+                    setDirection(targetIdx > currentIndex ? 1 : -1);
                     setCurrentIndex(targetIdx);
                     const nextProd = HERO_SHOWCASE[targetIdx];
                     setHeroSize(
@@ -680,13 +812,13 @@ export default function App() {
         </div>
       </header>
 
-      {/* ================= HERO SHOWCASE (PRENDA GRANDE 74VH Y RESPUESTA INSTANTÁNEA) ================= */}
+      {/* ================= HERO SHOWCASE (TRANSICIONES FLUIDAS Y ESQUINAS INFERIORES LIMPIAS) ================= */}
       <section
         id="hero"
         className="min-h-screen h-screen overflow-hidden flex flex-col justify-between p-6 md:p-10 pt-20 md:pt-24 relative"
       >
         <div className="flex-1 grid grid-cols-1 md:grid-cols-12 items-center gap-4 my-auto">
-          {/* Columna Izquierda: Actualización Instantánea sin lag */}
+          {/* Columna Izquierda: Flechas en bucle infinito + Título y descripción con AnimatePresence mode="wait" */}
           <div className="md:col-span-3 flex flex-col items-start justify-center space-y-5 order-2 md:order-1 z-10">
             <div className="flex items-center gap-2.5">
               <button
@@ -716,30 +848,40 @@ export default function App() {
               </span>
             </div>
 
-            <div className="space-y-3 max-w-sm">
-              <h1
-                className={`text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight leading-[1.02] ${
-                  isInverted ? 'text-[#081f1a]' : 'text-white'
-                }`}
+            <AnimatePresence mode="wait" custom={direction}>
+              <motion.div
+                key={currentHeroProduct.id}
+                custom={direction}
+                variants={heroItemVariants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                className="space-y-3 max-w-sm"
               >
-                {currentHeroProduct.name}
-              </h1>
+                <h1
+                  className={`text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight leading-[1.06] ${
+                    isInverted ? 'text-[#081f1a]' : 'text-white'
+                  }`}
+                >
+                  {currentHeroProduct.name}
+                </h1>
 
-              <p className="text-xs sm:text-sm opacity-85 leading-relaxed line-clamp-2">
-                {currentHeroProduct.description}
-              </p>
+                <p className="text-xs sm:text-sm opacity-85 leading-relaxed line-clamp-2">
+                  {currentHeroProduct.description}
+                </p>
 
-              <p className="text-[11px] uppercase tracking-[0.18em] opacity-65 font-medium">
-                {currentHeroProduct.detail}
-              </p>
-            </div>
+                <p className="text-[11px] uppercase tracking-[0.18em] opacity-65 font-medium">
+                  {currentHeroProduct.detail}
+                </p>
+              </motion.div>
+            </AnimatePresence>
 
             <button
               onClick={handleAddHeroToCart}
               disabled={currentHeroProduct.soldOut}
               style={
                 isInverted && !currentHeroProduct.soldOut
-                  ? { backgroundColor: currentHeroProduct.accentDark }
+                  ? { backgroundColor: currentHeroProduct.darkBg }
                   : undefined
               }
               className={`mt-1 px-6 py-3 rounded-full font-semibold text-xs sm:text-sm tracking-wide flex items-center gap-2 transition-all shadow-lg ${
@@ -752,7 +894,7 @@ export default function App() {
             >
               <span>
                 {currentHeroProduct.soldOut
-                  ? 'AGOTADO'
+                  ? currentHeroProduct.soldOutLabel || 'AGOTADO'
                   : 'Añadir a la bolsa'}
               </span>
               {!currentHeroProduct.soldOut && (
@@ -761,30 +903,34 @@ export default function App() {
             </button>
           </div>
 
-          {/* Centro: Imagen de la prenda sustancialmente más grande (h-[68vh] md:h-[74vh] max-h-[750px]) */}
+          {/* Centro: Imagen de la prenda grande (h-[68vh] md:h-[74vh] max-h-[750px]) con transición suave */}
           <div className="md:col-span-6 flex flex-col items-center justify-center relative order-1 md:order-2">
             <div className="relative flex items-center justify-center">
-              <motion.div
-                key={currentHeroProduct.id}
-                initial={{ opacity: 0, x: direction > 0 ? 45 : -45, scale: 0.97 }}
-                animate={{ opacity: 1, x: 0, scale: 1 }}
-                transition={{ duration: 0.18, ease: 'easeOut' }}
-                className="relative flex items-center justify-center"
-              >
-                <img
-                  src={currentHeroProduct.image}
-                  alt={currentHeroProduct.name}
-                  className="h-[52vh] sm:h-[68vh] md:h-[74vh] max-h-[750px] w-auto object-contain drop-shadow-2xl pointer-events-none"
-                />
+              <AnimatePresence mode="wait" custom={direction}>
+                <motion.div
+                  key={currentHeroProduct.id}
+                  custom={direction}
+                  variants={heroItemVariants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  className="relative flex items-center justify-center"
+                >
+                  <img
+                    src={currentHeroProduct.image}
+                    alt={currentHeroProduct.name}
+                    className="h-[52vh] sm:h-[68vh] md:h-[74vh] max-h-[750px] w-auto object-contain drop-shadow-2xl pointer-events-none"
+                  />
 
-                {currentHeroProduct.soldOut && (
-                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <div className="bg-red-700/80 backdrop-blur-[2px] text-white font-extrabold text-sm sm:text-lg tracking-[0.28em] uppercase px-9 py-3.5 rounded-md shadow-2xl border border-white/30">
-                      AGOTADO
+                  {currentHeroProduct.soldOut && (
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                      <div className="bg-red-700/80 backdrop-blur-[2px] text-white font-extrabold text-xs sm:text-base tracking-[0.26em] uppercase px-8 py-3.5 rounded-md shadow-2xl border border-white/30 text-center">
+                        {currentHeroProduct.soldOutLabel || 'AGOTADO'}
+                      </div>
                     </div>
-                  </div>
-                )}
-              </motion.div>
+                  )}
+                </motion.div>
+              </AnimatePresence>
             </div>
 
             {/* Sombra difusa en la base */}
@@ -797,17 +943,27 @@ export default function App() {
             />
           </div>
 
-          {/* Columna Derecha: Precio instantáneo + Swatches + Selector de talla */}
+          {/* Columna Derecha: Precio animado + Swatches + Selector de talla */}
           <div className="md:col-span-3 flex flex-col items-start md:items-end justify-center space-y-6 order-3 z-10">
-            <div className="md:text-right">
-              <div
-                className={`text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight ${
-                  isInverted ? 'text-[#081f1a]' : 'text-white'
-                }`}
+            <AnimatePresence mode="wait" custom={direction}>
+              <motion.div
+                key={`${currentHeroProduct.id}-${currentHeroPrice}`}
+                custom={direction}
+                variants={heroItemVariants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                className="md:text-right"
               >
-                C$ {currentHeroPrice}
-              </div>
-            </div>
+                <div
+                  className={`text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight ${
+                    isInverted ? 'text-[#081f1a]' : 'text-white'
+                  }`}
+                >
+                  C$ {currentHeroPrice}
+                </div>
+              </motion.div>
+            </AnimatePresence>
 
             {currentHeroProduct.hasSwatches && (
               <div className="flex flex-col items-start md:items-end space-y-2.5">
@@ -869,31 +1025,16 @@ export default function App() {
           </div>
         </div>
 
-        {/* Pie del Hero */}
-        <div className="flex items-center justify-between pt-1 z-10">
-          <div className="hidden sm:flex items-center gap-4 text-xs opacity-65">
-            <span>Nicaragua</span>
-            <span>•</span>
-            <span>+505 8333-2316</span>
-          </div>
-
-          <div className="text-center mx-auto">
-            <p className="text-xs sm:text-sm opacity-85 font-medium leading-snug">
-              Tradición y arte popular,{' '}
-              <span className="opacity-65">hecho prenda en Nicaragua</span>
-            </p>
-          </div>
-
-          <a
-            href="#drop-octubre"
-            className="hidden sm:inline-flex items-center gap-1.5 text-xs opacity-70 hover:opacity-100 transition-opacity"
-          >
-            <span>Explorar secciones ↓</span>
-          </a>
+        {/* Pie del Hero completamente limpio en las esquinas inferiores */}
+        <div className="flex items-center justify-center pt-1 z-10">
+          <p className="text-xs sm:text-sm opacity-80 font-medium leading-snug text-center">
+            Tradición y arte popular,{' '}
+            <span className="opacity-65">hecho prenda en Nicaragua</span>
+          </p>
         </div>
       </section>
 
-      {/* ================= SECCIÓN A: #drop-octubre ("DROP OCTUBRE • MITOS DE NICARAGUA") ================= */}
+      {/* ================= SECCIÓN A: #drop-octubre (LOS 6 DISEÑOS EN BUCLE INFINITO) ================= */}
       <section
         id="drop-octubre"
         className={`py-24 px-6 md:px-10 border-t transition-colors duration-500 ${
@@ -904,7 +1045,7 @@ export default function App() {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div className="space-y-2">
               <span className="text-xs uppercase tracking-[0.24em] opacity-65 font-semibold">
-                EDICIÓN ESPECIAL • 4 PRENDAS OFICIALES
+                EDICIÓN ESPECIAL • 6 MODELOS OFICIALES
               </span>
               <h2
                 className={`text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight uppercase ${
@@ -917,7 +1058,7 @@ export default function App() {
 
             <div className="flex items-center gap-3">
               <button
-                onClick={() => scrollCarousel(octubreCarouselRef, -1)}
+                onClick={() => stepOctubre(-1)}
                 aria-label="Anterior en Drop Octubre"
                 className={`w-11 h-11 rounded-full border flex items-center justify-center transition-all cursor-pointer ${
                   isInverted
@@ -928,7 +1069,7 @@ export default function App() {
                 <ChevronLeft className="w-5 h-5" />
               </button>
               <button
-                onClick={() => scrollCarousel(octubreCarouselRef, 1)}
+                onClick={() => stepOctubre(1)}
                 aria-label="Siguiente en Drop Octubre"
                 className={`w-11 h-11 rounded-full border flex items-center justify-center transition-all cursor-pointer ${
                   isInverted
@@ -943,8 +1084,8 @@ export default function App() {
 
           <div className="relative">
             <button
-              onClick={() => scrollCarousel(octubreCarouselRef, -1)}
-              aria-label="Deslizar Drop Octubre a la izquierda"
+              onClick={() => stepOctubre(-1)}
+              aria-label="Anterior en Drop Octubre"
               className={`hidden md:flex absolute -left-5 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full border shadow-xl items-center justify-center transition-all cursor-pointer ${
                 isInverted
                   ? 'bg-[#081f1a] text-[#e6e1d5] border-[#e6e1d5]/20 hover:scale-105'
@@ -955,8 +1096,8 @@ export default function App() {
             </button>
 
             <button
-              onClick={() => scrollCarousel(octubreCarouselRef, 1)}
-              aria-label="Deslizar Drop Octubre a la derecha"
+              onClick={() => stepOctubre(1)}
+              aria-label="Siguiente en Drop Octubre"
               className={`hidden md:flex absolute -right-5 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full border shadow-xl items-center justify-center transition-all cursor-pointer ${
                 isInverted
                   ? 'bg-[#081f1a] text-[#e6e1d5] border-[#e6e1d5]/20 hover:scale-105'
@@ -966,118 +1107,126 @@ export default function App() {
               <ChevronRight className="w-5 h-5" />
             </button>
 
-            <div
-              ref={octubreCarouselRef}
-              className="flex gap-6 overflow-x-auto snap-x snap-mandatory pb-4 scrollbar-none"
-              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-            >
-              {DROP_OCTUBRE_ITEMS.map((item) => {
-                const selectedSz = octubreSizes[item.id] || item.sizes[0];
-                return (
-                  <div
-                    key={item.id}
-                    className={`min-w-[85vw] sm:min-w-[340px] md:min-w-[360px] snap-start rounded-3xl overflow-hidden border flex flex-col justify-between transition-colors duration-300 ${
-                      isInverted
-                        ? 'bg-white/60 border-[#081f1a]/15'
-                        : 'bg-black/35 border-[#e6e1d5]/15'
-                    }`}
-                  >
-                    <div className="relative aspect-[4/5] w-full overflow-hidden bg-black/20">
-                      <img
-                        src={item.image}
-                        alt={item.name}
-                        className="w-full h-full object-cover object-center hover:scale-105 transition-transform duration-700"
-                      />
-                      {item.soldOut && (
-                        <div className="absolute inset-0 bg-red-800/70 backdrop-blur-[2px] flex items-center justify-center">
-                          <span className="text-white font-extrabold text-lg tracking-[0.28em] uppercase px-6 py-2.5 border border-white/40 rounded shadow-xl">
-                            AGOTADO
-                          </span>
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="p-6 space-y-5 flex-1 flex flex-col justify-between">
-                      <div className="space-y-1.5">
-                        <div className="flex items-start justify-between gap-2">
-                          <h3
-                            className={`text-xl font-bold tracking-tight ${
-                              isInverted ? 'text-[#081f1a]' : 'text-white'
-                            }`}
-                          >
-                            {item.name}
-                          </h3>
-                          <span
-                            className={`text-xl font-bold shrink-0 ${
-                              isInverted ? 'text-[#081f1a]' : 'text-white'
-                            }`}
-                          >
-                            C$ {item.price}
-                          </span>
-                        </div>
-                        <p className="text-xs opacity-75">{item.subtitle}</p>
-                      </div>
-
-                      <div className="space-y-4 pt-2">
-                        <div className="flex items-center justify-between">
-                          <span className="text-[11px] uppercase tracking-wider opacity-70">
-                            Talla:
-                          </span>
-                          <div className="flex items-center gap-1.5">
-                            {item.sizes.map((sz) => {
-                              const activeSz = selectedSz === sz;
-                              return (
-                                <button
-                                  key={sz}
-                                  onClick={() =>
-                                    setOctubreSizes((prev) => ({
-                                      ...prev,
-                                      [item.id]: sz
-                                    }))
-                                  }
-                                  className={`${
-                                    sz === 'Unitalla' ? 'px-3 h-9' : 'w-9 h-9'
-                                  } rounded-full text-xs font-semibold border transition-all flex items-center justify-center cursor-pointer ${
-                                    activeSz
-                                      ? isInverted
-                                        ? 'bg-[#081f1a] text-[#e6e1d5] border-[#081f1a]'
-                                        : 'bg-[#e6e1d5] text-[#081f1a] border-[#e6e1d5]'
-                                      : isInverted
-                                      ? 'border-[#081f1a]/20 text-[#081f1a]/80 hover:border-[#081f1a]/50'
-                                      : 'border-[#e6e1d5]/20 text-[#e6e1d5]/80 hover:border-[#e6e1d5]/50'
-                                  }`}
-                                >
-                                  {sz}
-                                </button>
-                              );
-                            })}
+            <AnimatePresence mode="wait" custom={octubreDir}>
+              <motion.div
+                key={octubreIdx}
+                custom={octubreDir}
+                variants={heroItemVariants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                className="grid grid-cols-1 md:grid-cols-3 gap-6"
+              >
+                {visibleOctubre.map(({ item }) => {
+                  const selectedSz = octubreSizes[item.id] || item.sizes[0];
+                  return (
+                    <div
+                      key={item.id}
+                      className={`rounded-3xl overflow-hidden border flex flex-col justify-between transition-colors duration-300 ${
+                        isInverted
+                          ? 'bg-white/60 border-[#081f1a]/15'
+                          : 'bg-black/35 border-[#e6e1d5]/15'
+                      }`}
+                    >
+                      <div className="relative aspect-[4/5] w-full overflow-hidden bg-black/20">
+                        <img
+                          src={item.image}
+                          alt={item.name}
+                          className="w-full h-full object-cover object-center hover:scale-105 transition-transform duration-700"
+                        />
+                        {item.soldOut && (
+                          <div className="absolute inset-0 bg-red-800/70 backdrop-blur-[2px] flex items-center justify-center p-4 text-center">
+                            <span className="text-white font-extrabold text-sm sm:text-base tracking-[0.24em] uppercase px-5 py-2.5 border border-white/40 rounded shadow-xl">
+                              {item.soldOutText || 'AGOTADO'}
+                            </span>
                           </div>
+                        )}
+                      </div>
+
+                      <div className="p-6 space-y-5 flex-1 flex flex-col justify-between">
+                        <div className="space-y-1.5">
+                          <div className="flex items-start justify-between gap-2">
+                            <h3
+                              className={`text-lg sm:text-xl font-bold tracking-tight ${
+                                isInverted ? 'text-[#081f1a]' : 'text-white'
+                              }`}
+                            >
+                              {item.name}
+                            </h3>
+                            <span
+                              className={`text-xl font-bold shrink-0 ${
+                                isInverted ? 'text-[#081f1a]' : 'text-white'
+                              }`}
+                            >
+                              C$ {item.price}
+                            </span>
+                          </div>
+                          <p className="text-xs opacity-75">{item.subtitle}</p>
                         </div>
 
-                        <button
-                          onClick={() => handleAddOctubreToCart(item)}
-                          disabled={item.soldOut}
-                          className={`w-full py-3.5 px-5 rounded-full font-semibold text-xs uppercase tracking-wider transition-all shadow-md ${
-                            item.soldOut
-                              ? 'bg-red-900/70 text-white/80 cursor-not-allowed'
-                              : isInverted
-                              ? 'bg-[#081f1a] text-[#e6e1d5] hover:bg-[#0e3831] cursor-pointer'
-                              : 'bg-[#e6e1d5] text-[#081f1a] hover:bg-white cursor-pointer'
-                          }`}
-                        >
-                          {item.soldOut ? 'AGOTADO' : '+ Añadir a la bolsa'}
-                        </button>
+                        <div className="space-y-4 pt-2">
+                          <div className="flex items-center justify-between">
+                            <span className="text-[11px] uppercase tracking-wider opacity-70">
+                              Talla:
+                            </span>
+                            <div className="flex items-center gap-1.5">
+                              {item.sizes.map((sz) => {
+                                const activeSz = selectedSz === sz;
+                                return (
+                                  <button
+                                    key={sz}
+                                    onClick={() =>
+                                      setOctubreSizes((prev) => ({
+                                        ...prev,
+                                        [item.id]: sz
+                                      }))
+                                    }
+                                    className={`${
+                                      sz === 'Unitalla' ? 'px-3 h-9' : 'w-9 h-9'
+                                    } rounded-full text-xs font-semibold border transition-all flex items-center justify-center cursor-pointer ${
+                                      activeSz
+                                        ? isInverted
+                                          ? 'bg-[#081f1a] text-[#e6e1d5] border-[#081f1a]'
+                                          : 'bg-[#e6e1d5] text-[#081f1a] border-[#e6e1d5]'
+                                        : isInverted
+                                        ? 'border-[#081f1a]/20 text-[#081f1a]/80 hover:border-[#081f1a]/50'
+                                        : 'border-[#e6e1d5]/20 text-[#e6e1d5]/80 hover:border-[#e6e1d5]/50'
+                                    }`}
+                                  >
+                                    {sz}
+                                  </button>
+                                );
+                              })}
+                            </div>
+                          </div>
+
+                          <button
+                            onClick={() => handleAddOctubreToCart(item)}
+                            disabled={item.soldOut}
+                            className={`w-full py-3.5 px-5 rounded-full font-semibold text-xs uppercase tracking-wider transition-all shadow-md ${
+                              item.soldOut
+                                ? 'bg-red-900/70 text-white/80 cursor-not-allowed'
+                                : isInverted
+                                ? 'bg-[#081f1a] text-[#e6e1d5] hover:bg-[#0e3831] cursor-pointer'
+                                : 'bg-[#e6e1d5] text-[#081f1a] hover:bg-white cursor-pointer'
+                            }`}
+                          >
+                            {item.soldOut
+                              ? item.soldOutText || 'AGOTADO'
+                              : '+ Añadir a la bolsa'}
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
+                  );
+                })}
+              </motion.div>
+            </AnimatePresence>
           </div>
         </div>
       </section>
 
-      {/* ================= SECCIÓN B: #coleccion-cultural ("COLECCIÓN CULTURAL • CLÁSICOS" - 12 CAMISETAS) ================= */}
+      {/* ================= SECCIÓN B: #coleccion-cultural (12 CAMISETAS EN BUCLE INFINITO) ================= */}
       <section
         id="coleccion-cultural"
         className={`py-24 px-6 md:px-10 border-t transition-colors duration-500 ${
@@ -1101,7 +1250,7 @@ export default function App() {
 
             <div className="flex items-center gap-3">
               <button
-                onClick={() => scrollCarousel(culturalCarouselRef, -1)}
+                onClick={() => stepCultural(-1)}
                 aria-label="Anterior en Colección Cultural"
                 className={`w-11 h-11 rounded-full border flex items-center justify-center transition-all cursor-pointer ${
                   isInverted
@@ -1112,7 +1261,7 @@ export default function App() {
                 <ChevronLeft className="w-5 h-5" />
               </button>
               <button
-                onClick={() => scrollCarousel(culturalCarouselRef, 1)}
+                onClick={() => stepCultural(1)}
                 aria-label="Siguiente en Colección Cultural"
                 className={`w-11 h-11 rounded-full border flex items-center justify-center transition-all cursor-pointer ${
                   isInverted
@@ -1127,8 +1276,8 @@ export default function App() {
 
           <div className="relative">
             <button
-              onClick={() => scrollCarousel(culturalCarouselRef, -1)}
-              aria-label="Deslizar Colección Cultural a la izquierda"
+              onClick={() => stepCultural(-1)}
+              aria-label="Anterior en Colección Cultural"
               className={`hidden md:flex absolute -left-5 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full border shadow-xl items-center justify-center transition-all cursor-pointer ${
                 isInverted
                   ? 'bg-[#081f1a] text-[#e6e1d5] border-[#e6e1d5]/20 hover:scale-105'
@@ -1139,8 +1288,8 @@ export default function App() {
             </button>
 
             <button
-              onClick={() => scrollCarousel(culturalCarouselRef, 1)}
-              aria-label="Deslizar Colección Cultural a la derecha"
+              onClick={() => stepCultural(1)}
+              aria-label="Siguiente en Colección Cultural"
               className={`hidden md:flex absolute -right-5 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full border shadow-xl items-center justify-center transition-all cursor-pointer ${
                 isInverted
                   ? 'bg-[#081f1a] text-[#e6e1d5] border-[#e6e1d5]/20 hover:scale-105'
@@ -1150,154 +1299,167 @@ export default function App() {
               <ChevronRight className="w-5 h-5" />
             </button>
 
-            <div
-              ref={culturalCarouselRef}
-              className="flex gap-6 overflow-x-auto snap-x snap-mandatory pb-4 scrollbar-none"
-              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-            >
-              {COLECCION_CULTURAL_ITEMS.map((product) => {
-                const cfg = culturalConfig[product.id] || {
-                  size: 'M',
-                  tone: 'blanco'
-                };
-                const currentPrice = cfg.tone === 'crema' ? 490 : 480;
+            <AnimatePresence mode="wait" custom={culturalDir}>
+              <motion.div
+                key={culturalIdx}
+                custom={culturalDir}
+                variants={heroItemVariants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                className="grid grid-cols-1 md:grid-cols-3 gap-6"
+              >
+                {visibleCultural.map(({ item: product }) => {
+                  const cfg = culturalConfig[product.id] || {
+                    size: 'M',
+                    tone: 'blanco'
+                  };
+                  const currentPrice = cfg.tone === 'crema' ? 490 : 480;
 
-                return (
-                  <div
-                    key={product.id}
-                    className={`min-w-[85vw] sm:min-w-[340px] md:min-w-[360px] snap-start rounded-3xl overflow-hidden border flex flex-col justify-between transition-colors duration-300 ${
-                      isInverted
-                        ? 'bg-white/60 border-[#081f1a]/15'
-                        : 'bg-black/35 border-[#e6e1d5]/15'
-                    }`}
-                  >
-                    <div className="relative aspect-[4/5] w-full overflow-hidden bg-black/20">
-                      <img
-                        src={product.image}
-                        alt={product.name}
-                        className="w-full h-full object-cover object-center hover:scale-105 transition-transform duration-700"
-                      />
-                      {product.soldOut && (
-                        <div className="absolute inset-0 bg-red-800/70 backdrop-blur-[2px] flex items-center justify-center">
-                          <span className="text-white font-extrabold text-lg tracking-[0.28em] uppercase px-6 py-2.5 border border-white/40 rounded shadow-xl">
-                            AGOTADO
-                          </span>
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="p-6 space-y-5 flex-1 flex flex-col justify-between">
-                      <div className="space-y-1.5">
-                        <div className="flex items-start justify-between gap-2">
-                          <h3
-                            className={`text-xl font-bold tracking-tight ${
-                              isInverted ? 'text-[#081f1a]' : 'text-white'
-                            }`}
-                          >
-                            {product.name}
-                          </h3>
-                          <span
-                            className={`text-xl font-bold shrink-0 ${
-                              isInverted ? 'text-[#081f1a]' : 'text-white'
-                            }`}
-                          >
-                            C$ {currentPrice}
-                          </span>
-                        </div>
-                        <p className="text-xs opacity-75">{product.subtitle}</p>
+                  return (
+                    <div
+                      key={product.id}
+                      className={`rounded-3xl overflow-hidden border flex flex-col justify-between transition-colors duration-300 ${
+                        isInverted
+                          ? 'bg-white/60 border-[#081f1a]/15'
+                          : 'bg-black/35 border-[#e6e1d5]/15'
+                      }`}
+                    >
+                      <div className="relative aspect-[4/5] w-full overflow-hidden bg-black/20">
+                        <img
+                          src={product.image}
+                          alt={product.name}
+                          className="w-full h-full object-cover object-center hover:scale-105 transition-transform duration-700"
+                        />
+                        {product.soldOut && (
+                          <div className="absolute inset-0 bg-red-800/70 backdrop-blur-[2px] flex items-center justify-center">
+                            <span className="text-white font-extrabold text-lg tracking-[0.28em] uppercase px-6 py-2.5 border border-white/40 rounded shadow-xl">
+                              AGOTADO
+                            </span>
+                          </div>
+                        )}
                       </div>
 
-                      <div className="space-y-4 pt-2">
-                        {/* Selector de Tono en Círculos: Blanco (C$ 480) y Crema (C$ 490) */}
-                        <div className="flex items-center justify-between">
-                          <span className="text-[11px] uppercase tracking-wider opacity-75">
-                            Color ({cfg.tone === 'crema' ? 'Crema' : 'Blanco'}):
-                          </span>
-                          <div className="flex items-center gap-3">
-                            {TONE_SWATCHES.map((swatch) => {
-                              const activeSwatch = cfg.tone === swatch.id;
-                              return (
-                                <button
-                                  key={swatch.id}
-                                  onClick={() =>
-                                    setCulturalConfig((prev) => ({
-                                      ...prev,
-                                      [product.id]: { ...cfg, tone: swatch.id }
-                                    }))
-                                  }
-                                  title={`${swatch.label} — C$ ${swatch.price}`}
-                                  aria-label={`${swatch.label} — C$ ${swatch.price}`}
-                                  className={`w-6 h-6 rounded-full ${swatch.bgClass} border border-black/25 transition-transform cursor-pointer ${
-                                    activeSwatch
-                                      ? isInverted
-                                        ? 'ring-2 ring-[#081f1a] ring-offset-2 ring-offset-white scale-110'
-                                        : 'ring-2 ring-white/80 ring-offset-2 ring-offset-black/50 scale-110'
-                                      : 'opacity-75 hover:opacity-100'
-                                  }`}
-                                />
-                              );
-                            })}
+                      <div className="p-6 space-y-5 flex-1 flex flex-col justify-between">
+                        <div className="space-y-1.5">
+                          <div className="flex items-start justify-between gap-2">
+                            <h3
+                              className={`text-xl font-bold tracking-tight ${
+                                isInverted ? 'text-[#081f1a]' : 'text-white'
+                              }`}
+                            >
+                              {product.name}
+                            </h3>
+                            <span
+                              className={`text-xl font-bold shrink-0 ${
+                                isInverted ? 'text-[#081f1a]' : 'text-white'
+                              }`}
+                            >
+                              C$ {currentPrice}
+                            </span>
                           </div>
+                          <p className="text-xs opacity-75">
+                            {product.subtitle}
+                          </p>
                         </div>
 
-                        {/* Selector de Tallas */}
-                        <div className="flex items-center justify-between">
-                          <span className="text-[11px] uppercase tracking-wider opacity-75">
-                            Talla:
-                          </span>
-                          <div className="flex items-center gap-1.5">
-                            {product.sizes.map((sz) => {
-                              const activeSz = cfg.size === sz;
-                              return (
-                                <button
-                                  key={sz}
-                                  onClick={() =>
-                                    setCulturalConfig((prev) => ({
-                                      ...prev,
-                                      [product.id]: { ...cfg, size: sz }
-                                    }))
-                                  }
-                                  className={`w-9 h-9 rounded-full text-xs font-semibold border transition-all flex items-center justify-center cursor-pointer ${
-                                    activeSz
-                                      ? isInverted
-                                        ? 'bg-[#081f1a] text-[#e6e1d5] border-[#081f1a]'
-                                        : 'bg-[#e6e1d5] text-[#081f1a] border-[#e6e1d5]'
-                                      : isInverted
-                                      ? 'border-[#081f1a]/20 text-[#081f1a]/80 hover:border-[#081f1a]/50'
-                                      : 'border-[#e6e1d5]/20 text-[#e6e1d5]/80 hover:border-[#e6e1d5]/50'
-                                  }`}
-                                >
-                                  {sz}
-                                </button>
-                              );
-                            })}
+                        <div className="space-y-4 pt-2">
+                          {/* Selector de Tono en Círculos: Blanco (C$ 480) y Crema (C$ 490) */}
+                          <div className="flex items-center justify-between">
+                            <span className="text-[11px] uppercase tracking-wider opacity-75">
+                              Color ({cfg.tone === 'crema' ? 'Crema' : 'Blanco'}):
+                            </span>
+                            <div className="flex items-center gap-3">
+                              {TONE_SWATCHES.map((swatch) => {
+                                const activeSwatch = cfg.tone === swatch.id;
+                                return (
+                                  <button
+                                    key={swatch.id}
+                                    onClick={() =>
+                                      setCulturalConfig((prev) => ({
+                                        ...prev,
+                                        [product.id]: {
+                                          ...cfg,
+                                          tone: swatch.id
+                                        }
+                                      }))
+                                    }
+                                    title={`${swatch.label} — C$ ${swatch.price}`}
+                                    aria-label={`${swatch.label} — C$ ${swatch.price}`}
+                                    className={`w-6 h-6 rounded-full ${swatch.bgClass} border border-black/25 transition-transform cursor-pointer ${
+                                      activeSwatch
+                                        ? isInverted
+                                          ? 'ring-2 ring-[#081f1a] ring-offset-2 ring-offset-white scale-110'
+                                          : 'ring-2 ring-white/80 ring-offset-2 ring-offset-black/50 scale-110'
+                                        : 'opacity-75 hover:opacity-100'
+                                    }`}
+                                  />
+                                );
+                              })}
+                            </div>
                           </div>
-                        </div>
 
-                        <button
-                          onClick={() => handleAddCulturalToCart(product)}
-                          disabled={product.soldOut}
-                          className={`w-full py-3.5 px-5 rounded-full font-semibold text-xs uppercase tracking-wider transition-all shadow-md ${
-                            product.soldOut
-                              ? 'bg-red-900/70 text-white/80 cursor-not-allowed'
-                              : isInverted
-                              ? 'bg-[#081f1a] text-[#e6e1d5] hover:bg-[#0e3831] cursor-pointer'
-                              : 'bg-[#e6e1d5] text-[#081f1a] hover:bg-white cursor-pointer'
-                          }`}
-                        >
-                          {product.soldOut ? 'AGOTADO' : '+ Añadir a la bolsa'}
-                        </button>
+                          {/* Selector de Tallas */}
+                          <div className="flex items-center justify-between">
+                            <span className="text-[11px] uppercase tracking-wider opacity-75">
+                              Talla:
+                            </span>
+                            <div className="flex items-center gap-1.5">
+                              {product.sizes.map((sz) => {
+                                const activeSz = cfg.size === sz;
+                                return (
+                                  <button
+                                    key={sz}
+                                    onClick={() =>
+                                      setCulturalConfig((prev) => ({
+                                        ...prev,
+                                        [product.id]: { ...cfg, size: sz }
+                                      }))
+                                    }
+                                    className={`w-9 h-9 rounded-full text-xs font-semibold border transition-all flex items-center justify-center cursor-pointer ${
+                                      activeSz
+                                        ? isInverted
+                                          ? 'bg-[#081f1a] text-[#e6e1d5] border-[#081f1a]'
+                                          : 'bg-[#e6e1d5] text-[#081f1a] border-[#e6e1d5]'
+                                        : isInverted
+                                        ? 'border-[#081f1a]/20 text-[#081f1a]/80 hover:border-[#081f1a]/50'
+                                        : 'border-[#e6e1d5]/20 text-[#e6e1d5]/80 hover:border-[#e6e1d5]/50'
+                                    }`}
+                                  >
+                                    {sz}
+                                  </button>
+                                );
+                              })}
+                            </div>
+                          </div>
+
+                          <button
+                            onClick={() => handleAddCulturalToCart(product)}
+                            disabled={product.soldOut}
+                            className={`w-full py-3.5 px-5 rounded-full font-semibold text-xs uppercase tracking-wider transition-all shadow-md ${
+                              product.soldOut
+                                ? 'bg-red-900/70 text-white/80 cursor-not-allowed'
+                                : isInverted
+                                ? 'bg-[#081f1a] text-[#e6e1d5] hover:bg-[#0e3831] cursor-pointer'
+                                : 'bg-[#e6e1d5] text-[#081f1a] hover:bg-white cursor-pointer'
+                            }`}
+                          >
+                            {product.soldOut
+                              ? 'AGOTADO'
+                              : '+ Añadir a la bolsa'}
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
+                  );
+                })}
+              </motion.div>
+            </AnimatePresence>
           </div>
         </div>
       </section>
 
-      {/* ================= SECCIÓN C: #tote-bags ("TOTE BAGS • LONA CRUDA 32×35 CM" - 3 BOLSOS OFICIALES) ================= */}
+      {/* ================= SECCIÓN C: #tote-bags (LOS 3 BOLSOS OFICIALES EN BUCLE INFINITO) ================= */}
       <section
         id="tote-bags"
         className={`py-24 px-6 md:px-10 border-t transition-colors duration-500 ${
@@ -1321,7 +1483,7 @@ export default function App() {
 
             <div className="flex items-center gap-3">
               <button
-                onClick={() => scrollCarousel(toteCarouselRef, -1)}
+                onClick={() => stepTote(-1)}
                 aria-label="Anterior en Tote Bags"
                 className={`w-11 h-11 rounded-full border flex items-center justify-center transition-all cursor-pointer ${
                   isInverted
@@ -1332,7 +1494,7 @@ export default function App() {
                 <ChevronLeft className="w-5 h-5" />
               </button>
               <button
-                onClick={() => scrollCarousel(toteCarouselRef, 1)}
+                onClick={() => stepTote(1)}
                 aria-label="Siguiente en Tote Bags"
                 className={`w-11 h-11 rounded-full border flex items-center justify-center transition-all cursor-pointer ${
                   isInverted
@@ -1347,8 +1509,8 @@ export default function App() {
 
           <div className="relative">
             <button
-              onClick={() => scrollCarousel(toteCarouselRef, -1)}
-              aria-label="Deslizar Tote Bags a la izquierda"
+              onClick={() => stepTote(-1)}
+              aria-label="Anterior en Tote Bags"
               className={`hidden md:flex absolute -left-5 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full border shadow-xl items-center justify-center transition-all cursor-pointer ${
                 isInverted
                   ? 'bg-[#081f1a] text-[#e6e1d5] border-[#e6e1d5]/20 hover:scale-105'
@@ -1359,8 +1521,8 @@ export default function App() {
             </button>
 
             <button
-              onClick={() => scrollCarousel(toteCarouselRef, 1)}
-              aria-label="Deslizar Tote Bags a la derecha"
+              onClick={() => stepTote(1)}
+              aria-label="Siguiente en Tote Bags"
               className={`hidden md:flex absolute -right-5 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full border shadow-xl items-center justify-center transition-all cursor-pointer ${
                 isInverted
                   ? 'bg-[#081f1a] text-[#e6e1d5] border-[#e6e1d5]/20 hover:scale-105'
@@ -1370,119 +1532,125 @@ export default function App() {
               <ChevronRight className="w-5 h-5" />
             </button>
 
-            <div
-              ref={toteCarouselRef}
-              className="flex gap-6 overflow-x-auto snap-x snap-mandatory pb-4 scrollbar-none"
-              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-            >
-              {TOTE_BAGS_ITEMS.map((tote) => {
-                const qty = toteQty[tote.id] || 1;
-                return (
-                  <div
-                    key={tote.id}
-                    className={`min-w-[85vw] sm:min-w-[340px] md:min-w-[380px] snap-start rounded-3xl overflow-hidden border flex flex-col justify-between transition-colors duration-300 ${
-                      isInverted
-                        ? 'bg-white/60 border-[#081f1a]/15'
-                        : 'bg-black/35 border-[#e6e1d5]/15'
-                    }`}
-                  >
-                    <div className="relative aspect-[4/5] w-full overflow-hidden bg-black/20">
-                      <img
-                        src={tote.image}
-                        alt={tote.name}
-                        className="w-full h-full object-cover object-center hover:scale-105 transition-transform duration-700"
-                      />
-                      {tote.soldOut && (
-                        <div className="absolute inset-0 bg-red-800/70 backdrop-blur-[2px] flex items-center justify-center">
-                          <span className="text-white font-extrabold text-lg tracking-[0.28em] uppercase px-6 py-2.5 border border-white/40 rounded shadow-xl">
-                            AGOTADO
-                          </span>
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="p-6 space-y-5 flex-1 flex flex-col justify-between">
-                      <div className="space-y-1.5">
-                        <div className="flex items-start justify-between gap-2">
-                          <h3
-                            className={`text-xl font-bold tracking-tight ${
-                              isInverted ? 'text-[#081f1a]' : 'text-white'
-                            }`}
-                          >
-                            {tote.name}
-                          </h3>
-                          <span
-                            className={`text-xl font-bold shrink-0 ${
-                              isInverted ? 'text-[#081f1a]' : 'text-white'
-                            }`}
-                          >
-                            C$ {tote.price}
-                          </span>
-                        </div>
-                        <p className="text-xs opacity-75">{tote.subtitle}</p>
-                      </div>
-
-                      <div className="space-y-4 pt-2">
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs uppercase tracking-wider opacity-75">
-                            Cantidad:
-                          </span>
-                          <div
-                            className={`flex items-center gap-3 px-3 py-1.5 rounded-full border ${
-                              isInverted
-                                ? 'border-[#081f1a]/25'
-                                : 'border-[#e6e1d5]/25'
-                            }`}
-                          >
-                            <button
-                              onClick={() =>
-                                setToteQty((prev) => ({
-                                  ...prev,
-                                  [tote.id]: Math.max(1, qty - 1)
-                                }))
-                              }
-                              className="p-1 opacity-75 hover:opacity-100 cursor-pointer"
-                              aria-label="Disminuir cantidad"
-                            >
-                              <Minus className="w-3.5 h-3.5" />
-                            </button>
-                            <span className="text-xs font-bold w-5 text-center">
-                              {qty}
+            <AnimatePresence mode="wait" custom={toteDir}>
+              <motion.div
+                key={toteIdx}
+                custom={toteDir}
+                variants={heroItemVariants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                className="grid grid-cols-1 md:grid-cols-3 gap-6"
+              >
+                {visibleTotes.map(({ item: tote }) => {
+                  const qty = toteQty[tote.id] || 1;
+                  return (
+                    <div
+                      key={tote.id}
+                      className={`rounded-3xl overflow-hidden border flex flex-col justify-between transition-colors duration-300 ${
+                        isInverted
+                          ? 'bg-white/60 border-[#081f1a]/15'
+                          : 'bg-black/35 border-[#e6e1d5]/15'
+                      }`}
+                    >
+                      <div className="relative aspect-[4/5] w-full overflow-hidden bg-black/20">
+                        <img
+                          src={tote.image}
+                          alt={tote.name}
+                          className="w-full h-full object-cover object-center hover:scale-105 transition-transform duration-700"
+                        />
+                        {tote.soldOut && (
+                          <div className="absolute inset-0 bg-red-800/70 backdrop-blur-[2px] flex items-center justify-center">
+                            <span className="text-white font-extrabold text-lg tracking-[0.28em] uppercase px-6 py-2.5 border border-white/40 rounded shadow-xl">
+                              AGOTADO
                             </span>
-                            <button
-                              onClick={() =>
-                                setToteQty((prev) => ({
-                                  ...prev,
-                                  [tote.id]: qty + 1
-                                }))
-                              }
-                              className="p-1 opacity-75 hover:opacity-100 cursor-pointer"
-                              aria-label="Aumentar cantidad"
-                            >
-                              <Plus className="w-3.5 h-3.5" />
-                            </button>
                           </div>
+                        )}
+                      </div>
+
+                      <div className="p-6 space-y-5 flex-1 flex flex-col justify-between">
+                        <div className="space-y-1.5">
+                          <div className="flex items-start justify-between gap-2">
+                            <h3
+                              className={`text-xl font-bold tracking-tight ${
+                                isInverted ? 'text-[#081f1a]' : 'text-white'
+                              }`}
+                            >
+                              {tote.name}
+                            </h3>
+                            <span
+                              className={`text-xl font-bold shrink-0 ${
+                                isInverted ? 'text-[#081f1a]' : 'text-white'
+                              }`}
+                            >
+                              C$ {tote.price}
+                            </span>
+                          </div>
+                          <p className="text-xs opacity-75">{tote.subtitle}</p>
                         </div>
 
-                        <button
-                          onClick={() => handleAddToteToCart(tote)}
-                          disabled={tote.soldOut}
-                          className={`w-full py-3.5 px-5 rounded-full font-semibold text-xs uppercase tracking-wider transition-all shadow-md ${
-                            tote.soldOut
-                              ? 'bg-red-900/70 text-white/80 cursor-not-allowed'
-                              : isInverted
-                              ? 'bg-[#081f1a] text-[#e6e1d5] hover:bg-[#0e3831] cursor-pointer'
-                              : 'bg-[#e6e1d5] text-[#081f1a] hover:bg-white cursor-pointer'
-                          }`}
-                        >
-                          {tote.soldOut ? 'AGOTADO' : '+ Añadir a la bolsa'}
-                        </button>
+                        <div className="space-y-4 pt-2">
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs uppercase tracking-wider opacity-75">
+                              Cantidad:
+                            </span>
+                            <div
+                              className={`flex items-center gap-3 px-3 py-1.5 rounded-full border ${
+                                isInverted
+                                  ? 'border-[#081f1a]/25'
+                                  : 'border-[#e6e1d5]/25'
+                              }`}
+                            >
+                              <button
+                                onClick={() =>
+                                  setToteQty((prev) => ({
+                                    ...prev,
+                                    [tote.id]: Math.max(1, qty - 1)
+                                  }))
+                                }
+                                className="p-1 opacity-75 hover:opacity-100 cursor-pointer"
+                                aria-label="Disminuir cantidad"
+                              >
+                                <Minus className="w-3.5 h-3.5" />
+                              </button>
+                              <span className="text-xs font-bold w-5 text-center">
+                                {qty}
+                              </span>
+                              <button
+                                onClick={() =>
+                                  setToteQty((prev) => ({
+                                    ...prev,
+                                    [tote.id]: qty + 1
+                                  }))
+                                }
+                                className="p-1 opacity-75 hover:opacity-100 cursor-pointer"
+                                aria-label="Aumentar cantidad"
+                              >
+                                <Plus className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
+                          </div>
+
+                          <button
+                            onClick={() => handleAddToteToCart(tote)}
+                            disabled={tote.soldOut}
+                            className={`w-full py-3.5 px-5 rounded-full font-semibold text-xs uppercase tracking-wider transition-all shadow-md ${
+                              tote.soldOut
+                                ? 'bg-red-900/70 text-white/80 cursor-not-allowed'
+                                : isInverted
+                                ? 'bg-[#081f1a] text-[#e6e1d5] hover:bg-[#0e3831] cursor-pointer'
+                                : 'bg-[#e6e1d5] text-[#081f1a] hover:bg-white cursor-pointer'
+                            }`}
+                          >
+                            {tote.soldOut ? 'AGOTADO' : '+ Añadir a la bolsa'}
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
+                  );
+                })}
+              </motion.div>
+            </AnimatePresence>
           </div>
         </div>
       </section>
