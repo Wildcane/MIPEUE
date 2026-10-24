@@ -727,7 +727,7 @@ export default function App() {
       }`}
     >
       {/* ================= HEADER SUPERIOR FIJO ================= */}
-      <header className="fixed top-0 left-0 right-0 z-30 px-6 md:px-10 py-5 flex items-center justify-between gap-4 pointer-events-none">
+      <header className="fixed top-0 left-0 right-0 z-30 px-4 md:px-10 py-3.5 md:py-5 flex flex-wrap md:flex-nowrap items-center justify-between gap-x-4 gap-y-2.5 pointer-events-none">
         {/* Izquierda: Logo MIPEUE */}
         <a
           href="#hero"
@@ -753,7 +753,7 @@ export default function App() {
 
         {/* Centro: Píldora flotante que enlaza suavemente a #drop-octubre, #coleccion-cultural y #tote-bags */}
         <nav
-          className={`pointer-events-auto backdrop-blur-md rounded-full p-1.5 border flex items-center gap-1 overflow-x-auto max-w-full transition-colors duration-300 ${
+          className={`pointer-events-auto backdrop-blur-md rounded-full p-1 md:p-1.5 border flex items-center gap-1 order-3 w-full justify-center md:order-none md:w-auto max-w-full transition-colors duration-300 ${
             isInverted
               ? 'bg-white/60 border-[#081f1a]/15'
               : 'bg-black/35 border-[#e6e1d5]/15'
@@ -779,7 +779,7 @@ export default function App() {
                     setHeroTone('blanco');
                   }
                 }}
-                className={`px-4 md:px-5 py-2 rounded-full text-[11px] md:text-xs font-semibold tracking-[0.14em] uppercase transition-all duration-200 whitespace-nowrap cursor-pointer ${
+                className={`px-2.5 py-1.5 md:px-4 md:py-2 rounded-full text-[10px] sm:text-xs font-semibold tracking-[0.12em] md:tracking-[0.14em] uppercase transition-all duration-200 whitespace-nowrap cursor-pointer ${
                   active
                     ? isInverted
                       ? 'bg-[#081f1a] text-[#e6e1d5] shadow-sm'
@@ -850,7 +850,7 @@ export default function App() {
       {/* ================= HERO SHOWCASE (TRANSICIONES FLUIDAS Y ESQUINAS INFERIORES LIMPIAS) ================= */}
       <section
         id="hero"
-        className="min-h-screen flex flex-col justify-between p-6 md:p-10 pt-20 md:pt-24 relative"
+        className="min-h-screen flex flex-col justify-between p-6 md:p-10 pt-28 md:pt-20 relative"
       >
         <div className="flex-1 grid grid-cols-1 md:grid-cols-12 items-center gap-4 my-auto">
           {/* Columna Izquierda: Flechas en bucle infinito + Título y descripción con AnimatePresence mode="wait" */}
