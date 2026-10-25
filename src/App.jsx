@@ -444,6 +444,15 @@ const carouselMotionVariants = {
   })
 };
 
+// Helper puro para obtener las 3 tarjetas visibles en bucle infinito circular (hoisted)
+const getVisibleCyclicItems = (items, startIndex, count = 3) => {
+  const total = items.length;
+  return Array.from({ length: count }, (_, offset) => {
+    const idx = (startIndex + offset) % total;
+    return { item: items[idx], index: idx };
+  });
+};
+
 export default function App() {
   // Modo Oscuro (false) vs Modo Claro Invertido (true)
   const [isInverted, setIsInverted] = useState(false);
@@ -539,22 +548,13 @@ export default function App() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [handleSlide, isCartOpen]);
 
-  // Helpers para obtener las 3 tarjetas visibles en bucle infinito circular
-  const getVisibleCyclicItems = (items, startIndex, count = 3) => {
-    const total = items.length;
-    return Array.from({ length: count }, (_, offset) => {
-      const idx = (startIndex + offset) % total;
-      return { item: items[idx], index: idx };
-    });
-  };
-
   const touchStartX = useRef(null);
 
-  const handleTouchStart = (e) => {
+  const handleTouchStart = useCallback((e) => {
     touchStartX.current = e.touches[0].clientX;
-  };
+  }, []);
 
-  const handleTouchEnd = (e, stepFn) => {
+  const handleTouchEnd = useCallback((e, stepFn) => {
     if (touchStartX.current === null) return;
     const diff = touchStartX.current - e.changedTouches[0].clientX;
     if (diff > 40) {
@@ -563,7 +563,7 @@ export default function App() {
       stepFn(-1);
     }
     touchStartX.current = null;
-  };
+  }, []);
 
   const stepOctubre = (dir) => {
     setOctubreDir(dir);
@@ -696,28 +696,32 @@ export default function App() {
   };
 
   // Fondo adaptativo con transición CSS suave: transition: background 0.7s cubic-bezier(0.4, 0, 0.2, 1)
-  const adaptiveSurfaceStyle = {
-    backgroundColor: isInverted
-      ? currentHeroProduct.lightBg
-      : currentHeroProduct.darkBg,
-    backgroundImage: isInverted
-      ? 'radial-gradient(circle at 50% 42%, rgba(255, 255, 255, 0.55) 0%, rgba(8, 31, 26, 0.06) 100%)'
-      : 'radial-gradient(circle at 50% 42%, rgba(255, 255, 255, 0.08) 0%, rgba(0, 0, 0, 0.55) 100%)',
-    transition:
-      'background-color 0.7s cubic-bezier(0.4, 0, 0.2, 1), background 0.7s cubic-bezier(0.4, 0, 0.2, 1), color 0.5s ease'
-  };
+  const adaptiveSurfaceStyle = useMemo(
+    () => ({
+      backgroundColor: isInverted
+        ? currentHeroProduct.lightBg
+        : currentHeroProduct.darkBg,
+      backgroundImage: isInverted
+        ? 'radial-gradient(circle at 50% 42%, rgba(255, 255, 255, 0.55) 0%, rgba(8, 31, 26, 0.06) 100%)'
+        : 'radial-gradient(circle at 50% 42%, rgba(255, 255, 255, 0.08) 0%, rgba(0, 0, 0, 0.55) 100%)',
+      transition:
+        'background-color 0.7s cubic-bezier(0.4, 0, 0.2, 1), background 0.7s cubic-bezier(0.4, 0, 0.2, 1), color 0.5s ease'
+    }),
+    [isInverted, currentHeroProduct.lightBg, currentHeroProduct.darkBg]
+  );
 
-  const visibleOctubre = getVisibleCyclicItems(
-    DROP_OCTUBRE_ITEMS,
-    octubreIdx,
-    3
+  const visibleOctubre = useMemo(
+    () => getVisibleCyclicItems(DROP_OCTUBRE_ITEMS, octubreIdx, 3),
+    [octubreIdx]
   );
-  const visibleCultural = getVisibleCyclicItems(
-    COLECCION_CULTURAL_ITEMS,
-    culturalIdx,
-    3
+  const visibleCultural = useMemo(
+    () => getVisibleCyclicItems(COLECCION_CULTURAL_ITEMS, culturalIdx, 3),
+    [culturalIdx]
   );
-  const visibleTotes = getVisibleCyclicItems(TOTE_BAGS_ITEMS, toteIdx, 3);
+  const visibleTotes = useMemo(
+    () => getVisibleCyclicItems(TOTE_BAGS_ITEMS, toteIdx, 3),
+    [toteIdx]
+  );
 
   return (
     <div
@@ -954,6 +958,8 @@ export default function App() {
                   <img
                     src={currentHeroProduct.image}
                     alt={currentHeroProduct.name}
+                    fetchPriority="high"
+                    decoding="async"
                     className="h-[52vh] sm:h-[68vh] md:h-[74vh] max-h-[750px] w-auto object-contain drop-shadow-2xl pointer-events-none"
                   />
 
@@ -1168,6 +1174,8 @@ export default function App() {
                         <img
                           src={item.image}
                           alt={item.name}
+                          loading="lazy"
+                          decoding="async"
                           className="w-full h-full object-cover object-center hover:scale-105 transition-transform duration-700"
                         />
                         {item.soldOut && (
@@ -1366,6 +1374,8 @@ export default function App() {
                         <img
                           src={product.image}
                           alt={product.name}
+                          loading="lazy"
+                          decoding="async"
                           className="w-full h-full object-cover object-center hover:scale-105 transition-transform duration-700"
                         />
                         {product.soldOut && (
@@ -1595,6 +1605,8 @@ export default function App() {
                         <img
                           src={tote.image}
                           alt={tote.name}
+                          loading="lazy"
+                          decoding="async"
                           className="w-full h-full object-cover object-center hover:scale-105 transition-transform duration-700"
                         />
                         {tote.soldOut && (
@@ -1757,6 +1769,8 @@ export default function App() {
                         <img
                           src={item.image}
                           alt={item.name}
+                          loading="lazy"
+                          decoding="async"
                           className="w-12 h-12 object-cover rounded-lg shrink-0"
                         />
                         <div className="min-w-0">

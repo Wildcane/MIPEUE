@@ -9,14 +9,6 @@
   }
 }
 
-.floating-garment-dark {
-  filter: drop-shadow(0 32px 36px rgba(0, 0, 0, 0.6));
-}
-
-.floating-garment-light {
-  filter: drop-shadow(0 28px 30px rgba(8, 31, 26, 0.26));
-}
-
 .garment-floor-shadow-dark {
   background: radial-gradient(50% 50% at 50% 50%, rgba(0, 0, 0, 0.72) 0%, rgba(0, 0, 0, 0.28) 55%, rgba(0, 0, 0, 0) 100%);
   filter: blur(10px);
