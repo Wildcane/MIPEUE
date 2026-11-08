@@ -3,47 +3,18 @@
 @tailwind utilities;
 
 @layer base {
-  html {
+  html, body {
+    font-family: "Plus Jakarta Sans", sans-serif;
     scroll-behavior: smooth;
-    scroll-padding-top: 96px;
-    -webkit-text-size-adjust: 100%;
-  }
-
-  body {
-    font-feature-settings: 'ss01', 'tnum';
-  }
-
-  ::selection {
-    background: #13423a;
-    color: #efe8de;
-  }
-
-  :focus-visible {
-    outline: 1px solid currentColor;
-    outline-offset: 3px;
   }
 }
 
-@layer components {
-  /* Etiqueta tipográfica pequeña en mayúsculas */
-  .label {
-    @apply text-[11px] font-semibold uppercase tracking-label;
-  }
-
-  /* Enlace de texto con subrayado fino */
-  .text-link {
-    @apply underline decoration-1 underline-offset-[5px] transition-opacity hover:opacity-60;
-  }
+.garment-floor-shadow-dark {
+  background: radial-gradient(50% 50% at 50% 50%, rgba(0, 0, 0, 0.72) 0%, rgba(0, 0, 0, 0.28) 55%, rgba(0, 0, 0, 0) 100%);
+  filter: blur(10px);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
-  }
+.garment-floor-shadow-light {
+  background: radial-gradient(50% 50% at 50% 50%, rgba(8, 31, 26, 0.36) 0%, rgba(8, 31, 26, 0.14) 55%, rgba(8, 31, 26, 0) 100%);
+  filter: blur(10px);
 }

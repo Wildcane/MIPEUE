@@ -1,36 +1,31 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ['./index.html', './src/**/*.{js,jsx}'],
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
   theme: {
-    // Sin esquinas redondeadas ni sombras de plantilla: identidad sobria MiPEUE.
-    borderRadius: {
-      none: '0',
-      full: '9999px',
-    },
-    boxShadow: {
-      none: 'none',
-    },
     extend: {
       colors: {
+        forest: '#124038',
+        'forest-deep': '#0b2924',
+        'forest-light': '#1c594f',
         cream: '#EFE8DE',
-        'cream-soft': '#F6F2EB',
-        sand: '#DCCFBC',
-        'sand-deep': '#B8A68A',
-        forest: '#13423A',
-        'forest-deep': '#0C2B26',
-        ink: '#111111',
+        'cream-warm': '#E5DDD0',
+        'cream-card': '#F7F3EC',
+        'navy-myth': '#28334A',
+        charcoal: '#1C1C1C',
+        sand: '#D8C8B8',
+        terracotta: '#9E3B24',
+        gold: '#C89D54',
       },
       fontFamily: {
-        sans: ['"Archivo"', 'Helvetica Neue', 'sans-serif'],
-        display: ['"Archivo"', 'Helvetica Neue', 'sans-serif'],
-      },
-      letterSpacing: {
-        label: '0.16em',
-      },
-      transitionTimingFunction: {
-        editorial: 'cubic-bezier(0.25, 1, 0.5, 1)',
+        serif: ['"Instrument Serif"', 'Georgia', 'serif'],
+        display: ['"Syne"', 'sans-serif'],
+        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+        mono: ['"JetBrains Mono"', 'monospace'],
       },
     },
   },
   plugins: [],
-};
+}
