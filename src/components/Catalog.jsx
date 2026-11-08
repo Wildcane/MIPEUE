@@ -60,7 +60,7 @@ export default function Catalog() {
         </nav>
 
         <p className="mt-6 min-h-[1.5rem] max-w-xl text-sm text-ink/60" aria-live="polite">
-          {collection ? collection.description : 'Cuatro colecciones inspiradas en la memoria, el sabor y las leyendas de Nicaragua.'}
+          {collection ? collection.description : 'Catálogo estructurado por regiones, ciudades y leyendas de Nicaragua.'}
         </p>
 
         <div className="grid grid-cols-2 gap-x-3 gap-y-14 pb-24 pt-10 md:grid-cols-3 md:gap-x-6 md:gap-y-20 md:pb-32 xl:grid-cols-4">

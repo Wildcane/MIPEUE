@@ -39,6 +39,10 @@ export default function SizeGuideModal() {
             <p className="text-xs text-ink/70">
               Todas las medidas están expresadas en centímetros (cm) y corresponden a la prenda extendida sobre una superficie plana.
             </p>
+            <div className="p-3 bg-sand/20 border border-ink/10 text-xs text-ink/80">
+              <span className="font-bold text-forest uppercase tracking-wider block mb-0.5">¿Buscás otra talla?</span>
+              Seleccioná la opción <span className="font-semibold text-ink">&ldquo;Otra talla&rdquo;</span> en la ficha de cualquier producto para coordinar medidas especiales o cortes personalizados vía WhatsApp.
+            </div>
 
             {SIZE_GUIDE.map((table) => (
               <div key={table.id} className="space-y-2">

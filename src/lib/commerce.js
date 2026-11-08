@@ -9,7 +9,7 @@ export const CURRENCIES = {
 };
 
 /** Formatea un monto expresado en córdobas en la moneda seleccionada. */
-export function formatPrice(amountNio, currency) {
+export function formatPrice(amountNio, currency = 'NIO') {
   if (currency === 'USD') {
     const usd = amountNio / EXCHANGE_RATE;
     return `$${usd.toFixed(2)}`;
@@ -17,23 +17,32 @@ export function formatPrice(amountNio, currency) {
   return `C$ ${Math.round(amountNio).toLocaleString('es-NI')}`;
 }
 
-export function buildWhatsAppOrderUrl(items, currency) {
+/**
+ * Generador de mensaje estructurado de WhatsApp según especificación oficial.
+ */
+export function buildWhatsAppOrderUrl(
+  items,
+  currency = 'NIO',
+  deliveryAddress = '',
+  paymentMethod = 'Transferencia bancaria',
+) {
   const lines = items.map((item) => {
-    const details = [`Talla: ${item.size}`, `Color: ${item.color}`];
-    if (item.fit) details.push(`Corte: ${item.fit}`);
-    return `- ${item.qty}x ${item.title} (${details.join(', ')}) - ${formatPrice(item.price * item.qty, currency)}`;
+    const preorderNote = item.isPreorder ? ' [Reserva 40%]' : '';
+    const fitNote = item.fit ? ` - ${item.fit}` : '';
+    const formattedPrice = formatPrice(item.price * item.qty, currency);
+    return `- ${item.qty}x ${item.title}${preorderNote} | Color: ${item.color} | Talla: ${item.size}${fitNote} | Precio: ${formattedPrice}`;
   });
+
   const totalNio = items.reduce((acc, item) => acc + item.price * item.qty, 0);
-  const total =
-    currency === 'USD'
-      ? `${formatPrice(totalNio, 'USD')} USD (${formatPrice(totalNio, 'NIO')})`
-      : formatPrice(totalNio, 'NIO');
+  const totalFormatted = formatPrice(totalNio, currency);
+  const addressFormatted = deliveryAddress.trim() || 'A coordinar con el asesor por WhatsApp';
 
   const text = [
-    'Hola MiPEUE, me gustaría confirmar el siguiente pedido desde la web:',
+    'Hola MiPEUE, quiero realizar el siguiente pedido:',
     ...lines,
-    `Total estimado: ${total}`,
-    '¿Tienen disponibilidad para coordinar el envío?',
+    `Total artículos: ${totalFormatted} (Envío pendiente de cotizar)`,
+    `Dirección de entrega: ${addressFormatted}`,
+    `Método de pago previsto: ${paymentMethod}`,
   ].join('\n');
 
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;

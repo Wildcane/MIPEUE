@@ -5,8 +5,9 @@ import Logo from './Logo.jsx';
 
 const NAV = [
   { label: 'Catálogo', href: '#catalogo' },
-  { label: 'Envíos y cambios', href: '#politicas' },
   { label: 'Historia', href: '#historia' },
+  { label: 'Políticas', href: '#politicas' },
+  { label: 'FAQ', href: '#faq' },
 ];
 
 export function CurrencySwitch({ className = '' }) {

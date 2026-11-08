@@ -1,4 +1,4 @@
-// Datos de contacto y políticas — fuente: "Políticas de MiPEUE.docx".
+// Datos de contacto, historia, FAQ y políticas oficiales MiPEUE.
 export const WHATSAPP_NUMBER = '50583332316';
 export const WHATSAPP_DISPLAY = '+505 8333-2316';
 
@@ -17,59 +17,66 @@ export const BUSINESS_HOURS = [
   ['Domingo', 'Cerrado'],
 ];
 
-/** Cada bloque: título + lista de párrafos/puntos. */
+export const ABOUT_US = {
+  title: 'Nuestra Historia / Quiénes Somos',
+  badge: 'Diseño de Autor Nicaragüense',
+  paragraphs: [
+    'MiPEUE es una marca de moda textil e ilustración contemporánea nacida en Nicaragua de la mano de Meysi, ilustradora y diseñadora. Lo que inició como una pequeña iniciativa artesanal de tote bags hechos a mano se transformó en un proyecto editorial de autor que busca romper con los estereotipos comerciales y las convenciones del souvenir tradicional.',
+    'Cada una de nuestras piezas es concebida como el grabado de un libro antiguo: leyendas, mitos coloniales, tradiciones culinarias y símbolos autóctonos reinterpretados bajo una estética sobria, minimalista y elegante. Creemos en una cultura viva que no se queda en vitrinas, sino que se lleva puesta con orgullo en la cotidianidad.',
+    'Producimos bajo estándares textiles rigurosos con 100% algodón peinado, serigrafía de alta densidad y técnica DTF sobre lonas crudas, celebrando la identidad nacional con autenticidad y sofisticación artesanal.',
+  ],
+};
+
 export const POLICIES = [
   {
-    id: 'envios',
-    title: 'Envíos y entregas',
+    id: 'entregas-envios',
+    title: 'Políticas de Entrega y Envíos',
     items: [
-      'Managua: entregas por motorizado, con pago adicional de delivery según la zona de entrega.',
-      'Otros departamentos: envío por CargoTrans, con costo adicional.',
-      'Para envíos dejanos el nombre de quien recibe, la dirección completa y un número de teléfono.',
-      'El costo de delivery depende del lugar. Escribinos con tu ubicación y te confirmamos el monto exacto antes de cerrar el pedido.',
+      'Managua: Entregas directas mediante servicio de motorizado privado. El costo se cotiza según tu zona exacta antes de despachar.',
+      'Opción Pick Up: Retiro sin costo en El Cortijo de la Sierra, km 13 Carretera a Masaya (previa coordinación de horario de lunes a sábado).',
+      'Departamentos de Nicaragua: Despachos seguros a través de CargoTrans a domicilio o sucursal. El costo se liquida según la tarifa oficial de encomienda.',
+      'Horario límite de despacho: Órdenes confirmadas y pagadas antes de las 3:00 PM se procesan y entregan el mismo día en Managua; pedidos posteriores pasan al día hábil siguiente.',
     ],
   },
   {
-    id: 'pickup',
-    title: 'Pick Up',
+    id: 'cambios-devoluciones',
+    title: 'Políticas de Cambios y Devoluciones',
     items: [
-      `Retiro en casa de la fundadora: ${PICKUP_ADDRESS}.`,
-      'Lunes a viernes de 9:00 AM a 6:00 PM. Sábados solo por la mañana.',
+      'Lapso estricto de 24 horas: Disponés de hasta 24 horas continuas tras recibir tu pedido para notificar reclamos de talla o defecto de fábrica vía WhatsApp.',
+      'Condiciones de la prenda: Debe entregarse físicamente sin uso, sin lavar, sin olores y conservando sus etiquetas y empaques originales.',
+      'Piezas de igual valor: Los cambios aplican por talla o por otra prenda de igual valor, sujetos a disponibilidad de inventario.',
+      'Logística de cambio en Managua: El motorizado entrega la nueva pieza y recoge la anterior en un solo viaje (costo de delivery a cargo del cliente, salvo error comprobado de MiPEUE).',
+      'Logística en Departamentos: Notificación en 24h y hasta 3 días hábiles para enviar la prenda por CargoTrans.',
     ],
   },
   {
-    id: 'despacho',
-    title: 'Horario de despacho',
+    id: 'defectos-garantia',
+    title: 'Garantía por Defecto de Fábrica',
     items: [
-      'Pedidos confirmados y pagados antes de las 3:00 PM se procesan y entregan el mismo día.',
-      'Toda orden recibida o pagada después de las 3:00 PM queda programada para el día siguiente. Tomalo en cuenta para planificar tus compras.',
+      'Si una prenda presenta alguna imperfección de costura o serigrafía, envianos fotos o video de desempaque de inmediato. MiPEUE asume el 100% de los costos de envío y reemplazo.',
     ],
   },
+];
+
+export const FAQS = [
   {
-    id: 'cambios',
-    title: 'Cambios',
-    items: [
-      'Aceptamos cambios por talla o por defecto dentro de las 24 horas posteriores a la recepción de la prenda, sujetos a disponibilidad.',
-      'Managua: avisanos por WhatsApp o DM dentro de las 24 horas. En un solo viaje el motorizado lleva la prenda nueva y recoge la anterior; ese delivery corre por tu cuenta, salvo defecto o error nuestro.',
-      'Departamentos: avisanos con foto dentro de las 24 horas y enviá la prenda por CargoTrans en un plazo de 3 días hábiles. El envío de ida y vuelta corre por tu cuenta, salvo defecto o error nuestro.',
-      'La prenda debe estar sin uso, sin lavar y con su empaque y etiquetas. En piezas con descuento el cambio es solo por talla o defecto, sin cambio de diseño.',
-      'Cambios fuera de plazo o sin aviso previo no aplican.',
-    ],
+    question: '¿Cuáles son los métodos de pago aceptados?',
+    answer:
+      'Aceptamos Transferencia bancaria (cuentas nacionales BAC, Banpro y Lafise) y Efectivo contra entrega exclusivamente para la ciudad de Managua al recibir con el motorizado.',
   },
   {
-    id: 'defectos',
-    title: 'Prendas con defecto',
-    items: [
-      'Escribinos de inmediato con fotos, o con un video abriendo el paquete si lo grabaste. Nosotros nos encargamos del cambio y de su costo.',
-    ],
+    question: '¿Cuáles son los tiempos estimados de entrega?',
+    answer:
+      'En Managua, pedidos pagados antes de las 3:00 PM se entregan el mismo día. A departamentos vía CargoTrans, el plazo habitual de recepción es de 24 a 48 horas hábiles tras el despacho.',
   },
   {
-    id: 'pedidos',
-    title: 'Pedidos',
-    items: [
-      'Para confirmar tu pedido necesitamos: diseño, talla y color de la prenda, nombre completo, número de celular y método de entrega.',
-      'Si en las horas previas a la entrega se pierde toda comunicación, el pedido se cancela. Tené tu celular a mano el día de la entrega.',
-      'Tote bags: lona de 32 × 35 cm con impresión DTF, que permite colores intensos y detalles finos.',
-    ],
+    question: '¿Cómo funcionan las reservas de productos agotados?',
+    answer:
+      'Si un diseño de la última colección figura con la etiqueta "Agotado - Disponible en 2 semanas (Reserva con 40%)", podés asegurar tu pieza abonando el 40% del valor total mediante transferencia y cancelando el 60% restante al momento de la entrega.',
+  },
+  {
+    question: '¿Cómo puedo solicitar una talla especial ("Otra talla")?',
+    answer:
+      'Al seleccionar la opción "Otra talla" en la ficha de producto y confirmar tu pedido por WhatsApp, nuestro equipo te asesorará para confeccionar o reservar la talla específica que necesitás.',
   },
 ];

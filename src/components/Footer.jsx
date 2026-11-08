@@ -15,7 +15,7 @@ export default function Footer() {
           </div>
 
           {/* Ubicación y Horarios */}
-          <div id="historia" className="md:col-span-5 space-y-3">
+          <div className="md:col-span-5 space-y-3">
             <h4 className="label text-forest">Pick Up & Contacto</h4>
             <p className="text-xs text-ink/80 leading-relaxed">
               <strong className="text-ink">Punto de Retiro:</strong><br />
@@ -60,7 +60,7 @@ export default function Footer() {
         <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-[11px] text-ink/60">
           <p>© {new Date().getFullYear()} MiPEUE. Todos los derechos reservados. Managua, Nicaragua.</p>
           <p className="tracking-wide">
-            Desarrollado por <span className="text-ink font-semibold">Waild Cane</span>
+            Desarrollado por <span className="text-ink font-semibold">Cristian Wildcane</span>
           </p>
         </div>
       </div>

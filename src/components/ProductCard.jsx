@@ -4,7 +4,7 @@ import { COLOR_SWATCHES, isAvailable, productTitle, variantImages } from '../dat
 import { formatPrice } from '../lib/commerce.js';
 
 export default function ProductCard({ product }) {
-  const { currency, addItem } = useStore();
+  const { addItem } = useStore();
   const [selectedColorIndex, setSelectedColorIndex] = useState(0);
   const [selectedSize, setSelectedSize] = useState('');
   const [selectedFit, setSelectedFit] = useState('');
@@ -13,6 +13,8 @@ export default function ProductCard({ product }) {
   const variant = product.variants[selectedColorIndex] || product.variants[0];
   const images = variantImages(product, variant);
   const available = isAvailable(variant);
+
+  const isLatestPreorder = Boolean(product.isLatest && variant.status === 'Agotado');
 
   useEffect(() => {
     setImageIndex(0);
@@ -29,7 +31,7 @@ export default function ProductCard({ product }) {
   }, [selectedColorIndex, variant]);
 
   const handleAddToCart = () => {
-    if (!available) return;
+    if (!available && !isLatestPreorder) return;
     addItem({
       productId: product.id,
       title: productTitle(product),
@@ -37,19 +39,21 @@ export default function ProductCard({ product }) {
       size: selectedSize || (variant.sizes && variant.sizes[0]) || 'Unitalla',
       fit: selectedFit,
       price: variant.price,
-      image: images[0] || '/favicon.png',
+      image: images[imageIndex] || images[0] || '/favicon.png',
+      isPreorder: isLatestPreorder,
     });
   };
 
-  const statusLabel =
-    variant.status === 'Agotado'
-      ? 'Agotado'
-      : variant.status === 'No disponible temporalmente'
-      ? 'No disponible'
-      : null;
+  const statusBadge = isLatestPreorder
+    ? 'Agotado - Disponible en 2 semanas (Reserva con 40%)'
+    : variant.status === 'Agotado'
+    ? 'Agotado'
+    : variant.status === 'No disponible temporalmente'
+    ? 'No disponible temporalmente'
+    : null;
 
   return (
-    <article className="group flex flex-col justify-between">
+    <article className="group flex flex-col justify-between border-b border-ink/5 pb-4">
       <div>
         {/* Imagen del Producto */}
         <div className="relative aspect-[3/4] w-full overflow-hidden bg-sand/30">
@@ -68,13 +72,17 @@ export default function ProductCard({ product }) {
           )}
 
           {/* Badge de estado tipográfico sobrio */}
-          {statusLabel && (
-            <div className="absolute left-3 top-3 bg-ink/90 px-2 py-1 text-[9px] font-semibold uppercase tracking-widest text-cream">
-              {statusLabel}
+          {statusBadge && (
+            <div
+              className={`absolute left-3 top-3 px-2 py-1 text-[9px] font-semibold uppercase tracking-widest text-cream max-w-[85%] ${
+                isLatestPreorder ? 'bg-forest' : 'bg-ink/90'
+              }`}
+            >
+              {statusBadge}
             </div>
           )}
 
-          {/* Selector de miniatura de foto rápida si tiene más de 1 imagen */}
+          {/* Miniaturas de foto rápida */}
           {images.length > 1 && (
             <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-1.5 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
               {images.map((_, idx) => (
@@ -95,7 +103,7 @@ export default function ProductCard({ product }) {
           )}
         </div>
 
-        {/* Info básica: Nombre y Precio */}
+        {/* Info básica: Nombre y Precio dual */}
         <div className="mt-3.5 flex items-start justify-between gap-2">
           <div>
             <span className="label text-[9px] text-ink/50">{product.type}</span>
@@ -103,27 +111,44 @@ export default function ProductCard({ product }) {
               {product.name}
             </h3>
           </div>
-          <div className="text-right">
-            <p className="text-xs md:text-sm font-semibold tabular-nums text-ink">
-              {formatPrice(variant.price, currency)}
+          <div className="text-right shrink-0">
+            <p className="text-xs md:text-sm font-bold tabular-nums text-ink">
+              {formatPrice(variant.price, 'NIO')}
+            </p>
+            <p className="text-[10px] text-ink/60 tabular-nums">
+              {formatPrice(variant.price, 'USD')} USD
             </p>
           </div>
         </div>
 
-        {/* Selector discreto de colores */}
+        {/* Descripción cultural y origen */}
+        {product.description && (
+          <p className="mt-2 text-xs leading-relaxed text-ink/70 line-clamp-3 hover:line-clamp-none transition-all">
+            {product.description}
+          </p>
+        )}
+
+        {/* Composición y Material */}
+        {product.material && (
+          <p className="mt-1.5 text-[10px] font-medium uppercase tracking-wider text-forest">
+            {product.material}
+          </p>
+        )}
+
+        {/* Selector de color interactivo */}
         {product.variants.length > 1 && (
-          <div className="mt-2.5 flex items-center gap-2">
+          <div className="mt-3 flex items-center gap-2">
             <span className="text-[10px] uppercase tracking-wider text-ink/50">Color:</span>
             <div className="flex items-center gap-1.5">
-              {product.variants.map((v, idx) => {
-                const swatchHex = COLOR_SWATCHES[v.color] || '#CCCCCC';
+              {product.variants.map((vItem, idx) => {
+                const swatchHex = COLOR_SWATCHES[vItem.color] || '#CCCCCC';
                 const isSelected = selectedColorIndex === idx;
                 return (
                   <button
-                    key={v.color}
+                    key={vItem.color}
                     type="button"
                     onClick={() => setSelectedColorIndex(idx)}
-                    title={`${v.color} (${v.status})`}
+                    title={`${vItem.color} (${vItem.status}) - C$ ${vItem.price}`}
                     className={`relative h-4 w-4 rounded-full border transition-all ${
                       isSelected
                         ? 'border-ink ring-1 ring-ink ring-offset-1 ring-offset-cream'
@@ -131,17 +156,17 @@ export default function ProductCard({ product }) {
                     }`}
                     style={{ backgroundColor: swatchHex }}
                   >
-                    <span className="sr-only">{v.color}</span>
+                    <span className="sr-only">{vItem.color}</span>
                   </button>
                 );
               })}
             </div>
-            <span className="text-[10px] text-ink/70">{variant.color}</span>
+            <span className="text-[10px] font-medium text-ink/80">{variant.color}</span>
           </div>
         )}
 
-        {/* Selector de corte (Normal / Oversized) si aplica */}
-        {variant.fits && variant.fits.length > 0 && available && (
+        {/* Selector de corte (Normal / Oversized) */}
+        {variant.fits && variant.fits.length > 0 && (available || isLatestPreorder) && (
           <div className="mt-2 flex items-center gap-1 text-[10px] text-ink/70">
             <span className="uppercase tracking-wider text-ink/50">Corte:</span>
             {variant.fits.map((f) => (
@@ -159,9 +184,9 @@ export default function ProductCard({ product }) {
           </div>
         )}
 
-        {/* Selector de Tallas */}
-        {variant.sizes && variant.sizes.length > 0 && available && (
-          <div className="mt-2 flex flex-wrap items-center gap-1">
+        {/* Selector de Tallas con opción 'Otra talla' */}
+        {variant.sizes && variant.sizes.length > 0 && (available || isLatestPreorder) && (
+          <div className="mt-2.5 flex flex-wrap items-center gap-1">
             <span className="text-[10px] uppercase tracking-wider text-ink/50 mr-1">Talla:</span>
             {variant.sizes.map((s) => (
               <button
@@ -181,19 +206,25 @@ export default function ProductCard({ product }) {
         )}
       </div>
 
-      {/* Botón de Agregar / Estado */}
-      <div className="mt-4 pt-2 border-t border-ink/5">
+      {/* Botón de Acción con Verde Corporativo */}
+      <div className="mt-4 pt-2">
         <button
           type="button"
           onClick={handleAddToCart}
-          disabled={!available}
+          disabled={!available && !isLatestPreorder}
           className={`w-full py-2.5 text-[11px] font-semibold uppercase tracking-wider transition-all ${
             available
-              ? 'border border-ink bg-transparent text-ink hover:bg-ink hover:text-cream'
-              : 'border border-ink/10 bg-sand/20 text-ink/30 cursor-not-allowed'
+              ? 'bg-forest text-cream hover:bg-forest-deep shadow-none cursor-pointer'
+              : isLatestPreorder
+              ? 'bg-forest/90 text-cream hover:bg-forest cursor-pointer'
+              : 'border border-ink/10 bg-sand/20 text-ink/40 cursor-not-allowed'
           }`}
         >
-          {available ? 'Agregar al pedido' : statusLabel || 'Agotado'}
+          {available
+            ? 'Añadir a la bolsa'
+            : isLatestPreorder
+            ? 'Reservar con 40%'
+            : statusBadge || 'Agotado'}
         </button>
       </div>
     </article>
