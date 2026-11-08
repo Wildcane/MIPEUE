@@ -287,18 +287,17 @@ const ALL_CATALOG_PRODUCTS = [
     description:
       'Dulzura tradicional nicaragüense: yuca rallada, queso de crema y baño de miel en caldero colonial. Arte de autor para llevar puesto.',
     detail: '100% Algodón peinado • Hecho en Nicaragua',
-    price: 490,
+    price: 480,
     sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
-    image: '/assets/products/bunuelos-shirt-photo.webp',
+    image: '/assets/catalog/bunuelos/blanco-1.webp',
     soldOut: false,
     darkBg: '#2a1a0e',
     lightBg: '#efe2d4',
     colors: [
-      { id: 'crema', label: 'Crema', bgClass: 'bg-[#e6e1d5]', price: 490, image: '/assets/products/bunuelos-shirt-photo.webp' },
       { id: 'blanco', label: 'Blanco', bgClass: 'bg-white', price: 480, image: '/assets/catalog/bunuelos/blanco-1.webp' },
       { id: 'negro', label: 'Negro', bgClass: 'bg-[#111111]', price: 480, image: '/assets/catalog/bunuelos/negro-1.webp' }
     ],
-    defaultColor: 'crema'
+    defaultColor: 'blanco'
   },
 
   // --- SECCIÓN 3: COLECCIÓN ESTAMPAS DEL PUEBLO ---
@@ -317,8 +316,7 @@ const ALL_CATALOG_PRODUCTS = [
     darkBg: '#361713',
     lightBg: '#eedbd5',
     colors: [
-      { id: 'crema', label: 'Crema', bgClass: 'bg-[#e6e1d5]', price: 490, image: '/assets/products/catedral-photo.webp' },
-      { id: 'blanco', label: 'Blanco', bgClass: 'bg-white', price: 480, image: '/assets/catalog/catedral-de-granada/crema-1.webp' }
+      { id: 'crema', label: 'Crema', bgClass: 'bg-[#e6e1d5]', price: 490, image: '/assets/products/catedral-photo.webp' }
     ],
     defaultColor: 'crema'
   },
@@ -348,18 +346,17 @@ const ALL_CATALOG_PRODUCTS = [
     description:
       'Herencia indígena y colonial de la primera capital. El Sol de Sutiaba y la torre barroca de la Real Basílica Catedral.',
     detail: '100% Algodón peinado • Hecho en Nicaragua',
-    price: 480,
+    price: 490,
     sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
-    image: '/assets/products/leon-photo.webp',
+    image: '/assets/catalog/leon-y-sol-de-sutiaba/crema-1.webp',
     soldOut: false,
     darkBg: '#211828',
     lightBg: '#e8dfea',
     colors: [
-      { id: 'blanco', label: 'Blanco', bgClass: 'bg-white', price: 480, image: '/assets/products/leon-photo.webp' },
       { id: 'crema', label: 'Crema', bgClass: 'bg-[#e6e1d5]', price: 490, image: '/assets/catalog/leon-y-sol-de-sutiaba/crema-1.webp' },
       { id: 'negro', label: 'Negro', bgClass: 'bg-[#111111]', price: 480, image: '/assets/catalog/leon-y-sol-de-sutiaba/negro-1.webp' }
     ],
-    defaultColor: 'blanco'
+    defaultColor: 'crema'
   },
   {
     id: 'gigantona',
@@ -368,48 +365,47 @@ const ALL_CATALOG_PRODUCTS = [
     description:
       'El alma callejera y picaresca de las fiestas leonesas. Versos, tambores y bailes tradicionales en una ilustración vibrante.',
     detail: '100% Algodón peinado • Hecho en Nicaragua',
-    price: 480,
+    price: 490,
     sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
-    image: '/assets/products/gigantona-photo.webp',
+    image: '/assets/catalog/gigantona-y-enano-cabezon/crema-1.webp',
     soldOut: false,
     darkBg: '#241416',
     lightBg: '#ecdfe0',
     colors: [
-      { id: 'blanco', label: 'Blanco', bgClass: 'bg-white', price: 480, image: '/assets/products/gigantona-photo.webp' },
       { id: 'crema', label: 'Crema', bgClass: 'bg-[#e6e1d5]', price: 490, image: '/assets/catalog/gigantona-y-enano-cabezon/crema-1.webp' },
       { id: 'negro', label: 'Negro', bgClass: 'bg-[#111111]', price: 480, image: '/assets/catalog/gigantona-y-enano-cabezon/negro-1.webp' }
     ],
-    defaultColor: 'blanco'
+    defaultColor: 'crema'
   },
 
-  // --- SECCIÓN 4: TOTE BAGS (FOTOS REALES DE BOLSOS DE LONA CRUDA DTF) ---
+  // --- SECCIÓN 4: TOTE BAGS OFICIALES (LONA CRUDA DTF DE INVENTARIO) ---
   {
     id: 'tote-bunuelos-bag',
     collection: 'totebags',
-    name: 'TOTE BUÑUELOS',
+    name: 'TOTE BUÑUELOS (TIRAS ROJAS)',
     description:
-      'Bolso utilitario en lona de algodón pesado con ilustración serigráfica de Buñuelos tradicionales. Espacioso y duradero.',
-    detail: 'Lona 100% Algodón 12oz • Medidas 38x42 cm',
+      'Bolso utilitario en lona pesada con ilustración serigráfica de Buñuelos tradicionales y tiras rojas de alto contraste. Espacioso y duradero.',
+    detail: 'Lona 100% Algodón 12oz • Medidas 32x35 cm • Asas Rojas',
     price: 430,
-    sizes: ['Unitalla'],
+    sizes: ['Unitalla (32×35 cm)'],
     image: '/assets/products/tote-bunuelos.webp',
     soldOut: false,
     darkBg: '#20160d',
     lightBg: '#eee3d8',
     colors: [
-      { id: 'crema', label: 'Lona Cruda', bgClass: 'bg-[#e6e1d5]', price: 430, image: '/assets/products/tote-bunuelos.webp' }
+      { id: 'tiras-rojas', label: 'Tiras Rojas / Lona Cruda', bgClass: 'bg-[#C8382B]', price: 430, image: '/assets/products/tote-bunuelos.webp' }
     ],
-    defaultColor: 'crema'
+    defaultColor: 'tiras-rojas'
   },
   {
     id: 'tote-fauna-local',
     collection: 'totebags',
     name: 'TOTE FAUNA LOCAL',
     description:
-      'Bolso de autor con aves autóctonas nicaragüenses. Costuras reforzadas para libros, compras o viajes.',
-    detail: 'Lona 100% Algodón 12oz • Medidas 38x42 cm',
+      'Bolso de autor con aves autóctonas nicaragüenses estampadas con nitidez sobre lona rústica natural. Costuras reforzadas.',
+    detail: 'Lona 100% Algodón 12oz • Medidas 32x35 cm',
     price: 430,
-    sizes: ['Unitalla'],
+    sizes: ['Unitalla (32×35 cm)'],
     image: '/assets/products/tote-fauna.webp',
     soldOut: false,
     darkBg: '#12241e',
@@ -425,51 +421,15 @@ const ALL_CATALOG_PRODUCTS = [
     name: 'TOTE NICARAGUA',
     description:
       'Estampa completa de identidad nacional sobre lienzo natural. Asas resistentes para llevar al hombro cómodamente.',
-    detail: 'Lona 100% Algodón 12oz • Medidas 38x42 cm',
+    detail: 'Lona 100% Algodón 12oz • Medidas 32x35 cm',
     price: 430,
-    sizes: ['Unitalla'],
+    sizes: ['Unitalla (32×35 cm)'],
     image: '/assets/products/tote-nicaragua.webp',
     soldOut: false,
     darkBg: '#122026',
     lightBg: '#dbe6ec',
     colors: [
       { id: 'crema', label: 'Lona Cruda', bgClass: 'bg-[#e6e1d5]', price: 430, image: '/assets/products/tote-nicaragua.webp' }
-    ],
-    defaultColor: 'crema'
-  },
-  {
-    id: 'tote-catedral-bag',
-    collection: 'totebags',
-    name: 'TOTE CATEDRAL DE GRANADA',
-    description:
-      'La silueta colonial de La Gran Sultana grabada con tintas DTF de alta definición sobre lona cruda prémium.',
-    detail: 'Lona 100% Algodón 12oz • Medidas 38x42 cm',
-    price: 430,
-    sizes: ['Unitalla'],
-    image: '/assets/products/tote-catedral.webp',
-    soldOut: false,
-    darkBg: '#2b1a17',
-    lightBg: '#eededb',
-    colors: [
-      { id: 'crema', label: 'Lona Cruda', bgClass: 'bg-[#e6e1d5]', price: 430, image: '/assets/products/tote-catedral.webp' }
-    ],
-    defaultColor: 'crema'
-  },
-  {
-    id: 'tote-sopa-bag',
-    collection: 'totebags',
-    name: 'TOTE SOPA DE QUESO',
-    description:
-      'El homenaje gráfico más sabroso de Cuaresma en un bolso utilitario cotidiano de máxima resistencia.',
-    detail: 'Lona 100% Algodón 12oz • Medidas 38x42 cm',
-    price: 430,
-    sizes: ['Unitalla'],
-    image: '/assets/products/tote-sopa.webp',
-    soldOut: false,
-    darkBg: '#29210c',
-    lightBg: '#eee3c8',
-    colors: [
-      { id: 'crema', label: 'Lona Cruda', bgClass: 'bg-[#e6e1d5]', price: 430, image: '/assets/products/tote-sopa.webp' }
     ],
     defaultColor: 'crema'
   }
@@ -617,6 +577,16 @@ function CarouselProductCard({
     safeSizes.includes('M') ? 'M' : safeSizes[0]
   );
   const [qty, setQty] = useState(1);
+
+  // Sincronizar selectedColor de forma reactiva si el color activo ya no existe en las variantes del producto
+  useEffect(() => {
+    if (safeColors.length > 0) {
+      const exists = safeColors.some((c) => c.id === selectedColor);
+      if (!exists) {
+        setSelectedColor(product?.defaultColor || safeColors[0].id);
+      }
+    }
+  }, [safeColors, selectedColor, product?.defaultColor]);
 
   const currentColorVariant = useMemo(() => {
     if (safeColors.length === 0) return null;
@@ -861,6 +831,13 @@ function CollectionCarouselSection({
   const [direction, setDirection] = useState(1);
   const touchStartX = useRef(null);
 
+  // Recalcular índice para evitar índices fuera de rango al podar productos
+  useEffect(() => {
+    if (index >= safeItems.length && safeItems.length > 0) {
+      setIndex(0);
+    }
+  }, [safeItems.length, index]);
+
   const step = useCallback(
     (dir) => {
       setDirection(dir);
@@ -882,7 +859,8 @@ function CollectionCarouselSection({
     touchStartX.current = null;
   };
 
-  const visibleItems = useMemo(() => getCyclicItems(safeItems, index, 3), [safeItems, index]);
+  const safeIndex = safeItems.length > 0 ? (index % safeItems.length) : 0;
+  const visibleItems = useMemo(() => getCyclicItems(safeItems, safeIndex, 3), [safeItems, safeIndex]);
 
   return (
     <section

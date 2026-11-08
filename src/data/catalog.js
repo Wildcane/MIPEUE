@@ -80,8 +80,6 @@ export const PRODUCTS = [
       'Homenaje a la joya neoclásica de La Gran Sultana junto al florecimiento de la flor nacional Sacuanjoche y la brisa del Cocibolca.',
     variants: [
       v('Crema', 490, STANDARD_SIZES, IN_STOCK, ['/assets/catalog/catedral-de-granada/crema-1.webp'], 'Normal'),
-      v('Blanco', 480, STANDARD_SIZES, IN_STOCK, ['/assets/catalog/catedral-de-granada/crema-1.webp'], 'Normal'),
-      v('Negro', 480, STANDARD_SIZES, IN_STOCK, ['/assets/catalog/catedral-de-granada/crema-1.webp'], 'Normal'),
     ],
   },
   {
@@ -94,8 +92,6 @@ export const PRODUCTS = [
       'Postal serigráfica del archipiélago volcánico en el Gran Lago de Nicaragua, con lanchas tradicionales, palmeras y la cumbre del volcán Mombacho.',
     variants: [
       v('Blanco', 480, STANDARD_SIZES, IN_STOCK, ['/assets/catalog/isletas-de-granada/blanco-1.webp'], 'Normal'),
-      v('Crema', 490, STANDARD_SIZES, IN_STOCK, ['/assets/catalog/isletas-de-granada/blanco-1.webp'], 'Normal'),
-      v('Negro', 480, STANDARD_SIZES, IN_STOCK, ['/assets/catalog/isletas-de-granada/blanco-1.webp'], 'Normal'),
     ],
   },
   {
@@ -108,8 +104,7 @@ export const PRODUCTS = [
       'Tributo a la receta colonial de cuaresma: caldo con queso local, rosquillas de maíz y aroma a hierbabuena. Hecha como manda la abuela.',
     variants: [
       v('Crema', 490, STANDARD_SIZES, IN_STOCK, ['/assets/catalog/sopa-de-queso/crema-1.webp'], 'Normal'),
-      v('Blanco', 480, STANDARD_SIZES, IN_STOCK, ['/assets/catalog/sopa-de-queso/crema-1.webp'], 'Normal'),
-      v('Negro', 480, STANDARD_SIZES, IN_STOCK, ['/assets/catalog/sopa-de-queso/crema-1.webp'], 'Normal'),
+      v('Blanco', 480, STANDARD_SIZES, IN_STOCK, ['/assets/products/page2-cutout-2.webp'], 'Normal'),
     ],
   },
   {
@@ -122,8 +117,6 @@ export const PRODUCTS = [
       'Plumeria rubra: Flor Nacional de Nicaragua. Emblema sagrado prehispánico presente en los patios coloniales y festividades religiosas.',
     variants: [
       v('Negro', 480, STANDARD_SIZES, IN_STOCK, pick('sacuanjoche', ['negro-1']), 'Normal'),
-      v('Blanco', 480, STANDARD_SIZES, IN_STOCK, pick('sacuanjoche', ['negro-1']), 'Normal'),
-      v('Crema', 490, STANDARD_SIZES, IN_STOCK, pick('sacuanjoche', ['negro-1']), 'Normal'),
     ],
   },
 
@@ -139,9 +132,8 @@ export const PRODUCTS = [
     description:
       'Encuentro entre la cosmovisión indígena del Sol de Sutiaba y la herencia colonial de León. Identidad viva y bravura histórica.',
     variants: [
-      v('Blanco', 480, STANDARD_SIZES, IN_STOCK, pick('leon-y-sol-de-sutiaba', ['blanco-2', 'blanco-1']), null),
-      v('Negro', 480, STANDARD_SIZES, IN_STOCK, pick('leon-y-sol-de-sutiaba', ['negro-1', 'negro-2', 'negro-3']), 'Normal'),
       v('Crema', 490, STANDARD_SIZES, IN_STOCK, pick('leon-y-sol-de-sutiaba', ['crema-1', 'crema-2']), 'Normal'),
+      v('Negro', 480, STANDARD_SIZES, IN_STOCK, pick('leon-y-sol-de-sutiaba', ['negro-1', 'negro-2', 'negro-3']), 'Normal'),
     ],
   },
   {
@@ -153,9 +145,8 @@ export const PRODUCTS = [
     description:
       'La fiesta leonesa en su máxima expresión: coplas pícaras, tambores y el baile callejero que satiriza la historia con alegría popular.',
     variants: [
-      v('Blanco', 480, STANDARD_SIZES, IN_STOCK, pick('gigantona-y-enano-cabezon', ['blanco-1', 'blanco-2']), null),
-      v('Negro', 480, STANDARD_SIZES, IN_STOCK, pick('gigantona-y-enano-cabezon', ['negro-3', 'negro-1', 'negro-2']), 'Normal'),
       v('Crema', 490, STANDARD_SIZES, IN_STOCK, pick('gigantona-y-enano-cabezon', ['crema-2', 'crema-1', 'crema-3']), 'Normal'),
+      v('Negro', 480, STANDARD_SIZES, IN_STOCK, pick('gigantona-y-enano-cabezon', ['negro-3', 'negro-1', 'negro-2']), 'Normal'),
     ],
   },
   {
@@ -169,7 +160,6 @@ export const PRODUCTS = [
     variants: [
       v('Blanco', 480, STANDARD_SIZES, IN_STOCK, pick('bunuelos', ['blanco-1', 'blanco-2', 'blanco-3']), null),
       v('Negro', 480, STANDARD_SIZES, IN_STOCK, pick('bunuelos', ['negro-1', 'negro-2', 'negro-3']), 'Normal'),
-      v('Crema', 490, STANDARD_SIZES, IN_STOCK, pick('bunuelos', ['crema-1', 'crema-2', 'crema-3']), 'Normal'),
     ],
   },
 
@@ -181,13 +171,11 @@ export const PRODUCTS = [
     name: 'Nacatamal',
     type: SHIRT,
     collection: 'managua',
-    material: '100% Algodón peinado negro • Grabado de época',
+    material: '100% Algodón peinado • Grabado de época',
     description:
       'El desayuno patrio del fin de semana. Masa nixtamalizada en manteca, lomo sazonado, papas, arroz y hierbabuena cocidos en hoja de plátano.',
     variants: [
-      v('Negro', 480, STANDARD_SIZES, IN_STOCK, pick('nacatamal', ['default-3', 'default-2', 'default-1']), 'Normal'),
-      v('Blanco', 480, STANDARD_SIZES, IN_STOCK, pick('nacatamal', ['default-3', 'default-2', 'default-1']), 'Normal'),
-      v('Crema', 490, STANDARD_SIZES, IN_STOCK, pick('nacatamal', ['default-3', 'default-2', 'default-1']), 'Normal'),
+      v('Blanco', 480, STANDARD_SIZES, IN_STOCK, ['/assets/products/nacatamal-photo.webp'], 'Normal'),
     ],
   },
   {
@@ -307,16 +295,16 @@ export const PRODUCTS = [
   },
 
   // ──────────────────────────────────────────
-  // 5. COLECCIÓN TOTE BAGS (5 MODELOS)
+  // 5. COLECCIÓN TOTE BAGS (3 MODELOS OFICIALES DE INVENTARIO)
   // ──────────────────────────────────────────
   {
     id: 'tote-bunuelos',
-    name: 'Tote Buñuelos',
+    name: 'Tote Buñuelos (Tiras Rojas)',
     type: TOTE,
     collection: 'totebags',
     material: 'Lona cruda 100% algodón 32 × 35 cm • Asas rojas de alto contraste • Técnica DTF',
     description:
-      'Bolso utilitario con la ilustración de Buñuelos en miel. Costuras reforzadas en cruz para libros, compras o viajes cortos.',
+      'Bolso utilitario con la ilustración de Buñuelos en miel y asas rojas en contraste. Costuras reforzadas en cruz para libros, compras o viajes cortos.',
     variants: [
       v('Tiras rojas', 430, TOTE_SIZES, IN_STOCK, pick('bunuelos', ['tote-bag-1', 'tote-bag-2', 'tote-bag-3'])),
     ],
@@ -343,30 +331,6 @@ export const PRODUCTS = [
       'Paisaje nicaragüense, volcanes y flor nacional en un bolso cómodo, durable y 100% reutilizable.',
     variants: [
       v('Crema', 430, TOTE_SIZES, IN_STOCK, pick('nicaragua', ['tote-bag-1'])),
-    ],
-  },
-  {
-    id: 'tote-catedral-granada',
-    name: 'Tote Catedral de Granada',
-    type: TOTE,
-    collection: 'totebags',
-    material: 'Lona cruda 100% algodón 32 × 35 cm • Técnica DTF',
-    description:
-      'La estampa arquitectónica de La Gran Sultana en lona ecológica con tinta resistente a lavadas.',
-    variants: [
-      v('Crema', 430, TOTE_SIZES, IN_STOCK, ['/assets/catalog/catedral-de-granada/crema-1.webp']),
-    ],
-  },
-  {
-    id: 'tote-sopa-queso',
-    name: 'Tote Sopa de Queso',
-    type: TOTE,
-    collection: 'totebags',
-    material: 'Lona cruda 100% algodón 32 × 35 cm • Técnica DTF',
-    description:
-      'La tradición de la sopa de queso plasmada en bolso artesanal. Ilustración original de Meysi.',
-    variants: [
-      v('Crema', 430, TOTE_SIZES, IN_STOCK, ['/assets/catalog/sopa-de-queso/crema-1.webp']),
     ],
   },
 ];
