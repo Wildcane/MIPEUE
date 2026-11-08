@@ -201,9 +201,8 @@ export const PRODUCTS = [
     description:
       'Ave Nacional de Nicaragua. Corona turquesa, plumaje tornasol y plumas caudales en forma de raqueta que surcan libremente los cielos pinoleros.',
     variants: [
-      v('Blanco', 480, STANDARD_SIZES, IN_STOCK, pick('guardabarranco', ['blanco-2', 'blanco-1', 'blanco-3', 'blanco-4']), null),
-      v('Negro', 480, STANDARD_SIZES, IN_STOCK, pick('guardabarranco', ['negro-1', 'negro-2', 'negro-3', 'negro-4']), 'Normal'),
       v('Crema', 490, STANDARD_SIZES, IN_STOCK, pick('guardabarranco', ['crema-1', 'crema-2', 'crema-3', 'crema-4']), 'Normal'),
+      v('Negro', 480, STANDARD_SIZES, IN_STOCK, pick('guardabarranco', ['negro-1', 'negro-2', 'negro-3', 'negro-4']), 'Normal'),
     ],
   },
   {
@@ -215,9 +214,8 @@ export const PRODUCTS = [
     description:
       'La gran sátira y baile de Diriamba y el Pacífico. Primera comedia teatral indo-hispana y Patrimonio de la Humanidad UNESCO.',
     variants: [
-      v('Blanco', 480, STANDARD_SIZES, IN_STOCK, pick('gueguense-macho-raton', ['blanco-2', 'blanco-3', 'blanco-1']), null),
-      v('Negro', 480, STANDARD_SIZES, IN_STOCK, pick('gueguense-macho-raton', ['negro-1', 'negro-2']), 'Normal'),
       v('Crema', 490, STANDARD_SIZES, IN_STOCK, pick('gueguense-macho-raton', ['crema-2', 'crema-1', 'crema-3']), 'Normal'),
+      v('Negro', 480, STANDARD_SIZES, IN_STOCK, pick('gueguense-macho-raton', ['negro-1', 'negro-2']), 'Normal'),
     ],
   },
   {
