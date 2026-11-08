@@ -482,14 +482,17 @@ const SAZON_ITEMS = ALL_CATALOG_PRODUCTS.filter((p) => p.collection === 'sazon')
 const ESTAMPAS_ITEMS = ALL_CATALOG_PRODUCTS.filter((p) => p.collection === 'estampas');
 const TOTE_ITEMS = ALL_CATALOG_PRODUCTS.filter((p) => p.collection === 'totebags');
 
-// Función helper para obtener 3 elementos cíclicos
+// Función helper para obtener 3 elementos cíclicos de forma segura
 const getCyclicItems = (arr, startIndex, count = 3) => {
+  if (!arr || !Array.isArray(arr) || arr.length === 0) return [];
   const n = arr.length;
-  if (n === 0) return [];
   const result = [];
   for (let i = 0; i < count; i++) {
     const idx = (startIndex + i) % n;
-    result.push({ item: arr[idx], originalIndex: idx });
+    const safeIdx = idx < 0 ? (idx + n) % n : idx;
+    if (arr[safeIdx]) {
+      result.push({ item: arr[safeIdx], originalIndex: safeIdx });
+    }
   }
   return result;
 };
@@ -536,37 +539,99 @@ const carouselSlideVariants = {
   })
 };
 
+// Variantes de transición para textos del Hero (previene ReferenceError en runtime)
+const heroItemVariants = {
+  enter: (dir) => ({
+    opacity: 0,
+    y: dir >= 0 ? 15 : -15
+  }),
+  center: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.3, ease: 'easeOut' }
+  },
+  exit: (dir) => ({
+    opacity: 0,
+    y: dir >= 0 ? -15 : 15,
+    transition: { duration: 0.2, ease: 'easeIn' }
+  })
+};
+
+// Error Boundary para proteger el montaje de la tienda
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    console.error('[MiPEUE ErrorBoundary]', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="min-h-screen bg-[#081f1a] text-[#e6e1d5] flex flex-col items-center justify-center p-6 text-center">
+          <div className="max-w-md space-y-4">
+            <h2 className="text-2xl font-bold tracking-tight uppercase">MiPEUE — Actualizando Tienda</h2>
+            <p className="text-xs opacity-75 leading-relaxed">
+              Estamos actualizando la experiencia visual. Haz clic en el botón para recargar la página.
+            </p>
+            <button
+              type="button"
+              onClick={() => window.location.reload()}
+              className="px-6 py-3 rounded-full bg-[#e6e1d5] text-[#081f1a] font-bold text-xs uppercase tracking-wider hover:bg-white transition-all cursor-pointer shadow-lg"
+            >
+              Recargar Tienda
+            </button>
+          </div>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 // ================= TARJETA DE PRODUCTO PARA CARRUSELES =================
 function CarouselProductCard({
-  product,
-  currency,
+  product = {},
   formatPrice,
   isInverted,
   onAddToCart,
   onOpenSizeGuide
 }) {
+  const safeSizes = Array.isArray(product?.sizes) && product.sizes.length > 0 ? product.sizes : ['Unitalla'];
+  const safeColors = useMemo(
+    () => (Array.isArray(product?.colors) ? product.colors : []),
+    [product?.colors]
+  );
+
   const [selectedColor, setSelectedColor] = useState(
-    product.defaultColor || product.colors?.[0]?.id || 'blanco'
+    product?.defaultColor || safeColors[0]?.id || 'blanco'
   );
   const [selectedSize, setSelectedSize] = useState(
-    product.sizes.includes('M') ? 'M' : product.sizes[0]
+    safeSizes.includes('M') ? 'M' : safeSizes[0]
   );
   const [qty, setQty] = useState(1);
 
   const currentColorVariant = useMemo(() => {
-    if (!product.colors || product.colors.length === 0) return null;
-    return product.colors.find((c) => c.id === selectedColor) || product.colors[0];
-  }, [product, selectedColor]);
+    if (safeColors.length === 0) return null;
+    return safeColors.find((c) => c.id === selectedColor) || safeColors[0] || null;
+  }, [safeColors, selectedColor]);
 
-  const currentPrice = currentColorVariant?.price || product.price;
-  const currentImage = currentColorVariant?.image || product.image;
+  const currentPrice = currentColorVariant?.price || product?.price || 480;
+  const currentImage = currentColorVariant?.image || product?.image || '';
 
   const handleAdd = () => {
-    if (product.soldOut) return;
+    if (product?.soldOut) return;
     const colorLabel = currentColorVariant ? ` (${currentColorVariant.label})` : '';
-    onAddToCart({
-      id: `${product.id}-${currentColorVariant?.id || 'default'}`,
-      name: `${product.name}${colorLabel}`,
+    onAddToCart?.({
+      id: `${product?.id || 'item'}-${currentColorVariant?.id || 'default'}`,
+      name: `${product?.name || 'Prenda MiPEUE'}${colorLabel}`,
       size: selectedSize,
       price: currentPrice,
       image: currentImage,
@@ -781,13 +846,17 @@ function CollectionCarouselSection({
   id,
   title,
   subtitle,
-  items,
+  items = [],
   currency,
   formatPrice,
   isInverted,
   onAddToCart,
   onOpenSizeGuide
 }) {
+  const safeItems = useMemo(
+    () => (Array.isArray(items) ? items : []),
+    [items]
+  );
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState(1);
   const touchStartX = useRef(null);
@@ -795,10 +864,10 @@ function CollectionCarouselSection({
   const step = useCallback(
     (dir) => {
       setDirection(dir);
-      const total = items.length;
+      const total = safeItems.length > 0 ? safeItems.length : 1;
       setIndex((prev) => (dir > 0 ? (prev + 1) % total : (prev - 1 + total) % total));
     },
-    [items.length]
+    [safeItems.length]
   );
 
   const handleTouchStart = (e) => {
@@ -813,7 +882,7 @@ function CollectionCarouselSection({
     touchStartX.current = null;
   };
 
-  const visibleItems = useMemo(() => getCyclicItems(items, index, 3), [items, index]);
+  const visibleItems = useMemo(() => getCyclicItems(safeItems, index, 3), [safeItems, index]);
 
   return (
     <section
@@ -907,7 +976,7 @@ function CollectionCarouselSection({
 }
 
 // ================= COMPONENTE PRINCIPAL APP =================
-export default function App() {
+function AppContent() {
   const [isInverted, setIsInverted] = useState(false);
   const [currency, setCurrency] = useState('NIO'); // 'NIO' | 'USD'
 
@@ -1930,5 +1999,13 @@ export default function App() {
         )}
       </AnimatePresence>
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <ErrorBoundary>
+      <AppContent />
+    </ErrorBoundary>
   );
 }
