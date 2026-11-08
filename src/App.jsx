@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ChevronLeft,
@@ -7,42 +7,42 @@ import {
   Trash2,
   X,
   MessageCircle,
-  ArrowLeftRight,
   Plus,
   Minus,
-  Ruler
+  Ruler,
+  Sparkles
 } from 'lucide-react';
 
 const WHATSAPP_NUMBER = '50583332316';
 const EXCHANGE_RATE = 36.62;
 
-// Colecciones oficiales del inventario Drive
-const COLLECTIONS_TABS = [
-  { id: 'mitos', label: 'MITOS DE LA NOCHE' },
+// Secciones de navegación
+const NAV_SECTIONS = [
+  { id: 'hero', label: 'MITOS DE LA NOCHE' },
   { id: 'raices', label: 'RAÍCES' },
   { id: 'sazon', label: 'SAZÓN Y SON NICA' },
   { id: 'estampas', label: 'ESTAMPAS DEL PUEBLO' },
   { id: 'totebags', label: 'TOTE BAGS' }
 ];
 
-// ================= CATÁLOGO COMPLETO DE PRODUCTOS (23 PIEZAS CON IMÁGENES REACTIVAS POR COLOR) =================
+// ================= CATÁLOGO COMPLETO DE PRODUCTOS (TODOS CON ASSETS .WEBP OPTIMIZADOS < 190 KB) =================
 const ALL_CATALOG_PRODUCTS = [
-  // --- MITOS DE LA NOCHE (DROP OCTUBRE) ---
+  // --- MITOS DE LA NOCHE (HERO SHOWCASE / DROP OCTUBRE) ---
   {
     id: 'cegua-frente',
     collection: 'mitos',
     name: 'LA CEGUA (FRENTE)',
     description:
-      'Reinterpretación gráfica de la leyenda colonial nicaragüense que sorprende a los trasnochadores. Arte serigráfico sobre algodón negro profundo.',
+      'Inspirada en el espanto que castiga a los trasnochadores en los caminos solitarios. Serigrafía técnica sobre algodón peinado nicaragüense.',
     detail: '100% Algodón peinado • Hecho en Nicaragua',
     price: 490,
     sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
-    image: '/assets/products/cegua-cutout-1.png',
+    image: '/assets/products/cegua-cutout-1.webp',
     soldOut: false,
-    darkBg: '#141e28',
-    lightBg: '#dde4ec',
+    darkBg: '#081f1a',
+    lightBg: '#e6e1d5',
     colors: [
-      { id: 'negro', label: 'Negro', bgClass: 'bg-[#111111]', price: 490, image: '/assets/products/cegua-cutout-1.png' }
+      { id: 'negro', label: 'Negro Profundo', bgClass: 'bg-[#121212]', price: 490, image: '/assets/products/cegua-cutout-1.webp' }
     ],
     defaultColor: 'negro'
   },
@@ -51,16 +51,16 @@ const ALL_CATALOG_PRODUCTS = [
     collection: 'mitos',
     name: 'LA CEGUA (VARIANTE / MODELO)',
     description:
-      'Silueta individual de nuestra edición mística de La Cegua en tinta color hueso envejecido sobre tejido suave 100% algodón.',
+      'Segunda perspectiva del mito colonial. Corte holgado con caída perfecta para el clima tropical de Managua y Granada.',
     detail: '100% Algodón peinado • Hecho en Nicaragua',
     price: 490,
     sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
-    image: '/assets/products/cegua-cutout-2.png',
+    image: '/assets/products/cegua-cutout-2.webp',
     soldOut: false,
-    darkBg: '#101820',
-    lightBg: '#d8e0e8',
+    darkBg: '#081f1a',
+    lightBg: '#e6e1d5',
     colors: [
-      { id: 'negro', label: 'Negro', bgClass: 'bg-[#111111]', price: 490, image: '/assets/products/cegua-cutout-2.png' }
+      { id: 'negro', label: 'Negro Profundo', bgClass: 'bg-[#121212]', price: 490, image: '/assets/products/cegua-cutout-2.webp' }
     ],
     defaultColor: 'negro'
   },
@@ -69,17 +69,17 @@ const ALL_CATALOG_PRODUCTS = [
     collection: 'mitos',
     name: 'CADEJO (MORADO / LILA)',
     description:
-      'Inspirada en el mítico guardián nocturno de los caminos de Nicaragua. Edición especial en tono morado/azul profundo con trazos de grabado folclórico.',
+      'El guardián de la noche. Tonalidad lila profundo que captura el misterio del mítico can de ojos encendidos.',
     detail: '100% Algodón peinado • Hecho en Nicaragua',
     price: 490,
     sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
-    image: '/assets/products/cadejo-cutout-1.png',
-    soldOut: true,
-    soldOutLabel: 'AGOTADO TEMPORALMENTE',
-    darkBg: '#32111c',
-    lightBg: '#eadce1',
+    image: '/assets/products/cadejo-cutout-1.webp',
+    soldOut: false,
+    darkBg: '#1f132e',
+    lightBg: '#e9e3f0',
     colors: [
-      { id: 'morado', label: 'Morado / Lila', bgClass: 'bg-[#40224d]', price: 490, image: '/assets/products/cadejo-cutout-1.png' }
+      { id: 'morado', label: 'Lila Místico', bgClass: 'bg-[#4a2e63]', price: 490, image: '/assets/products/cadejo-cutout-1.webp' },
+      { id: 'crema', label: 'Crema', bgClass: 'bg-[#e6e1d5]', price: 490, image: '/assets/products/cadejo-cutout-2.webp' }
     ],
     defaultColor: 'morado'
   },
@@ -88,17 +88,18 @@ const ALL_CATALOG_PRODUCTS = [
     collection: 'mitos',
     name: 'CADEJO (CREMA / BEIGE)',
     description:
-      'La dualidad del espectro nocturno nicaragüense plasmada sobre algodón crema cálido con serigrafía artesanal de alto contraste.',
+      'El protector blanco de los caminos. Pieza de coleccionista actualmente con demanda extraordinaria.',
     detail: '100% Algodón peinado • Hecho en Nicaragua',
     price: 490,
     sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
-    image: '/assets/products/cadejo-cutout-2.png',
+    image: '/assets/products/cadejo-cutout-2.webp',
     soldOut: true,
     soldOutLabel: 'AGOTADO TEMPORALMENTE',
-    darkBg: '#2e1d16',
-    lightBg: '#efe4d8',
+    darkBg: '#211e15',
+    lightBg: '#f2eee6',
     colors: [
-      { id: 'crema', label: 'Crema / Beige', bgClass: 'bg-[#e6e1d5]', price: 490, image: '/assets/products/cadejo-cutout-2.png' }
+      { id: 'crema', label: 'Crema', bgClass: 'bg-[#e6e1d5]', price: 490, image: '/assets/products/cadejo-cutout-2.webp' },
+      { id: 'morado', label: 'Lila Místico', bgClass: 'bg-[#4a2e63]', price: 490, image: '/assets/products/cadejo-cutout-1.webp' }
     ],
     defaultColor: 'crema'
   },
@@ -107,56 +108,56 @@ const ALL_CATALOG_PRODUCTS = [
     collection: 'mitos',
     name: 'TOP MUY DEACACHIMBA',
     description:
-      'Homenaje al habla popular pinolera coronado por el Guardabarranco en vuelo. Silueta raglán bicolor de calce cómodo y fresco.',
-    detail: 'Top Raglán Unitalla • Hecho en Nicaragua',
-    price: 550,
-    sizes: ['Unitalla', 'Otra talla'],
-    image: '/assets/products/deacachimba-cutout.png',
+      'Expresión cumbre de la jerga popular nicaragüense. Top cropped de alta frescura y ajuste ceñido con arte serigráfico exclusivo.',
+    detail: 'Algodón peinado elástico • Hecho en Nicaragua',
+    price: 360,
+    sizes: ['Unitalla', 'S', 'M', 'Otra talla'],
+    image: '/assets/products/deacachimba-cutout.webp',
     soldOut: false,
-    darkBg: '#0d2b24',
-    lightBg: '#dbeae4',
+    darkBg: '#11221b',
+    lightBg: '#e1ede7',
     colors: [
-      { id: 'verde', label: 'Bicolor Verde', bgClass: 'bg-[#124038]', price: 550, image: '/assets/products/deacachimba-cutout.png' }
+      { id: 'negro', label: 'Negro Grafito', bgClass: 'bg-[#181818]', price: 360, image: '/assets/products/deacachimba-cutout.webp' }
     ],
-    defaultColor: 'verde'
+    defaultColor: 'negro'
   },
   {
     id: 'top-nicaragua',
     collection: 'mitos',
     name: 'TOP NICARAGUA',
     description:
-      'Tierra de lagos y volcanes plasmada en un corte raglán clásico con mangas en contraste verde bosque y arte colonial.',
-    detail: 'Top Raglán Unitalla • Hecho en Nicaragua',
-    price: 550,
-    sizes: ['Unitalla', 'Otra talla'],
-    image: '/assets/products/nicaragua-cutout.png',
+      'Orgullo patrio llevado a la moda urbana. Calce contemporáneo, fresco y versátil para el día a día.',
+    detail: 'Algodón peinado elástico • Hecho en Nicaragua',
+    price: 360,
+    sizes: ['Unitalla', 'S', 'M', 'Otra talla'],
+    image: '/assets/products/nicaragua-cutout.webp',
     soldOut: false,
-    darkBg: '#0a241e',
-    lightBg: '#d8e8df',
+    darkBg: '#131e29',
+    lightBg: '#e2ebf2',
     colors: [
-      { id: 'verde', label: 'Bicolor Verde', bgClass: 'bg-[#124038]', price: 550, image: '/assets/products/nicaragua-cutout.png' }
+      { id: 'negro', label: 'Negro Grafito', bgClass: 'bg-[#181818]', price: 360, image: '/assets/products/nicaragua-cutout.webp' }
     ],
-    defaultColor: 'verde'
+    defaultColor: 'negro'
   },
 
-  // --- RAÍCES ---
+  // --- SECCIÓN 1: COLECCIÓN RAÍCES ---
   {
     id: 'guardabarranco',
     collection: 'raices',
     name: 'GUARDABARRANCO',
     description:
-      'Ave nacional de plumaje turquesa y cola de raqueta. Ilustración serigráfica de autor que evoca la naturaleza silvestre de Nicaragua.',
+      'Pájaro nacional de Nicaragua. Ilustración botánica y ornitológica con plumaje turquesa y cola de raqueta sobre textil de autor.',
     detail: '100% Algodón peinado • Hecho en Nicaragua',
     price: 480,
     sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
-    image: '/assets/catalog/guardabarranco/blanco-1.webp',
+    image: '/assets/products/guardabarranco-photo.webp',
     soldOut: false,
-    darkBg: '#0d2822',
-    lightBg: '#dbeee6',
+    darkBg: '#0f2922',
+    lightBg: '#dcece7',
     colors: [
-      { id: 'blanco', label: 'Blanco', bgClass: 'bg-white', price: 480, image: '/assets/catalog/guardabarranco/blanco-1.webp' },
+      { id: 'blanco', label: 'Blanco', bgClass: 'bg-white', price: 480, image: '/assets/products/guardabarranco-photo.webp' },
       { id: 'crema', label: 'Crema', bgClass: 'bg-[#e6e1d5]', price: 490, image: '/assets/catalog/guardabarranco/crema-1.webp' },
-      { id: 'negro', label: 'Negro', bgClass: 'bg-[#111111]', price: 480, image: '/assets/catalog/guardabarranco/negro-1.webp' }
+      { id: 'negro', label: 'Negro', bgClass: 'bg-[#18181b]', price: 490, image: '/assets/catalog/guardabarranco/negro-1.webp' }
     ],
     defaultColor: 'blanco'
   },
@@ -165,18 +166,18 @@ const ALL_CATALOG_PRODUCTS = [
     collection: 'raices',
     name: 'GÜEGÜENSE & MACHO RATÓN',
     description:
-      'Patrimonio Oral e Inmaterial de la Humanidad. El ingenio, la picardía y la resistencia colonial nicaragüense plasmados con trazo firme.',
+      'Primera obra teatral y literaria poscolombina de América, Patrimonio de la Humanidad por la UNESCO. Grabado en tinta táctil.',
     detail: '100% Algodón peinado • Hecho en Nicaragua',
     price: 480,
     sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
-    image: '/assets/catalog/gueguense-macho-raton/blanco-1.webp',
+    image: '/assets/products/gueguense-photo.webp',
     soldOut: false,
-    darkBg: '#221e10',
-    lightBg: '#eee6d4',
+    darkBg: '#2b1c0e',
+    lightBg: '#efe4d7',
     colors: [
-      { id: 'blanco', label: 'Blanco', bgClass: 'bg-white', price: 480, image: '/assets/catalog/gueguense-macho-raton/blanco-1.webp' },
+      { id: 'blanco', label: 'Blanco', bgClass: 'bg-white', price: 480, image: '/assets/products/gueguense-photo.webp' },
       { id: 'crema', label: 'Crema', bgClass: 'bg-[#e6e1d5]', price: 490, image: '/assets/catalog/gueguense-macho-raton/crema-1.webp' },
-      { id: 'negro', label: 'Negro', bgClass: 'bg-[#111111]', price: 480, image: '/assets/catalog/gueguense-macho-raton/negro-1.webp' }
+      { id: 'negro', label: 'Negro', bgClass: 'bg-[#18181b]', price: 490, image: '/assets/catalog/gueguense-macho-raton/negro-1.webp' }
     ],
     defaultColor: 'blanco'
   },
@@ -185,17 +186,17 @@ const ALL_CATALOG_PRODUCTS = [
     collection: 'raices',
     name: 'SACUANJOCHE',
     description:
-      'Nuestra flor nacional cargada de simbolismo ancestral, pureza y aroma volcánico. Arte serigráfico en tintas de alto contraste.',
+      'Flor nacional de Nicaragua (Plumeria rubra). Su fragancia cívica y pétalos dorados en una composición botánica de gran elegancia.',
     detail: '100% Algodón peinado • Hecho en Nicaragua',
     price: 480,
     sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
-    image: '/assets/catalog/sacuanjoche/negro-1.webp',
+    image: '/assets/products/sacuanjoche-photo.webp',
     soldOut: true,
     soldOutLabel: 'AGOTADO TEMPORALMENTE',
     darkBg: '#1c1b18',
     lightBg: '#e2e0dc',
     colors: [
-      { id: 'negro', label: 'Negro', bgClass: 'bg-[#111111]', price: 480, image: '/assets/catalog/sacuanjoche/negro-1.webp' }
+      { id: 'negro', label: 'Negro', bgClass: 'bg-[#111111]', price: 480, image: '/assets/products/sacuanjoche-photo.webp' }
     ],
     defaultColor: 'negro'
   },
@@ -208,12 +209,12 @@ const ALL_CATALOG_PRODUCTS = [
     detail: '100% Algodón peinado • Hecho en Nicaragua',
     price: 480,
     sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
-    image: '/assets/catalog/fauna-local/blanco-1.webp',
+    image: '/assets/products/fauna-shirt-photo.webp',
     soldOut: false,
     darkBg: '#0f2622',
     lightBg: '#dceee7',
     colors: [
-      { id: 'blanco', label: 'Blanco', bgClass: 'bg-white', price: 480, image: '/assets/catalog/fauna-local/blanco-1.webp' },
+      { id: 'blanco', label: 'Blanco', bgClass: 'bg-white', price: 480, image: '/assets/products/fauna-shirt-photo.webp' },
       { id: 'crema', label: 'Crema', bgClass: 'bg-[#e6e1d5]', price: 490, image: '/assets/catalog/fauna-local/crema-1.webp' },
       { id: 'negro', label: 'Negro', bgClass: 'bg-[#111111]', price: 480, image: '/assets/catalog/fauna-local/negro-1.webp' }
     ],
@@ -228,19 +229,19 @@ const ALL_CATALOG_PRODUCTS = [
     detail: '100% Algodón peinado • Hecho en Nicaragua',
     price: 480,
     sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
-    image: '/assets/catalog/nicaragua/blanco-1.webp',
+    image: '/assets/products/nicaragua-shirt-photo.webp',
     soldOut: false,
     darkBg: '#12252e',
     lightBg: '#ddebee',
     colors: [
-      { id: 'blanco', label: 'Blanco', bgClass: 'bg-white', price: 480, image: '/assets/catalog/nicaragua/blanco-1.webp' },
+      { id: 'blanco', label: 'Blanco', bgClass: 'bg-white', price: 480, image: '/assets/products/nicaragua-shirt-photo.webp' },
       { id: 'crema', label: 'Crema', bgClass: 'bg-[#e6e1d5]', price: 490, image: '/assets/catalog/nicaragua/crema-1.webp' },
       { id: 'negro', label: 'Negro', bgClass: 'bg-[#111111]', price: 480, image: '/assets/catalog/nicaragua/negro-1.webp' }
     ],
     defaultColor: 'blanco'
   },
 
-  // --- SAZÓN Y SON NICA ---
+  // --- SECCIÓN 2: COLECCIÓN SAZÓN Y SON NICA ---
   {
     id: 'sopa-queso',
     collection: 'sazon',
@@ -250,13 +251,13 @@ const ALL_CATALOG_PRODUCTS = [
     detail: '100% Algodón peinado • Hecho en Nicaragua',
     price: 490,
     sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
-    image: '/assets/products/sopa-photo.png',
+    image: '/assets/products/sopa-photo.webp',
     soldOut: false,
     darkBg: '#2e260c',
     lightBg: '#f0e6c8',
     colors: [
-      { id: 'crema', label: 'Crema', bgClass: 'bg-[#e6e1d5]', price: 490, image: '/assets/products/sopa-photo.png' },
-      { id: 'blanco', label: 'Blanco', bgClass: 'bg-white', price: 480, image: '/assets/products/page2-cutout-2.png' }
+      { id: 'crema', label: 'Crema', bgClass: 'bg-[#e6e1d5]', price: 490, image: '/assets/products/sopa-photo.webp' },
+      { id: 'blanco', label: 'Blanco', bgClass: 'bg-white', price: 480, image: '/assets/products/page2-cutout-2.webp' }
     ],
     defaultColor: 'crema'
   },
@@ -269,13 +270,13 @@ const ALL_CATALOG_PRODUCTS = [
     detail: '100% Algodón peinado • Hecho en Nicaragua',
     price: 480,
     sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
-    image: '/assets/products/nacatamal-photo.jpg',
+    image: '/assets/products/nacatamal-photo.webp',
     soldOut: true,
     soldOutLabel: 'AGOTADO TEMPORALMENTE',
     darkBg: '#1f1b14',
     lightBg: '#eee8dc',
     colors: [
-      { id: 'blanco', label: 'Blanco', bgClass: 'bg-white', price: 480, image: '/assets/products/nacatamal-photo.jpg' }
+      { id: 'blanco', label: 'Blanco', bgClass: 'bg-white', price: 480, image: '/assets/products/nacatamal-photo.webp' }
     ],
     defaultColor: 'blanco'
   },
@@ -288,19 +289,19 @@ const ALL_CATALOG_PRODUCTS = [
     detail: '100% Algodón peinado • Hecho en Nicaragua',
     price: 490,
     sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
-    image: '/assets/products/bunuelos-shirt-photo.png',
+    image: '/assets/products/bunuelos-shirt-photo.webp',
     soldOut: false,
     darkBg: '#2a1a0e',
     lightBg: '#efe2d4',
     colors: [
-      { id: 'crema', label: 'Crema', bgClass: 'bg-[#e6e1d5]', price: 490, image: '/assets/products/bunuelos-shirt-photo.png' },
+      { id: 'crema', label: 'Crema', bgClass: 'bg-[#e6e1d5]', price: 490, image: '/assets/products/bunuelos-shirt-photo.webp' },
       { id: 'blanco', label: 'Blanco', bgClass: 'bg-white', price: 480, image: '/assets/catalog/bunuelos/blanco-1.webp' },
       { id: 'negro', label: 'Negro', bgClass: 'bg-[#111111]', price: 480, image: '/assets/catalog/bunuelos/negro-1.webp' }
     ],
     defaultColor: 'crema'
   },
 
-  // --- ESTAMPAS DEL PUEBLO ---
+  // --- SECCIÓN 3: COLECCIÓN ESTAMPAS DEL PUEBLO ---
   {
     id: 'catedral',
     collection: 'estampas',
@@ -310,13 +311,13 @@ const ALL_CATALOG_PRODUCTS = [
     detail: '100% Algodón peinado • Hecho en Nicaragua',
     price: 490,
     sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
-    image: '/assets/products/catedral-photo.png',
+    image: '/assets/products/catedral-photo.webp',
     soldOut: true,
     soldOutLabel: 'AGOTADO TEMPORALMENTE',
     darkBg: '#361713',
     lightBg: '#eedbd5',
     colors: [
-      { id: 'crema', label: 'Crema', bgClass: 'bg-[#e6e1d5]', price: 490, image: '/assets/products/catedral-photo.png' },
+      { id: 'crema', label: 'Crema', bgClass: 'bg-[#e6e1d5]', price: 490, image: '/assets/products/catedral-photo.webp' },
       { id: 'blanco', label: 'Blanco', bgClass: 'bg-white', price: 480, image: '/assets/catalog/catedral-de-granada/crema-1.webp' }
     ],
     defaultColor: 'crema'
@@ -330,13 +331,13 @@ const ALL_CATALOG_PRODUCTS = [
     detail: '100% Algodón peinado • Hecho en Nicaragua',
     price: 480,
     sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
-    image: '/assets/products/isletas-photo.png',
+    image: '/assets/products/isletas-photo.webp',
     soldOut: true,
     soldOutLabel: 'AGOTADO TEMPORALMENTE',
     darkBg: '#0e282e',
     lightBg: '#d8eaec',
     colors: [
-      { id: 'blanco', label: 'Blanco', bgClass: 'bg-white', price: 480, image: '/assets/products/isletas-photo.png' }
+      { id: 'blanco', label: 'Blanco', bgClass: 'bg-white', price: 480, image: '/assets/products/isletas-photo.webp' }
     ],
     defaultColor: 'blanco'
   },
@@ -349,12 +350,12 @@ const ALL_CATALOG_PRODUCTS = [
     detail: '100% Algodón peinado • Hecho en Nicaragua',
     price: 480,
     sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
-    image: '/assets/products/leon-photo.jpg',
+    image: '/assets/products/leon-photo.webp',
     soldOut: false,
     darkBg: '#211828',
     lightBg: '#e8dfea',
     colors: [
-      { id: 'blanco', label: 'Blanco', bgClass: 'bg-white', price: 480, image: '/assets/products/leon-photo.jpg' },
+      { id: 'blanco', label: 'Blanco', bgClass: 'bg-white', price: 480, image: '/assets/products/leon-photo.webp' },
       { id: 'crema', label: 'Crema', bgClass: 'bg-[#e6e1d5]', price: 490, image: '/assets/catalog/leon-y-sol-de-sutiaba/crema-1.webp' },
       { id: 'negro', label: 'Negro', bgClass: 'bg-[#111111]', price: 480, image: '/assets/catalog/leon-y-sol-de-sutiaba/negro-1.webp' }
     ],
@@ -369,34 +370,34 @@ const ALL_CATALOG_PRODUCTS = [
     detail: '100% Algodón peinado • Hecho en Nicaragua',
     price: 480,
     sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
-    image: '/assets/products/gigantona-photo.jpg',
+    image: '/assets/products/gigantona-photo.webp',
     soldOut: false,
     darkBg: '#241416',
     lightBg: '#ecdfe0',
     colors: [
-      { id: 'blanco', label: 'Blanco', bgClass: 'bg-white', price: 480, image: '/assets/products/gigantona-photo.jpg' },
+      { id: 'blanco', label: 'Blanco', bgClass: 'bg-white', price: 480, image: '/assets/products/gigantona-photo.webp' },
       { id: 'crema', label: 'Crema', bgClass: 'bg-[#e6e1d5]', price: 490, image: '/assets/catalog/gigantona-y-enano-cabezon/crema-1.webp' },
       { id: 'negro', label: 'Negro', bgClass: 'bg-[#111111]', price: 480, image: '/assets/catalog/gigantona-y-enano-cabezon/negro-1.webp' }
     ],
     defaultColor: 'blanco'
   },
 
-  // --- TOTE BAGS ---
+  // --- SECCIÓN 4: TOTE BAGS ---
   {
     id: 'tote-bunuelos-bag',
     collection: 'totebags',
     name: 'TOTE BUÑUELOS',
     description:
-      'Dedicado al postre más querido de nuestras fiestas y tardes pinoleras: buñuelos de yuca y queso bañados en miel.',
-    detail: 'Lona cruda resistente 32×35 cm • Hecho en Nicaragua',
+      'Bolso utilitario en lona de algodón pesado con ilustración serigráfica de Buñuelos tradicionales. Espacioso y duradero.',
+    detail: 'Lona 100% Algodón 12oz • Medidas 38x42 cm',
     price: 430,
     sizes: ['Unitalla'],
-    image: '/assets/products/tote-bunuelos.jpg',
+    image: '/assets/products/tote-bunuelos.webp',
     soldOut: false,
-    darkBg: '#2e1b0d',
-    lightBg: '#eee0d2',
+    darkBg: '#20160d',
+    lightBg: '#eee3d8',
     colors: [
-      { id: 'crema', label: 'Lona Cruda', bgClass: 'bg-[#e6e1d5]', price: 430, image: '/assets/products/tote-bunuelos.jpg' }
+      { id: 'crema', label: 'Lona Cruda', bgClass: 'bg-[#e6e1d5]', price: 430, image: '/assets/products/tote-bunuelos.webp' }
     ],
     defaultColor: 'crema'
   },
@@ -405,17 +406,16 @@ const ALL_CATALOG_PRODUCTS = [
     collection: 'totebags',
     name: 'TOTE FAUNA LOCAL',
     description:
-      'Ilustración botánica y ornitológica del Guardabarranco sobre lona cruda de alta resistencia para uso diario.',
-    detail: 'Lona cruda resistente 32×35 cm • Hecho en Nicaragua',
+      'Bolso de autor con aves autóctonas nicaragüenses. Costuras reforzadas para libros, compras o viajes.',
+    detail: 'Lona 100% Algodón 12oz • Medidas 38x42 cm',
     price: 430,
     sizes: ['Unitalla'],
-    image: '/assets/products/tote-fauna.jpg',
-    soldOut: true,
-    soldOutLabel: 'AGOTADO TEMPORALMENTE',
-    darkBg: '#102b26',
-    lightBg: '#dbe9e2',
+    image: '/assets/products/tote-fauna.webp',
+    soldOut: false,
+    darkBg: '#12241e',
+    lightBg: '#dbece5',
     colors: [
-      { id: 'crema', label: 'Lona Cruda', bgClass: 'bg-[#e6e1d5]', price: 430, image: '/assets/products/tote-fauna.jpg' }
+      { id: 'crema', label: 'Lona Cruda', bgClass: 'bg-[#e6e1d5]', price: 430, image: '/assets/products/tote-fauna.webp' }
     ],
     defaultColor: 'crema'
   },
@@ -424,17 +424,16 @@ const ALL_CATALOG_PRODUCTS = [
     collection: 'totebags',
     name: 'TOTE NICARAGUA',
     description:
-      'Catedral colonial, volcán y Sacuanjoche estampados en verde bosque profundo sobre bolso de lona artesanal.',
-    detail: 'Lona cruda resistente 32×35 cm • Hecho en Nicaragua',
+      'Estampa completa de identidad nacional sobre lienzo natural. Asas resistentes para llevar al hombro cómodamente.',
+    detail: 'Lona 100% Algodón 12oz • Medidas 38x42 cm',
     price: 430,
     sizes: ['Unitalla'],
-    image: '/assets/products/tote-nicaragua.jpg',
-    soldOut: true,
-    soldOutLabel: 'AGOTADO TEMPORALMENTE',
-    darkBg: '#0e2235',
-    lightBg: '#dae4ee',
+    image: '/assets/products/tote-nicaragua.webp',
+    soldOut: false,
+    darkBg: '#122026',
+    lightBg: '#dbe6ec',
     colors: [
-      { id: 'crema', label: 'Lona Cruda', bgClass: 'bg-[#e6e1d5]', price: 430, image: '/assets/products/tote-nicaragua.jpg' }
+      { id: 'crema', label: 'Lona Cruda', bgClass: 'bg-[#e6e1d5]', price: 430, image: '/assets/products/tote-nicaragua.webp' }
     ],
     defaultColor: 'crema'
   },
@@ -443,16 +442,16 @@ const ALL_CATALOG_PRODUCTS = [
     collection: 'totebags',
     name: 'TOTE CATEDRAL DE GRANADA',
     description:
-      'La emblemática arquitectura de La Gran Sultana impresa con técnica DTF sobre lona cruda ecológica de gran durabilidad.',
-    detail: 'Lona cruda resistente 32×35 cm • Hecho en Nicaragua',
+      'La silueta colonial de La Gran Sultana grabada con tintas ecológicas sobre lona cruda prémium.',
+    detail: 'Lona 100% Algodón 12oz • Medidas 38x42 cm',
     price: 430,
     sizes: ['Unitalla'],
-    image: '/assets/products/catedral-photo.png',
+    image: '/assets/products/catedral-photo.webp',
     soldOut: false,
-    darkBg: '#2b1a16',
-    lightBg: '#e8dcda',
+    darkBg: '#2b1a17',
+    lightBg: '#eededb',
     colors: [
-      { id: 'crema', label: 'Lona Cruda', bgClass: 'bg-[#e6e1d5]', price: 430, image: '/assets/products/catedral-photo.png' }
+      { id: 'crema', label: 'Lona Cruda', bgClass: 'bg-[#e6e1d5]', price: 430, image: '/assets/products/catedral-photo.webp' }
     ],
     defaultColor: 'crema'
   },
@@ -461,41 +460,37 @@ const ALL_CATALOG_PRODUCTS = [
     collection: 'totebags',
     name: 'TOTE SOPA DE QUESO',
     description:
-      'Ilustración gastronómica colonial en bolso utilitario de lona resistente con asas reforzadas para uso diario.',
-    detail: 'Lona cruda resistente 32×35 cm • Hecho en Nicaragua',
+      'El homenaje gráfico más sabroso de Cuaresma en un accesorio cotidiano de alta resistencia.',
+    detail: 'Lona 100% Algodón 12oz • Medidas 38x42 cm',
     price: 430,
     sizes: ['Unitalla'],
-    image: '/assets/products/sopa-photo.png',
+    image: '/assets/products/sopa-photo.webp',
     soldOut: false,
     darkBg: '#29210c',
-    lightBg: '#eae3d0',
+    lightBg: '#eee3c8',
     colors: [
-      { id: 'crema', label: 'Lona Cruda', bgClass: 'bg-[#e6e1d5]', price: 430, image: '/assets/products/sopa-photo.png' }
+      { id: 'crema', label: 'Lona Cruda', bgClass: 'bg-[#e6e1d5]', price: 430, image: '/assets/products/sopa-photo.webp' }
     ],
     defaultColor: 'crema'
   }
 ];
 
-// Drop Octubre (6 piezas para el carrusel inferior)
-const DROP_OCTUBRE_ITEMS = ALL_CATALOG_PRODUCTS.filter((p) => p.collection === 'mitos');
-
-// Colección Cultural (12 piezas para el carrusel cultural)
-const COLECCION_CULTURAL_ITEMS = ALL_CATALOG_PRODUCTS.filter(
-  (p) => p.collection === 'raices' || p.collection === 'sazon' || p.collection === 'estampas'
-);
-
-// Tote Bags (5 piezas para el carrusel inferior de bolsos)
-const TOTE_BAGS_ITEMS = ALL_CATALOG_PRODUCTS.filter((p) => p.collection === 'totebags');
+// Divisiones por colección para el layout vertical
+const MITOS_ITEMS = ALL_CATALOG_PRODUCTS.filter((p) => p.collection === 'mitos');
+const RAICES_ITEMS = ALL_CATALOG_PRODUCTS.filter((p) => p.collection === 'raices');
+const SAZON_ITEMS = ALL_CATALOG_PRODUCTS.filter((p) => p.collection === 'sazon');
+const ESTAMPAS_ITEMS = ALL_CATALOG_PRODUCTS.filter((p) => p.collection === 'estampas');
+const TOTE_ITEMS = ALL_CATALOG_PRODUCTS.filter((p) => p.collection === 'totebags');
 
 // ================= FAQ Y POLÍTICAS =================
 const FAQS = [
   {
     q: '¿Cómo funcionan los envíos en Managua y Departamentos?',
-    a: 'En Managua realizamos entregas rápidas con servicio motorizado privado (tarifa estándar C$ 80 - 120 según tu sector). Para todos los departamentos de Nicaragua, despachamos vía CargoTrans directo a sucursal o con entrega a domicilio.'
+    a: 'En Managua realizamos entregas mediante servicio motorizado express directamente a tu domicilio o lugar de trabajo. Para todos los departamentos de Nicaragua despachamos a través de CargoTrans con número de guía oficial para rastreo en tiempo real.'
   },
   {
-    q: '¿Puedo retirar mi pedido personalmente (Pick Up)?',
-    a: '¡Sí! Puedes retirar tu pedido sin costo adicional en El Cortijo de la Sierra, km 13 Carretera a Masaya, coordinando previamente tu horario de recogida por WhatsApp.'
+    q: '¿Tienen punto de retiro físico (Pick Up)?',
+    a: 'Sí, disponemos de punto de retiro gratuito previa confirmación de pedido por WhatsApp en El Cortijo de la Sierra km 13 Carretera a Masaya, Managua.'
   },
   {
     q: '¿Cuáles son los horarios de despacho?',
@@ -511,7 +506,7 @@ const FAQS = [
   }
 ];
 
-// Variantes de transición para el Slider
+// Variantes para animación del Slider
 const heroItemVariants = {
   enter: (dir) => ({
     opacity: 0,
@@ -529,90 +524,271 @@ const heroItemVariants = {
   })
 };
 
-// Helper puro para obtener tarjetas cíclicas
-const getVisibleCyclicItems = (items, startIndex, count = 3) => {
-  const total = items.length;
-  if (total === 0) return [];
-  return Array.from({ length: Math.min(count, total) }, (_, offset) => {
-    const idx = (startIndex + offset) % total;
-    return { item: items[idx], index: idx };
-  });
-};
+// ================= COMPONENTE DE PRODUCTO EDITORIAL PARA SECCIONES VERTICALES =================
+function CollectionProductCard({
+  product,
+  currency,
+  formatPrice,
+  isInverted,
+  onAddToCart,
+  onOpenSizeGuide
+}) {
+  const [selectedColor, setSelectedColor] = useState(
+    product.defaultColor || product.colors?.[0]?.id || 'blanco'
+  );
+  const [selectedSize, setSelectedSize] = useState(
+    product.sizes.includes('M') ? 'M' : product.sizes[0]
+  );
+  const [qty, setQty] = useState(1);
 
+  const currentColorVariant = useMemo(() => {
+    if (!product.colors || product.colors.length === 0) return null;
+    return product.colors.find((c) => c.id === selectedColor) || product.colors[0];
+  }, [product, selectedColor]);
+
+  const currentPrice = currentColorVariant?.price || product.price;
+  const currentImage = currentColorVariant?.image || product.image;
+
+  const handleAdd = () => {
+    if (product.soldOut) return;
+    const colorLabel = currentColorVariant ? ` (${currentColorVariant.label})` : '';
+    onAddToCart({
+      id: `${product.id}-${currentColorVariant?.id || 'default'}`,
+      name: `${product.name}${colorLabel}`,
+      size: selectedSize,
+      price: currentPrice,
+      image: currentImage,
+      qty: qty
+    });
+  };
+
+  return (
+    <div
+      className={`rounded-3xl overflow-hidden border flex flex-col justify-between transition-all duration-300 hover:shadow-2xl ${
+        isInverted
+          ? 'bg-white/70 border-[#081f1a]/15 hover:border-[#081f1a]/30'
+          : 'bg-white/[0.03] border-white/10 hover:border-white/20 hover:bg-white/[0.05]'
+      }`}
+    >
+      {/* Contenedor de Imagen con marco editorial sobrio y máscara suave */}
+      <div className="relative aspect-[4/5] w-full overflow-hidden bg-black/15 flex items-center justify-center p-3 sm:p-4">
+        <div
+          className="relative w-full h-full flex items-center justify-center"
+          style={{
+            maskImage:
+              'radial-gradient(ellipse 90% 88% at 50% 50%, black 65%, rgba(0,0,0,0.8) 82%, transparent 100%)',
+            WebkitMaskImage:
+              'radial-gradient(ellipse 90% 88% at 50% 50%, black 65%, rgba(0,0,0,0.8) 82%, transparent 100%)'
+          }}
+        >
+          <AnimatePresence mode="popLayout" initial={false}>
+            <motion.img
+              key={currentImage}
+              src={currentImage}
+              alt={`${product.name} ${currentColorVariant?.label || ''}`}
+              loading="lazy"
+              decoding="async"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.28, ease: 'easeInOut' }}
+              className="w-full h-full object-contain object-center drop-shadow-xl select-none"
+            />
+          </AnimatePresence>
+        </div>
+
+        {product.soldOut && (
+          <div className="absolute inset-0 bg-red-950/75 backdrop-blur-[2px] flex items-center justify-center p-4">
+            <span className="text-white font-extrabold text-[11px] sm:text-xs tracking-[0.25em] uppercase px-4 py-2 border border-white/30 rounded-md shadow-xl text-center">
+              {product.soldOutLabel || 'AGOTADO TEMPORALMENTE'}
+            </span>
+          </div>
+        )}
+      </div>
+
+      {/* Contenido y Lógica de Compra */}
+      <div className="p-5 sm:p-6 space-y-4 flex-1 flex flex-col justify-between">
+        <div className="space-y-1.5">
+          <div className="flex items-start justify-between gap-2">
+            <h3
+              className={`text-lg sm:text-xl font-bold tracking-tight uppercase leading-tight ${
+                isInverted ? 'text-[#081f1a]' : 'text-white'
+              }`}
+            >
+              {product.name}
+            </h3>
+            <span
+              className={`text-base sm:text-lg font-bold shrink-0 ${
+                isInverted ? 'text-[#081f1a]' : 'text-[#e6e1d5]'
+              }`}
+            >
+              {formatPrice(currentPrice)}
+            </span>
+          </div>
+          <p className="text-xs opacity-75 leading-relaxed line-clamp-2">
+            {product.description}
+          </p>
+          <span className="text-[10px] uppercase tracking-wider opacity-60 block">
+            {product.detail}
+          </span>
+        </div>
+
+        <div className="space-y-3.5 pt-2 border-t border-current/10">
+          {/* Swatches de Color Reactivos (Cross-fade) */}
+          {product.colors && product.colors.length > 1 && (
+            <div className="flex items-center justify-between">
+              <span className="text-[11px] uppercase tracking-wider opacity-75 font-medium">
+                Color ({currentColorVariant?.label || 'Blanco'}):
+              </span>
+              <div className="flex items-center gap-2.5">
+                {product.colors.map((color) => {
+                  const active = selectedColor === color.id;
+                  return (
+                    <button
+                      key={color.id}
+                      type="button"
+                      onClick={() => setSelectedColor(color.id)}
+                      title={`${color.label} — ${formatPrice(color.price)}`}
+                      aria-label={`${color.label} ${formatPrice(color.price)}`}
+                      className={`w-9 h-9 min-w-[36px] min-h-[36px] rounded-full ${color.bgClass} border border-black/25 transition-transform cursor-pointer flex items-center justify-center shrink-0 ${
+                        active
+                          ? isInverted
+                            ? 'ring-2 ring-[#081f1a] ring-offset-2 ring-offset-[#e6e1d5] scale-110'
+                            : 'ring-2 ring-white/80 ring-offset-2 ring-offset-black/50 scale-110'
+                          : 'opacity-70 hover:opacity-100 hover:scale-105'
+                      }`}
+                    />
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Selector de Tallas */}
+          {product.sizes && product.sizes.length > 1 && (
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="text-[11px] uppercase tracking-wider opacity-75 font-medium">
+                  Talla:
+                </span>
+                <button
+                  type="button"
+                  onClick={onOpenSizeGuide}
+                  className="text-[10px] underline opacity-60 hover:opacity-100 cursor-pointer"
+                >
+                  Medidas
+                </button>
+              </div>
+              <div className="flex items-center gap-1.5 flex-wrap justify-end">
+                {product.sizes.map((sz) => {
+                  const activeSz = selectedSize === sz;
+                  return (
+                    <button
+                      key={sz}
+                      type="button"
+                      onClick={() => setSelectedSize(sz)}
+                      className={`${
+                        sz === 'Unitalla' || sz === 'Otra talla'
+                          ? 'px-3 h-8 sm:h-9'
+                          : 'w-8 h-8 sm:w-9 sm:h-9 min-w-[34px]'
+                      } rounded-full text-xs font-semibold border transition-all flex items-center justify-center cursor-pointer shrink-0 ${
+                        activeSz
+                          ? isInverted
+                            ? 'bg-[#081f1a] text-[#e6e1d5] border-[#081f1a] shadow-xs'
+                            : 'bg-[#e6e1d5] text-[#081f1a] border-[#e6e1d5] shadow-xs'
+                          : isInverted
+                          ? 'border-[#081f1a]/20 text-[#081f1a]/80 hover:border-[#081f1a]/50'
+                          : 'border-[#e6e1d5]/20 text-[#e6e1d5]/80 hover:border-[#e6e1d5]/50'
+                      }`}
+                    >
+                      {sz}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Cantidad para Tote Bags */}
+          {product.collection === 'totebags' && (
+            <div className="flex items-center justify-between pt-1">
+              <span className="text-[11px] uppercase tracking-wider opacity-75 font-medium">
+                Cantidad:
+              </span>
+              <div
+                className={`flex items-center gap-2 border px-2.5 py-1 rounded-full ${
+                  isInverted ? 'border-[#081f1a]/20' : 'border-[#e6e1d5]/20'
+                }`}
+              >
+                <button
+                  type="button"
+                  onClick={() => setQty((q) => Math.max(1, q - 1))}
+                  className="p-1 opacity-75 hover:opacity-100 cursor-pointer"
+                  aria-label="Disminuir cantidad"
+                >
+                  <Minus className="w-3.5 h-3.5" />
+                </button>
+                <span className="text-xs font-bold w-5 text-center">{qty}</span>
+                <button
+                  type="button"
+                  onClick={() => setQty((q) => q + 1)}
+                  className="p-1 opacity-75 hover:opacity-100 cursor-pointer"
+                  aria-label="Aumentar cantidad"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Botón de Añadir a la Bolsa */}
+          <button
+            type="button"
+            onClick={handleAdd}
+            disabled={product.soldOut}
+            className={`w-full py-3.5 px-5 rounded-full font-semibold text-xs uppercase tracking-wider transition-all shadow-md mt-2 ${
+              product.soldOut
+                ? 'bg-red-950/60 text-white/70 border border-red-500/30 cursor-not-allowed'
+                : isInverted
+                ? 'bg-[#081f1a] text-[#e6e1d5] hover:bg-[#0e3831] cursor-pointer hover:shadow-lg active:scale-[0.99]'
+                : 'bg-[#e6e1d5] text-[#081f1a] hover:bg-white cursor-pointer hover:shadow-lg active:scale-[0.99]'
+            }`}
+          >
+            {product.soldOut
+              ? product.soldOutLabel || 'AGOTADO'
+              : '+ Añadir a la bolsa'}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ================= COMPONENTE PRINCIPAL =================
 export default function App() {
-  // Modo Oscuro (false) vs Modo Claro Invertido (true)
   const [isInverted, setIsInverted] = useState(false);
+  const [currency, setCurrency] = useState('NIO'); // 'NIO' | 'USD'
 
-  // Filtro de Colección activa en Header (inicia por defecto en MITOS DE LA NOCHE)
-  const [selectedCollection, setSelectedCollection] = useState('mitos');
-
-  // Productos filtrados según la colección seleccionada
-  const activeProducts = useMemo(() => {
-    return ALL_CATALOG_PRODUCTS.filter((p) => p.collection === selectedCollection);
-  }, [selectedCollection]);
-
-  // Estado del Showcase
-  const [currentIndex, setCurrentIndex] = useState(0);
+  // Slider de Mitos de la Noche (Hero)
+  const [heroIndex, setHeroIndex] = useState(0);
   const [direction, setDirection] = useState(1);
   const [heroSize, setHeroSize] = useState('M');
-  const [heroColor, setHeroColor] = useState('blanco');
+  const [heroColor, setHeroColor] = useState('negro');
 
-  // Moneda activa (C$ NIO / USD Dólares)
-  const [currency, setCurrency] = useState('NIO');
-
-  // Checkout inputs
+  // Carrito lateral
+  const [cart, setCart] = useState([]);
+  const [isCartOpen, setIsCartOpen] = useState(false);
   const [deliveryAddress, setDeliveryAddress] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('Transferencia bancaria');
 
-  // Modal Guía de Tallas y FAQ acordeón
+  // Modales
   const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
   const [openFaq, setOpenFaq] = useState(null);
 
-  // Índices para carruseles inferiores
-  const [octubreIdx, setOctubreIdx] = useState(0);
-  const [octubreDir, setOctubreDir] = useState(1);
+  // Producto activo del Hero
+  const currentHeroProduct = MITOS_ITEMS[heroIndex] || MITOS_ITEMS[0];
 
-  const [culturalIdx, setCulturalIdx] = useState(0);
-  const [culturalDir, setCulturalDir] = useState(1);
-
-  const [toteIdx, setToteIdx] = useState(0);
-  const [toteDir, setToteDir] = useState(1);
-
-  // Tallas para Drop Octubre
-  const [octubreSizes, setOctubreSizes] = useState(() => {
-    const init = {};
-    DROP_OCTUBRE_ITEMS.forEach((item) => {
-      init[item.id] = item.sizes.includes('M') ? 'M' : item.sizes[0];
-    });
-    return init;
-  });
-
-  // Configuración de talla y tono para Colección Cultural
-  const [culturalConfig, setCulturalConfig] = useState(() => {
-    const initial = {};
-    COLECCION_CULTURAL_ITEMS.forEach((item) => {
-      initial[item.id] = { size: 'M', tone: item.defaultColor || 'blanco' };
-    });
-    return initial;
-  });
-
-  // Cantidades para Tote Bags
-  const [toteQty, setToteQty] = useState({
-    'tote-bunuelos-bag': 1,
-    'tote-fauna-local': 1,
-    'tote-nicaragua-bag': 1,
-    'tote-catedral-bag': 1,
-    'tote-sopa-bag': 1
-  });
-
-  // Carrito
-  const [cart, setCart] = useState([]);
-  const [isCartOpen, setIsCartOpen] = useState(false);
-
-  // Producto activo actual
-  const currentHeroProduct = activeProducts[currentIndex] || activeProducts[0];
-
-  // Variante de color activa para el producto actual (reactiva al hacer clic en swatches)
+  // Variante de color activa para el Hero
   const currentHeroColorVariant = useMemo(() => {
     if (!currentHeroProduct?.colors || currentHeroProduct.colors.length === 0) return null;
     return (
@@ -621,13 +797,10 @@ export default function App() {
     );
   }, [currentHeroProduct, heroColor]);
 
-  // Imagen reactiva según color seleccionado
   const currentHeroImage = currentHeroColorVariant?.image || currentHeroProduct?.image;
-
-  // Precio reactivo según color seleccionado
   const currentHeroPrice = currentHeroColorVariant?.price || currentHeroProduct?.price || 480;
 
-  // Formateo de precio dual
+  // Formato de precios dual
   const formatPrice = useCallback(
     (nioAmount, curr = currency) => {
       if (curr === 'USD') {
@@ -639,82 +812,74 @@ export default function App() {
     [currency]
   );
 
-  // Al cambiar de producto o colección, sincronizar color por defecto y talla
-  const syncProductDefaults = useCallback((prod) => {
+  // Sincronizar color y talla al cambiar de slide en Hero
+  const syncHeroDefaults = useCallback((prod) => {
     if (!prod) return;
     const defCol = prod.defaultColor || prod.colors?.[0]?.id || 'blanco';
     setHeroColor(defCol);
-    setHeroSize(prod.sizes.includes('M') ? 'M' : prod.sizes[0]);
-  }, []);
+    if (!prod.sizes.includes(heroSize)) {
+      setHeroSize(prod.sizes[0]);
+    }
+  }, [heroSize]);
 
-  // Navegación del slider
-  const handleSlide = useCallback(
+  // Manejador del Slider Hero
+  const handleHeroSlide = useCallback(
     (dir) => {
       setDirection(dir);
-      setCurrentIndex((prev) => {
-        const total = activeProducts.length;
-        if (total === 0) return 0;
+      setHeroIndex((prev) => {
+        const total = MITOS_ITEMS.length;
         const nextIdx = dir > 0 ? (prev + 1) % total : (prev - 1 + total) % total;
-        syncProductDefaults(activeProducts[nextIdx]);
+        syncHeroDefaults(MITOS_ITEMS[nextIdx]);
         return nextIdx;
       });
     },
-    [activeProducts, syncProductDefaults]
+    [syncHeroDefaults]
   );
 
-  // Listener de teclado
+  // Controles de teclado
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (isCartOpen || isSizeGuideOpen) return;
-      if (e.key === 'ArrowRight') handleSlide(1);
-      else if (e.key === 'ArrowLeft') handleSlide(-1);
+      if (e.key === 'ArrowRight') handleHeroSlide(1);
+      else if (e.key === 'ArrowLeft') handleHeroSlide(-1);
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [handleSlide, isCartOpen, isSizeGuideOpen]);
+  }, [handleHeroSlide, isCartOpen, isSizeGuideOpen]);
 
+  // Soporte táctil swipe para el Hero
   const touchStartX = useRef(null);
   const handleTouchStart = useCallback((e) => {
     touchStartX.current = e.touches[0].clientX;
   }, []);
 
-  const handleTouchEnd = useCallback((e, stepFn) => {
+  const handleTouchEnd = useCallback((e) => {
     if (touchStartX.current === null) return;
     const diff = touchStartX.current - e.changedTouches[0].clientX;
-    if (diff > 40) stepFn(1);
-    else if (diff < -40) stepFn(-1);
+    if (diff > 40) handleHeroSlide(1);
+    else if (diff < -40) handleHeroSlide(-1);
     touchStartX.current = null;
-  }, []);
+  }, [handleHeroSlide]);
 
-  const stepOctubre = (dir) => {
-    setOctubreDir(dir);
-    const total = DROP_OCTUBRE_ITEMS.length;
-    setOctubreIdx((prev) => (dir > 0 ? (prev + 1) % total : (prev - 1 + total) % total));
-  };
-
-  const stepCultural = (dir) => {
-    setCulturalDir(dir);
-    const total = COLECCION_CULTURAL_ITEMS.length;
-    setCulturalIdx((prev) => (dir > 0 ? (prev + 1) % total : (prev - 1 + total) % total));
-  };
-
-  const stepTote = (dir) => {
-    setToteDir(dir);
-    const total = TOTE_BAGS_ITEMS.length;
-    setToteIdx((prev) => (dir > 0 ? (prev + 1) % total : (prev - 1 + total) % total));
+  // Scroll suave hacia sección
+  const scrollToSection = (id) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   // Carrito helpers
-  const addItemToCart = ({ id, name, size, price, image, qty = 1 }) => {
-    const key = `${id}-${size}-${price}`;
+  const addItemToCart = (item) => {
     setCart((prev) => {
-      const existing = prev.find((item) => item.key === key);
+      const key = `${item.id}-${item.size}`;
+      const existing = prev.find((i) => i.key === key);
       if (existing) {
-        return prev.map((item) =>
-          item.key === key ? { ...item, qty: item.qty + qty } : item
+        return prev.map((i) =>
+          i.key === key ? { ...i, qty: i.qty + (item.qty || 1) } : i
         );
       }
-      return [...prev, { key, id, name, size, price, image, qty }];
+      return [...prev, { ...item, key }];
     });
     setIsCartOpen(true);
   };
@@ -735,277 +900,171 @@ export default function App() {
     });
   };
 
-  const handleAddOctubreToCart = (item) => {
-    if (item.soldOut) return;
-    const sz = octubreSizes[item.id] || item.sizes[0];
-    addItemToCart({
-      id: item.id,
-      name: item.name,
-      size: sz,
-      price: item.price,
-      image: item.image,
-      qty: 1
-    });
-  };
-
-  const handleAddCulturalToCart = (item) => {
-    if (item.soldOut) return;
-    const cfg = culturalConfig[item.id] || { size: 'M', tone: item.defaultColor || 'blanco' };
-    const colorObj = item.colors?.find((c) => c.id === cfg.tone) || item.colors?.[0];
-    const price = colorObj?.price || (cfg.tone === 'crema' ? 490 : 480);
-    const img = colorObj?.image || item.image;
-    const toneLabel = colorObj?.label || (cfg.tone === 'crema' ? 'Crema' : 'Blanco');
-
-    addItemToCart({
-      id: `${item.id}-${cfg.tone}`,
-      name: `${item.name} (${toneLabel})`,
-      size: cfg.size,
-      price,
-      image: img,
-      qty: 1
-    });
-  };
-
-  const handleAddToteToCart = (tote) => {
-    if (tote.soldOut) return;
-    const qty = toteQty[tote.id] || 1;
-    addItemToCart({
-      id: tote.id,
-      name: `Tote Bag ${tote.name}`,
-      size: '32×35 cm',
-      price: tote.price,
-      image: tote.image,
-      qty
-    });
-  };
-
   const handleRemoveFromCart = (key) => {
     setCart((prev) => prev.filter((item) => item.key !== key));
   };
 
-  const cartCount = useMemo(() => cart.reduce((acc, item) => acc + item.qty, 0), [cart]);
-  const cartTotal = useMemo(
-    () => cart.reduce((acc, item) => acc + item.price * item.qty, 0),
-    [cart]
-  );
+  const cartTotal = useMemo(() => {
+    return cart.reduce((acc, item) => acc + item.price * item.qty, 0);
+  }, [cart]);
 
+  const cartCount = useMemo(() => {
+    return cart.reduce((acc, item) => acc + item.qty, 0);
+  }, [cart]);
+
+  // Generador de enlace de WhatsApp
   const getCheckoutWhatsAppUrl = () => {
-    if (cart.length === 0) {
-      return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-        '¡Hola MIPEUE! Me gustaría consultar por su catálogo.'
-      )}`;
+    let msg = `*NUEVO PEDIDO — MiPEUE OFICIAL*\n`;
+    msg += `--------------------------------------\n`;
+    cart.forEach((item, idx) => {
+      msg += `${idx + 1}. *${item.name}*\n`;
+      msg += `   • Talla: ${item.size}\n`;
+      msg += `   • Cantidad: ${item.qty}\n`;
+      msg += `   • Subtotal: ${formatPrice(item.price * item.qty)}\n`;
+    });
+    msg += `--------------------------------------\n`;
+    msg += `*TOTAL ESTIMADO:* ${formatPrice(cartTotal)}\n`;
+    msg += `*MONEDA PREFERIDA:* ${currency === 'USD' ? 'Dólares (USD)' : 'Córdobas (C$)'}\n`;
+    msg += `*MÉTODO DE PAGO:* ${paymentMethod}\n`;
+    if (deliveryAddress.trim()) {
+      msg += `*DIRECCIÓN DE ENTREGA:* ${deliveryAddress.trim()}\n`;
     }
-    const itemsList = cart
-      .map(
-        (item) =>
-          `• ${item.qty}x ${item.name} (Talla: ${item.size}) — ${formatPrice(
-            item.price * item.qty,
-            currency
-          )}`
-      )
-      .join('\n');
-
-    const addressText = deliveryAddress.trim()
-      ? `Dirección de entrega: ${deliveryAddress.trim()}`
-      : 'Dirección de entrega: (A coordinar)';
-
-    const text = `¡Hola MIPEUE! Quiero realizar el siguiente pedido:\n\n${itemsList}\n\nTotal artículos: ${formatPrice(
-      cartTotal,
-      currency
-    )} (Envío pendiente de cotizar)\n${addressText}\nMétodo de pago previsto: ${paymentMethod}`;
-
-    return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
+    msg += `--------------------------------------\n`;
+    msg += `Hola Meysi / Equipo MiPEUE, deseo confirmar este pedido y coordinar el envío.`;
+    return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
   };
-
-  // Fondo adaptativo
-  const adaptiveSurfaceStyle = useMemo(
-    () => ({
-      backgroundColor: isInverted
-        ? currentHeroProduct?.lightBg || '#efe4d8'
-        : currentHeroProduct?.darkBg || '#081f1a',
-      backgroundImage: isInverted
-        ? 'radial-gradient(circle at 50% 42%, rgba(255, 255, 255, 0.55) 0%, rgba(8, 31, 26, 0.06) 100%)'
-        : 'radial-gradient(circle at 50% 42%, rgba(255, 255, 255, 0.08) 0%, rgba(0, 0, 0, 0.55) 100%)',
-      transition:
-        'background-color 0.7s cubic-bezier(0.4, 0, 0.2, 1), background 0.7s cubic-bezier(0.4, 0, 0.2, 1), color 0.5s ease'
-    }),
-    [isInverted, currentHeroProduct]
-  );
-
-  const visibleOctubre = useMemo(
-    () => getVisibleCyclicItems(DROP_OCTUBRE_ITEMS, octubreIdx, 3),
-    [octubreIdx]
-  );
-  const visibleCultural = useMemo(
-    () => getVisibleCyclicItems(COLECCION_CULTURAL_ITEMS, culturalIdx, 3),
-    [culturalIdx]
-  );
-  const visibleTotes = useMemo(
-    () => getVisibleCyclicItems(TOTE_BAGS_ITEMS, toteIdx, 3),
-    [toteIdx]
-  );
 
   return (
     <div
-      style={adaptiveSurfaceStyle}
-      className={`min-h-screen select-none ${
-        isInverted ? 'text-[#081f1a]' : 'text-[#e6e1d5]'
+      className={`min-h-screen w-full transition-colors duration-500 overflow-x-hidden selection:bg-[#081f1a] selection:text-[#e6e1d5] ${
+        isInverted
+          ? 'bg-[#e6e1d5] text-[#081f1a]'
+          : 'bg-[#081f1a] text-[#e6e1d5]'
       }`}
     >
-      {/* ================= HEADER SUPERIOR FIJO ================= */}
-      <header className="fixed top-0 left-0 right-0 z-30 px-4 md:px-10 py-3.5 md:py-5 flex flex-wrap md:flex-nowrap items-center justify-between gap-x-4 gap-y-2.5 pointer-events-none">
-        {/* Izquierda: Logotipo Oficial MiPEUE en PNG transparente (sin badge MP) */}
-        <a
-          href="#hero"
-          className="pointer-events-auto flex items-center gap-2 cursor-pointer group"
-          title="MiPEUE — Cultura Nica"
-        >
-          <img
-            src={isInverted ? '/assets/brand/mipeue-logo-negro.png' : '/assets/brand/mipeue-logo-crema.png'}
-            alt="MiPEUE"
-            className="h-8 md:h-9 w-auto object-contain transition-opacity group-hover:opacity-85"
-          />
-        </a>
+      {/* ================= HEADER PRINCIPAL FIJO ================= */}
+      <header className="fixed top-0 left-0 right-0 z-30 px-3 sm:px-6 md:px-8 py-3 md:py-4 pointer-events-none w-full max-w-full">
+        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2.5 sm:gap-4">
+          {/* Logo Oficial MiPEUE */}
+          <a
+            href="#hero"
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToSection('hero');
+            }}
+            className="pointer-events-auto flex items-center transition-transform hover:scale-105 group"
+            aria-label="Ir al inicio"
+          >
+            <img
+              src={isInverted ? '/assets/brand/mipeue-logo-negro.png' : '/assets/brand/mipeue-logo-crema.png'}
+              alt="MiPEUE"
+              className="h-8 md:h-9 w-auto object-contain transition-opacity group-hover:opacity-85"
+            />
+          </a>
 
-        {/* Centro: Píldora de Colecciones Oficiales [ MITOS DE LA NOCHE | RAÍCES | SAZÓN Y SON NICA | ESTAMPAS DEL PUEBLO | TOTE BAGS ] */}
-        <nav
-          className={`pointer-events-auto backdrop-blur-md rounded-full p-1 md:p-1.5 border flex items-center gap-1 order-3 w-full justify-start md:justify-center overflow-x-auto whitespace-nowrap no-scrollbar scroll-smooth md:order-none md:w-auto max-w-full transition-colors duration-300 ${
-            isInverted
-              ? 'bg-white/60 border-[#081f1a]/15'
-              : 'bg-black/35 border-[#e6e1d5]/15'
-          }`}
-        >
-          {COLLECTIONS_TABS.map((tab) => {
-            const active = selectedCollection === tab.id;
-            return (
+          {/* Píldora de Navegación por Secciones [ MITOS DE LA NOCHE | RAÍCES | SAZÓN Y SON NICA | ESTAMPAS DEL PUEBLO | TOTE BAGS ] */}
+          <nav
+            className={`pointer-events-auto backdrop-blur-md rounded-full p-1 md:p-1.5 border flex items-center gap-1 order-3 w-full justify-start md:justify-center overflow-x-auto whitespace-nowrap no-scrollbar scroll-smooth md:order-none md:w-auto max-w-full transition-colors duration-300 ${
+              isInverted
+                ? 'bg-white/60 border-[#081f1a]/15'
+                : 'bg-black/35 border-[#e6e1d5]/15'
+            }`}
+          >
+            {NAV_SECTIONS.map((sec) => (
               <button
-                key={tab.id}
+                key={sec.id}
                 type="button"
-                onClick={() => {
-                  setSelectedCollection(tab.id);
-                  setCurrentIndex(0);
-                  const firstProd = ALL_CATALOG_PRODUCTS.find((p) => p.collection === tab.id);
-                  if (firstProd) {
-                    syncProductDefaults(firstProd);
-                  }
-                }}
+                onClick={() => scrollToSection(sec.id)}
                 className={`px-3 py-2 md:px-3.5 md:py-2 rounded-full text-[10px] sm:text-xs font-semibold tracking-[0.11em] md:tracking-[0.13em] uppercase transition-all duration-200 whitespace-nowrap shrink-0 min-h-[36px] flex items-center justify-center cursor-pointer ${
-                  active
+                  sec.id === 'hero'
                     ? isInverted
-                      ? 'bg-[#081f1a] text-[#e6e1d5] shadow-sm'
-                      : 'bg-[#e6e1d5] text-[#081f1a] shadow-sm'
+                      ? 'bg-[#081f1a] text-[#e6e1d5] shadow-xs'
+                      : 'bg-[#e6e1d5] text-[#081f1a] shadow-xs'
                     : isInverted
                     ? 'text-[#081f1a]/75 hover:text-[#081f1a] hover:bg-[#081f1a]/5'
                     : 'text-[#e6e1d5]/75 hover:text-white hover:bg-white/5'
                 }`}
               >
-                {tab.label}
+                {sec.label}
               </button>
-            );
-          })}
-        </nav>
+            ))}
+          </nav>
 
-        {/* Derecha: Selector Moneda + Switch Invertir + WhatsApp + Bolsa */}
-        <div className="pointer-events-auto flex items-center gap-2 sm:gap-2.5">
-          {/* Selector de Moneda C$ / USD */}
-          <button
-            type="button"
-            onClick={() => setCurrency((c) => (c === 'NIO' ? 'USD' : 'NIO'))}
-            className={`h-10 px-3 rounded-full border backdrop-blur-md flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer ${
-              isInverted
-                ? 'bg-white/60 border-[#081f1a]/15 text-[#081f1a] hover:bg-[#081f1a]/10'
-                : 'bg-black/35 border-[#e6e1d5]/15 text-[#e6e1d5] hover:bg-[#e6e1d5]/10'
-            }`}
-            title="Alternar entre Córdobas (C$) y Dólares (USD)"
-            aria-label="Alternar moneda"
-          >
-            <span
-              className={
-                currency === 'NIO'
-                  ? 'font-extrabold opacity-100 underline underline-offset-4 decoration-2'
-                  : 'opacity-55'
-              }
-            >
-              C$
-            </span>
-            <span className="opacity-30 text-[10px]">|</span>
-            <span
-              className={
-                currency === 'USD'
-                  ? 'font-extrabold opacity-100 underline underline-offset-4 decoration-2'
-                  : 'opacity-55'
-              }
-            >
-              USD
-            </span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setIsInverted((prev) => !prev)}
-            className={`h-10 px-3.5 rounded-full border backdrop-blur-md flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wider transition-all duration-300 cursor-pointer ${
-              isInverted
-                ? 'bg-[#081f1a] text-[#e6e1d5] border-[#081f1a]'
-                : 'bg-black/35 text-[#e6e1d5] border-[#e6e1d5]/20 hover:bg-[#e6e1d5] hover:text-[#081f1a]'
-            }`}
-            title="Invertir paleta de color"
-          >
-            <ArrowLeftRight className="w-3.5 h-3.5" />
-            <span className="hidden lg:inline">Invertir Color</span>
-          </button>
-
-          <a
-            href={`https://wa.me/${WHATSAPP_NUMBER}`}
-            target="_blank"
-            rel="noreferrer"
-            title="WhatsApp Directo"
-            className={`w-10 h-10 rounded-full backdrop-blur-md border flex items-center justify-center transition-colors duration-300 ${
-              isInverted
-                ? 'bg-white/60 border-[#081f1a]/15 text-[#081f1a] hover:bg-[#081f1a]/10'
-                : 'bg-black/35 border-[#e6e1d5]/15 text-[#e6e1d5] hover:bg-[#e6e1d5]/10'
-            }`}
-          >
-            <MessageCircle className="w-4 h-4" />
-          </a>
-
-          <button
-            type="button"
-            onClick={() => setIsCartOpen(true)}
-            className={`h-10 px-4 rounded-full backdrop-blur-md border flex items-center gap-2 text-xs font-semibold tracking-wider transition-colors duration-300 cursor-pointer ${
-              isInverted
-                ? 'bg-white/60 border-[#081f1a]/15 text-[#081f1a] hover:bg-[#081f1a]/10'
-                : 'bg-black/35 border-[#e6e1d5]/15 text-[#e6e1d5] hover:bg-[#e6e1d5]/10'
-            }`}
-          >
-            <ShoppingBag className="w-4 h-4" />
-            <span className="hidden sm:inline">Bolsa</span>
-            <span
-              className={`w-5 h-5 rounded-full text-[11px] font-bold flex items-center justify-center transition-colors duration-300 ${
+          {/* Selector de Moneda (C$ | USD) + Bolsa con contador */}
+          <div className="pointer-events-auto flex items-center gap-2 sm:gap-3">
+            {/* Switch de Moneda */}
+            <div
+              className={`backdrop-blur-md rounded-full px-2.5 py-1.5 border flex items-center gap-1 text-[11px] font-bold tracking-wider transition-colors duration-300 ${
                 isInverted
-                  ? 'bg-[#081f1a] text-[#e6e1d5]'
-                  : 'bg-[#e6e1d5] text-[#081f1a]'
+                  ? 'bg-white/60 border-[#081f1a]/15 text-[#081f1a]'
+                  : 'bg-black/35 border-[#e6e1d5]/15 text-[#e6e1d5]'
               }`}
             >
-              {cartCount}
-            </span>
-          </button>
+              <button
+                type="button"
+                onClick={() => setCurrency('NIO')}
+                className={`px-2 py-0.5 rounded-full transition-all cursor-pointer ${
+                  currency === 'NIO'
+                    ? isInverted
+                      ? 'bg-[#081f1a] text-[#e6e1d5]'
+                      : 'bg-[#e6e1d5] text-[#081f1a]'
+                    : 'opacity-60 hover:opacity-100'
+                }`}
+              >
+                C$
+              </button>
+              <span className="opacity-30">|</span>
+              <button
+                type="button"
+                onClick={() => setCurrency('USD')}
+                className={`px-2 py-0.5 rounded-full transition-all cursor-pointer ${
+                  currency === 'USD'
+                    ? isInverted
+                      ? 'bg-[#081f1a] text-[#e6e1d5]'
+                      : 'bg-[#e6e1d5] text-[#081f1a]'
+                    : 'opacity-60 hover:opacity-100'
+                }`}
+              >
+                USD
+              </button>
+            </div>
+
+            {/* Botón de Bolsa */}
+            <button
+              type="button"
+              onClick={() => setIsCartOpen(true)}
+              className={`backdrop-blur-md rounded-full px-3.5 sm:px-4 py-2 border flex items-center gap-2 transition-all cursor-pointer shadow-md ${
+                isInverted
+                  ? 'bg-white/60 border-[#081f1a]/15 text-[#081f1a] hover:bg-white'
+                  : 'bg-black/35 border-[#e6e1d5]/15 text-[#e6e1d5] hover:bg-black/60'
+              }`}
+            >
+              <ShoppingBag className="w-4 h-4" />
+              <span className="text-xs font-bold tracking-wider">
+                BOLSA ({cartCount})
+              </span>
+            </button>
+          </div>
         </div>
       </header>
 
-      {/* ================= HERO SHOWCASE INTERACTIVO ================= */}
+      {/* ================= HERO SHOWCASE: MITOS DE LA NOCHE (DROP OCTUBRE) ================= */}
       <section
         id="hero"
-        className="min-h-screen flex flex-col justify-between p-6 md:p-10 pt-28 md:pt-20 relative"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+        className="min-h-screen flex flex-col justify-center px-4 sm:px-6 md:px-8 pt-28 pb-12 w-full max-w-full overflow-hidden relative"
       >
-        <div className="flex-1 grid grid-cols-1 md:grid-cols-12 items-center gap-4 my-auto">
-          {/* Columna Izquierda: Flechas < > + Contador recalibrado según colección + Título */}
-          <div className="md:col-span-3 flex flex-col items-start justify-center space-y-5 order-2 md:order-1 z-10">
-            <div className="flex items-center gap-2.5">
+        <div className="max-w-7xl mx-auto w-full grid grid-cols-1 md:grid-cols-12 gap-8 items-center flex-1">
+          {/* Columna Izquierda: Información de la prenda destacada */}
+          <div className="md:col-span-3 flex flex-col justify-center space-y-4 order-2 md:order-1 z-10">
+            {/* Controles de Navegación del Slider < > y Contador */}
+            <div className="flex items-center gap-3">
               <button
                 type="button"
-                onClick={() => handleSlide(-1)}
+                onClick={() => handleHeroSlide(-1)}
                 aria-label="Prenda anterior"
-                className={`w-10 h-10 rounded-full border flex items-center justify-center transition-colors cursor-pointer ${
+                className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full border flex items-center justify-center transition-all cursor-pointer ${
                   isInverted
                     ? 'bg-white/60 border-[#081f1a]/20 text-[#081f1a] hover:bg-[#081f1a] hover:text-[#e6e1d5]'
                     : 'bg-black/30 border-[#e6e1d5]/20 text-[#e6e1d5] hover:bg-[#e6e1d5] hover:text-[#081f1a]'
@@ -1015,9 +1074,9 @@ export default function App() {
               </button>
               <button
                 type="button"
-                onClick={() => handleSlide(1)}
+                onClick={() => handleHeroSlide(1)}
                 aria-label="Siguiente prenda"
-                className={`w-10 h-10 rounded-full border flex items-center justify-center transition-colors cursor-pointer ${
+                className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full border flex items-center justify-center transition-all cursor-pointer ${
                   isInverted
                     ? 'bg-white/60 border-[#081f1a]/20 text-[#081f1a] hover:bg-[#081f1a] hover:text-[#e6e1d5]'
                     : 'bg-black/30 border-[#e6e1d5]/20 text-[#e6e1d5] hover:bg-[#e6e1d5] hover:text-[#081f1a]'
@@ -1026,7 +1085,7 @@ export default function App() {
                 <ChevronRight className="w-4 h-4" />
               </button>
               <span className="text-[11px] tracking-widest uppercase opacity-60 ml-1">
-                {currentIndex + 1} / {activeProducts.length}
+                {heroIndex + 1} / {MITOS_ITEMS.length}
               </span>
             </div>
 
@@ -1040,6 +1099,11 @@ export default function App() {
                 exit="exit"
                 className="space-y-3 max-w-sm"
               >
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] uppercase tracking-widest font-bold bg-white/10 border border-white/10">
+                  <Sparkles className="w-3 h-3" />
+                  <span>Drop Octubre • Mitos de la Noche</span>
+                </div>
+
                 <h1
                   className={`text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight leading-[1.06] ${
                     isInverted ? 'text-[#081f1a]' : 'text-white'
@@ -1048,31 +1112,27 @@ export default function App() {
                   {currentHeroProduct.name}
                 </h1>
 
-                <p className="text-xs sm:text-sm opacity-85 leading-relaxed line-clamp-2">
+                <p className="text-xs sm:text-sm opacity-85 leading-relaxed line-clamp-3">
                   {currentHeroProduct.description}
                 </p>
 
-                <p className="text-[11px] uppercase tracking-[0.18em] opacity-65 font-medium">
+                <p className="text-[11px] uppercase tracking-wider opacity-65 font-medium">
                   {currentHeroProduct.detail}
                 </p>
               </motion.div>
             </AnimatePresence>
 
+            {/* Botón "+ Añadir a la bolsa" en desktop */}
             <button
               type="button"
               onClick={handleAddHeroToCart}
               disabled={currentHeroProduct.soldOut}
-              style={
-                isInverted && !currentHeroProduct.soldOut
-                  ? { backgroundColor: currentHeroProduct.darkBg }
-                  : undefined
-              }
-              className={`mt-1 px-6 py-3 rounded-full font-semibold text-xs sm:text-sm tracking-wide flex items-center gap-2 transition-all shadow-lg ${
+              className={`w-full py-3.5 px-6 rounded-full font-bold text-xs uppercase tracking-wider flex items-center justify-between transition-all duration-300 shadow-xl cursor-pointer ${
                 currentHeroProduct.soldOut
-                  ? 'bg-red-800/80 text-white cursor-not-allowed'
+                  ? 'bg-red-950/60 text-white/70 border border-red-500/30 cursor-not-allowed'
                   : isInverted
-                  ? 'text-[#e6e1d5] hover:opacity-90 cursor-pointer'
-                  : 'bg-[#e6e1d5] text-[#081f1a] hover:bg-white cursor-pointer'
+                  ? 'bg-[#081f1a] text-[#e6e1d5] hover:bg-[#0e3831]'
+                  : 'bg-[#e6e1d5] text-[#081f1a] hover:bg-white'
               }`}
             >
               <span>
@@ -1086,7 +1146,7 @@ export default function App() {
             </button>
           </div>
 
-          {/* Centro: Imagen del producto REACTIVA AL COLOR SELECCIONADO CON CROSS-FADE EDITORIAL */}
+          {/* Centro: Imagen del producto con cross-fade real de 280ms */}
           <div className="md:col-span-6 flex flex-col items-center justify-center relative order-1 md:order-2">
             <div className="relative flex items-center justify-center w-full min-h-[50vh] sm:min-h-[64vh] md:min-h-[72vh]">
               <AnimatePresence mode="popLayout" initial={false}>
@@ -1127,7 +1187,7 @@ export default function App() {
             />
           </div>
 
-          {/* Columna Derecha: Precio reactivo + Swatches de color reactivos + Selector de tallas */}
+          {/* Columna Derecha: Precio reactivo + Swatches de color + Tallas */}
           <div className="md:col-span-3 flex flex-col items-start md:items-end justify-center space-y-6 order-3 z-10">
             <AnimatePresence mode="wait" custom={direction}>
               <motion.div
@@ -1149,15 +1209,15 @@ export default function App() {
               </motion.div>
             </AnimatePresence>
 
-            {/* Selector de Color Reactivo: cambia inmediatamente la foto y el precio con cross-fade suave */}
+            {/* Swatches de Color Reactivos con Cross-fade */}
             {currentHeroProduct.colors && currentHeroProduct.colors.length > 1 && (
               <div className="flex flex-col items-start md:items-end space-y-2.5">
-                <span className="text-xs opacity-80 tracking-wide">
-                  Color ({currentHeroColorVariant?.label || 'Blanco'} — {formatPrice(currentHeroPrice)}):
+                <span className="text-xs opacity-80 tracking-wide font-medium">
+                  Color ({currentHeroColorVariant?.label || 'Negro'} — {formatPrice(currentHeroPrice)}):
                 </span>
                 <div className="flex items-center gap-3">
                   {currentHeroProduct.colors.map((color) => {
-                    const activeSwatch = (currentHeroColorVariant?.id || 'blanco') === color.id;
+                    const activeSwatch = (currentHeroColorVariant?.id || 'negro') === color.id;
                     return (
                       <button
                         key={color.id}
@@ -1182,7 +1242,7 @@ export default function App() {
             {/* Selector de Tallas */}
             <div className="flex flex-col items-start md:items-end space-y-3">
               <div className="flex items-center gap-2">
-                <span className="text-xs opacity-80 tracking-wide">
+                <span className="text-xs opacity-80 tracking-wide font-medium">
                   Elige tu talla:
                 </span>
                 <button
@@ -1224,670 +1284,185 @@ export default function App() {
         </div>
 
         {/* Pie del Hero */}
-        <div className="flex items-center justify-center pt-1 z-10">
-          <p className="text-xs sm:text-sm opacity-80 font-medium leading-snug text-center">
-            Tradición y arte popular,{' '}
-            <span className="opacity-65">hecho prenda en Nicaragua</span>
+        <div className="flex items-center justify-center pt-2 z-10">
+          <p className="text-xs sm:text-sm opacity-70 font-medium leading-snug text-center">
+            Tradición y arte popular nicaragüense,{' '}
+            <span className="font-bold underline underline-offset-4 opacity-100">
+              llevado a la moda urbana
+            </span>
           </p>
         </div>
       </section>
 
-      {/* ================= SECCIÓN A: #drop-octubre (MITOS DE LA NOCHE) ================= */}
+      {/* ================= SECCIÓN 1: COLECCIÓN RAÍCES ================= */}
       <section
-        id="drop-octubre"
-        className={`py-24 px-6 md:px-10 border-t transition-colors duration-500 ${
+        id="raices"
+        className={`py-20 px-4 sm:px-6 md:px-10 border-t transition-colors duration-500 ${
           isInverted ? 'border-[#081f1a]/12' : 'border-[#e6e1d5]/12'
         }`}
       >
         <div className="max-w-7xl mx-auto space-y-10">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-            <div>
-              <h2
-                className={`text-3xl md:text-5xl font-bold tracking-tight uppercase ${
-                  isInverted ? 'text-[#081f1a]' : 'text-white'
-                }`}
-              >
-                DROP OCTUBRE • MITOS DE LA NOCHE
-              </h2>
+          {/* Encabezado Editorial */}
+          <div className="space-y-2 text-left">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] uppercase tracking-widest font-bold bg-white/10 border border-white/10">
+              <span>Colección 01</span>
             </div>
-
-            <div className="flex items-center gap-3">
-              <button
-                type="button"
-                onClick={() => stepOctubre(-1)}
-                aria-label="Anterior en Drop Octubre"
-                className={`w-11 h-11 rounded-full border flex items-center justify-center transition-all cursor-pointer ${
-                  isInverted
-                    ? 'bg-white/70 border-[#081f1a]/20 text-[#081f1a] hover:bg-[#081f1a] hover:text-[#e6e1d5]'
-                    : 'bg-black/35 border-[#e6e1d5]/20 text-[#e6e1d5] hover:bg-[#e6e1d5] hover:text-[#081f1a]'
-                }`}
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
-              <button
-                type="button"
-                onClick={() => stepOctubre(1)}
-                aria-label="Siguiente en Drop Octubre"
-                className={`w-11 h-11 rounded-full border flex items-center justify-center transition-all cursor-pointer ${
-                  isInverted
-                    ? 'bg-white/70 border-[#081f1a]/20 text-[#081f1a] hover:bg-[#081f1a] hover:text-[#e6e1d5]'
-                    : 'bg-black/35 border-[#e6e1d5]/20 text-[#e6e1d5] hover:bg-[#e6e1d5] hover:text-[#081f1a]'
-                }`}
-              >
-                <ChevronRight className="w-5 h-5" />
-              </button>
-            </div>
+            <h2
+              className={`text-2xl sm:text-4xl font-bold tracking-tight uppercase ${
+                isInverted ? 'text-[#081f1a]' : 'text-white'
+              }`}
+            >
+              Colección Raíces
+            </h2>
+            <p className="text-xs sm:text-sm opacity-75 max-w-2xl leading-relaxed">
+              Herencia botánica, aves insignes y las primeras letras teatrales de América. Grabados de alta definición sobre algodón peinado nicaragüense.
+            </p>
           </div>
 
-          <div className="relative">
-            <button
-              type="button"
-              onClick={() => stepOctubre(-1)}
-              aria-label="Anterior en Drop Octubre"
-              className={`flex absolute -left-2 sm:-left-4 md:-left-6 top-1/2 -translate-y-1/2 z-20 w-9 h-9 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-full border shadow-2xl items-center justify-center transition-all cursor-pointer ${
-                isInverted
-                  ? 'bg-[#081f1a] text-[#e6e1d5] border-[#e6e1d5]/20 hover:scale-105'
-                  : 'bg-[#e6e1d5] text-[#081f1a] border-[#081f1a]/20 hover:scale-105'
-              }`}
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-
-            <button
-              type="button"
-              onClick={() => stepOctubre(1)}
-              aria-label="Siguiente en Drop Octubre"
-              className={`flex absolute -right-2 sm:-right-4 md:-right-6 top-1/2 -translate-y-1/2 z-20 w-9 h-9 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-full border shadow-2xl items-center justify-center transition-all cursor-pointer ${
-                isInverted
-                  ? 'bg-[#081f1a] text-[#e6e1d5] border-[#e6e1d5]/20 hover:scale-105'
-                  : 'bg-[#e6e1d5] text-[#081f1a] border-[#081f1a]/20 hover:scale-105'
-              }`}
-            >
-              <ChevronRight className="w-5 h-5" />
-            </button>
-
-            <AnimatePresence mode="wait" custom={octubreDir}>
-              <motion.div
-                key={octubreIdx}
-                custom={octubreDir}
-                variants={heroItemVariants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                onTouchStart={handleTouchStart}
-                onTouchEnd={(e) => handleTouchEnd(e, stepOctubre)}
-                className="grid grid-cols-1 md:grid-cols-3 gap-6"
-              >
-                {visibleOctubre.map(({ item }, index) => {
-                  const selectedSz = octubreSizes[item.id] || item.sizes[0];
-                  return (
-                    <div
-                      key={item.id}
-                      className={`rounded-3xl overflow-hidden border flex-col justify-between transition-colors duration-300 ${
-                        index > 0 ? 'hidden md:flex' : 'flex w-full md:w-auto'
-                      } ${
-                        isInverted
-                          ? 'bg-white/60 border-[#081f1a]/15'
-                          : 'bg-black/35 border-[#e6e1d5]/15'
-                      }`}
-                    >
-                      <div className="relative aspect-[4/5] w-full overflow-hidden bg-black/20">
-                        <img
-                          src={item.image}
-                          alt={item.name}
-                          loading="lazy"
-                          decoding="async"
-                          className="w-full h-full object-cover object-center hover:scale-105 transition-transform duration-700"
-                        />
-                        {item.soldOut && (
-                          <div className="absolute inset-0 bg-red-800/70 backdrop-blur-[2px] flex items-center justify-center">
-                            <span className="text-white font-extrabold text-xs sm:text-sm tracking-[0.22em] uppercase px-6 py-2.5 border border-white/40 rounded shadow-xl text-center">
-                              {item.soldOutLabel || 'AGOTADO TEMPORALMENTE'}
-                            </span>
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="p-6 space-y-5 flex-1 flex flex-col justify-between">
-                        <div className="space-y-1.5">
-                          <div className="flex items-start justify-between gap-2">
-                            <h3
-                              className={`text-xl font-bold tracking-tight ${
-                                isInverted ? 'text-[#081f1a]' : 'text-white'
-                              }`}
-                            >
-                              {item.name}
-                            </h3>
-                            <span
-                              className={`text-xl font-bold shrink-0 ${
-                                isInverted ? 'text-[#081f1a]' : 'text-white'
-                              }`}
-                            >
-                              {formatPrice(item.price)}
-                            </span>
-                          </div>
-                          <p className="text-xs opacity-75">{item.detail}</p>
-                        </div>
-
-                        <div className="space-y-4 pt-2">
-                          <div className="flex items-center justify-between">
-                            <span className="text-[11px] uppercase tracking-wider opacity-70">
-                              Talla:
-                            </span>
-                            <div className="flex items-center gap-1.5 flex-wrap">
-                              {item.sizes.map((sz) => {
-                                const activeSz = selectedSz === sz;
-                                return (
-                                  <button
-                                    key={sz}
-                                    type="button"
-                                    onClick={() =>
-                                      setOctubreSizes((prev) => ({
-                                        ...prev,
-                                        [item.id]: sz
-                                      }))
-                                    }
-                                    className={`${
-                                      sz === 'Unitalla' || sz === 'Otra talla' ? 'px-2.5 h-9' : 'w-9 h-9'
-                                    } rounded-full text-xs font-semibold border transition-all flex items-center justify-center cursor-pointer ${
-                                      activeSz
-                                        ? isInverted
-                                          ? 'bg-[#081f1a] text-[#e6e1d5] border-[#081f1a]'
-                                          : 'bg-[#e6e1d5] text-[#081f1a] border-[#e6e1d5]'
-                                        : isInverted
-                                        ? 'border-[#081f1a]/20 text-[#081f1a]/80 hover:border-[#081f1a]/50'
-                                        : 'border-[#e6e1d5]/20 text-[#e6e1d5]/80 hover:border-[#e6e1d5]/50'
-                                    }`}
-                                  >
-                                    {sz}
-                                  </button>
-                                );
-                              })}
-                            </div>
-                          </div>
-
-                          <button
-                            type="button"
-                            onClick={() => handleAddOctubreToCart(item)}
-                            disabled={item.soldOut}
-                            className={`w-full py-3.5 px-5 rounded-full font-semibold text-xs uppercase tracking-wider transition-all shadow-md ${
-                              item.soldOut
-                                ? 'bg-red-900/70 text-white/80 cursor-not-allowed'
-                                : isInverted
-                                ? 'bg-[#081f1a] text-[#e6e1d5] hover:bg-[#0e3831] cursor-pointer'
-                                : 'bg-[#e6e1d5] text-[#081f1a] hover:bg-white cursor-pointer'
-                            }`}
-                          >
-                            {item.soldOut
-                              ? item.soldOutLabel || 'AGOTADO'
-                              : '+ Añadir a la bolsa'}
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </motion.div>
-            </AnimatePresence>
+          {/* Grid de Productos */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            {RAICES_ITEMS.map((product) => (
+              <CollectionProductCard
+                key={product.id}
+                product={product}
+                currency={currency}
+                formatPrice={formatPrice}
+                isInverted={isInverted}
+                onAddToCart={addItemToCart}
+                onOpenSizeGuide={() => setIsSizeGuideOpen(true)}
+              />
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ================= SECCIÓN B: #coleccion-cultural (RAÍCES, SAZÓN Y ESTAMPAS) ================= */}
+      {/* ================= SECCIÓN 2: COLECCIÓN SAZÓN Y SON NICA ================= */}
       <section
-        id="coleccion-cultural"
-        className={`py-24 px-6 md:px-10 border-t transition-colors duration-500 ${
+        id="sazon"
+        className={`py-20 px-4 sm:px-6 md:px-10 border-t transition-colors duration-500 ${
           isInverted ? 'border-[#081f1a]/12' : 'border-[#e6e1d5]/12'
         }`}
       >
         <div className="max-w-7xl mx-auto space-y-10">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-            <div>
-              <h2
-                className={`text-3xl md:text-5xl font-bold tracking-tight uppercase ${
-                  isInverted ? 'text-[#081f1a]' : 'text-white'
-                }`}
-              >
-                COLECCIÓN CULTURAL
-              </h2>
+          {/* Encabezado Editorial */}
+          <div className="space-y-2 text-left">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] uppercase tracking-widest font-bold bg-white/10 border border-white/10">
+              <span>Colección 02</span>
             </div>
-
-            <div className="flex items-center gap-3">
-              <button
-                type="button"
-                onClick={() => stepCultural(-1)}
-                aria-label="Anterior en Colección Cultural"
-                className={`w-11 h-11 rounded-full border flex items-center justify-center transition-all cursor-pointer ${
-                  isInverted
-                    ? 'bg-white/70 border-[#081f1a]/20 text-[#081f1a] hover:bg-[#081f1a] hover:text-[#e6e1d5]'
-                    : 'bg-black/35 border-[#e6e1d5]/20 text-[#e6e1d5] hover:bg-[#e6e1d5] hover:text-[#081f1a]'
-                }`}
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
-              <button
-                type="button"
-                onClick={() => stepCultural(1)}
-                aria-label="Siguiente en Colección Cultural"
-                className={`w-11 h-11 rounded-full border flex items-center justify-center transition-all cursor-pointer ${
-                  isInverted
-                    ? 'bg-white/70 border-[#081f1a]/20 text-[#081f1a] hover:bg-[#081f1a] hover:text-[#e6e1d5]'
-                    : 'bg-black/35 border-[#e6e1d5]/20 text-[#e6e1d5] hover:bg-[#e6e1d5] hover:text-[#081f1a]'
-                }`}
-              >
-                <ChevronRight className="w-5 h-5" />
-              </button>
-            </div>
+            <h2
+              className={`text-2xl sm:text-4xl font-bold tracking-tight uppercase ${
+                isInverted ? 'text-[#081f1a]' : 'text-white'
+              }`}
+            >
+              Sazón y Son Nica
+            </h2>
+            <p className="text-xs sm:text-sm opacity-75 max-w-2xl leading-relaxed">
+              La memoria gastronómica de los domingos pinoleros: el caldero de miel, la masa criolla de maíz en hoja de plátano y el caldo dorado de queso.
+            </p>
           </div>
 
-          <div className="relative">
-            <button
-              type="button"
-              onClick={() => stepCultural(-1)}
-              aria-label="Anterior en Colección Cultural"
-              className={`flex absolute -left-2 sm:-left-4 md:-left-6 top-1/2 -translate-y-1/2 z-20 w-9 h-9 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-full border shadow-2xl items-center justify-center transition-all cursor-pointer ${
-                isInverted
-                  ? 'bg-[#081f1a] text-[#e6e1d5] border-[#e6e1d5]/20 hover:scale-105'
-                  : 'bg-[#e6e1d5] text-[#081f1a] border-[#081f1a]/20 hover:scale-105'
-              }`}
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-
-            <button
-              type="button"
-              onClick={() => stepCultural(1)}
-              aria-label="Siguiente en Colección Cultural"
-              className={`flex absolute -right-2 sm:-right-4 md:-right-6 top-1/2 -translate-y-1/2 z-20 w-9 h-9 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-full border shadow-2xl items-center justify-center transition-all cursor-pointer ${
-                isInverted
-                  ? 'bg-[#081f1a] text-[#e6e1d5] border-[#e6e1d5]/20 hover:scale-105'
-                  : 'bg-[#e6e1d5] text-[#081f1a] border-[#081f1a]/20 hover:scale-105'
-              }`}
-            >
-              <ChevronRight className="w-5 h-5" />
-            </button>
-
-            <AnimatePresence mode="wait" custom={culturalDir}>
-              <motion.div
-                key={culturalIdx}
-                custom={culturalDir}
-                variants={heroItemVariants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                onTouchStart={handleTouchStart}
-                onTouchEnd={(e) => handleTouchEnd(e, stepCultural)}
-                className="grid grid-cols-1 md:grid-cols-3 gap-6"
-              >
-                {visibleCultural.map(({ item: product }, index) => {
-                  const cfg = culturalConfig[product.id] || {
-                    size: 'M',
-                    tone: product.defaultColor || 'blanco'
-                  };
-                  const colorObj = product.colors?.find((c) => c.id === cfg.tone) || product.colors?.[0];
-                  const currentPrice = colorObj?.price || (cfg.tone === 'crema' ? 490 : 480);
-                  const displayImage = colorObj?.image || product.image;
-
-                  return (
-                    <div
-                      key={product.id}
-                      className={`rounded-3xl overflow-hidden border flex-col justify-between transition-colors duration-300 ${
-                        index > 0 ? 'hidden md:flex' : 'flex w-full md:w-auto'
-                      } ${
-                        isInverted
-                          ? 'bg-white/60 border-[#081f1a]/15'
-                          : 'bg-black/35 border-[#e6e1d5]/15'
-                      }`}
-                    >
-                      <div className="relative aspect-[4/5] w-full overflow-hidden bg-black/20">
-                        <img
-                          src={displayImage}
-                          alt={product.name}
-                          loading="lazy"
-                          decoding="async"
-                          className="w-full h-full object-cover object-center hover:scale-105 transition-transform duration-700 garment-stage-blend"
-                        />
-                        {product.soldOut && (
-                          <div className="absolute inset-0 bg-red-800/70 backdrop-blur-[2px] flex items-center justify-center">
-                            <span className="text-white font-extrabold text-xs sm:text-base tracking-[0.28em] uppercase px-6 py-2.5 border border-white/40 rounded shadow-xl text-center">
-                              {product.soldOutLabel || 'AGOTADO TEMPORALMENTE'}
-                            </span>
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="p-6 space-y-5 flex-1 flex flex-col justify-between">
-                        <div className="space-y-1.5">
-                          <div className="flex items-start justify-between gap-2">
-                            <h3
-                              className={`text-xl font-bold tracking-tight ${
-                                isInverted ? 'text-[#081f1a]' : 'text-white'
-                              }`}
-                            >
-                              {product.name}
-                            </h3>
-                            <span
-                              className={`text-xl font-bold shrink-0 ${
-                                isInverted ? 'text-[#081f1a]' : 'text-white'
-                              }`}
-                            >
-                              {formatPrice(currentPrice)}
-                            </span>
-                          </div>
-                          <p className="text-xs opacity-75">
-                            {product.detail}
-                          </p>
-                        </div>
-
-                        <div className="space-y-4 pt-2">
-                          {/* Selector de Tono Reactivo */}
-                          {product.colors && product.colors.length > 1 && (
-                            <div className="flex items-center justify-between">
-                              <span className="text-[11px] uppercase tracking-wider opacity-75">
-                                Color ({colorObj?.label || 'Blanco'}):
-                              </span>
-                              <div className="flex items-center gap-3">
-                                {product.colors.map((color) => {
-                                  const activeSwatch = cfg.tone === color.id;
-                                  return (
-                                    <button
-                                      key={color.id}
-                                      type="button"
-                                      onClick={() =>
-                                        setCulturalConfig((prev) => ({
-                                          ...prev,
-                                          [product.id]: {
-                                            ...cfg,
-                                            tone: color.id
-                                          }
-                                        }))
-                                      }
-                                      title={`${color.label} — ${formatPrice(color.price)}`}
-                                      aria-label={`${color.label} ${formatPrice(color.price)}`}
-                                      className={`w-9 h-9 min-w-[36px] min-h-[36px] rounded-full ${color.bgClass} border border-black/25 transition-transform cursor-pointer flex items-center justify-center shrink-0 ${
-                                        activeSwatch
-                                          ? isInverted
-                                            ? 'ring-2 ring-[#081f1a] ring-offset-2 ring-offset-[#e6e1d5] scale-110'
-                                            : 'ring-2 ring-white/80 ring-offset-2 ring-offset-black/50 scale-110'
-                                          : 'opacity-75 hover:opacity-100 hover:scale-105'
-                                      }`}
-                                    />
-                                  );
-                                })}
-                              </div>
-                            </div>
-                          )}
-
-                          <div className="flex items-center justify-between">
-                            <span className="text-[11px] uppercase tracking-wider opacity-75">
-                              Talla:
-                            </span>
-                            <div className="flex items-center gap-1.5 flex-wrap">
-                              {product.sizes.map((sz) => {
-                                const activeSz = cfg.size === sz;
-                                return (
-                                  <button
-                                    key={sz}
-                                    type="button"
-                                    onClick={() =>
-                                      setCulturalConfig((prev) => ({
-                                        ...prev,
-                                        [product.id]: { ...cfg, size: sz }
-                                      }))
-                                    }
-                                    className={`${
-                                      sz === 'Unitalla' || sz === 'Otra talla' ? 'px-3 h-9' : 'w-9 h-9 min-w-[36px]'
-                                    } rounded-full text-xs font-semibold border transition-all flex items-center justify-center cursor-pointer shrink-0 ${
-                                      activeSz
-                                        ? isInverted
-                                          ? 'bg-[#081f1a] text-[#e6e1d5] border-[#081f1a]'
-                                          : 'bg-[#e6e1d5] text-[#081f1a] border-[#e6e1d5]'
-                                        : isInverted
-                                        ? 'border-[#081f1a]/20 text-[#081f1a]/80 hover:border-[#081f1a]/50'
-                                        : 'border-[#e6e1d5]/20 text-[#e6e1d5]/80 hover:border-[#e6e1d5]/50'
-                                    }`}
-                                  >
-                                    {sz}
-                                  </button>
-                                );
-                              })}
-                            </div>
-                          </div>
-
-                          <button
-                            type="button"
-                            onClick={() => handleAddCulturalToCart(product)}
-                            disabled={product.soldOut}
-                            className={`w-full py-3.5 px-5 rounded-full font-semibold text-xs uppercase tracking-wider transition-all shadow-md ${
-                              product.soldOut
-                                ? 'bg-red-900/70 text-white/80 cursor-not-allowed'
-                                : isInverted
-                                ? 'bg-[#081f1a] text-[#e6e1d5] hover:bg-[#0e3831] cursor-pointer'
-                                : 'bg-[#e6e1d5] text-[#081f1a] hover:bg-white cursor-pointer'
-                            }`}
-                          >
-                            {product.soldOut
-                              ? product.soldOutLabel || 'AGOTADO'
-                              : '+ Añadir a la bolsa'}
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </motion.div>
-            </AnimatePresence>
+          {/* Grid de Productos */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            {SAZON_ITEMS.map((product) => (
+              <CollectionProductCard
+                key={product.id}
+                product={product}
+                currency={currency}
+                formatPrice={formatPrice}
+                isInverted={isInverted}
+                onAddToCart={addItemToCart}
+                onOpenSizeGuide={() => setIsSizeGuideOpen(true)}
+              />
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ================= SECCIÓN C: #tote-bags (5 BOLSOS OFICIALES) ================= */}
+      {/* ================= SECCIÓN 3: COLECCIÓN ESTAMPAS DEL PUEBLO ================= */}
       <section
-        id="tote-bags"
-        className={`py-24 px-6 md:px-10 border-t transition-colors duration-500 ${
+        id="estampas"
+        className={`py-20 px-4 sm:px-6 md:px-10 border-t transition-colors duration-500 ${
           isInverted ? 'border-[#081f1a]/12' : 'border-[#e6e1d5]/12'
         }`}
       >
         <div className="max-w-7xl mx-auto space-y-10">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-            <div>
-              <h2
-                className={`text-3xl md:text-5xl font-bold tracking-tight uppercase ${
-                  isInverted ? 'text-[#081f1a]' : 'text-white'
-                }`}
-              >
-                TOTE BAGS
-              </h2>
+          {/* Encabezado Editorial */}
+          <div className="space-y-2 text-left">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] uppercase tracking-widest font-bold bg-white/10 border border-white/10">
+              <span>Colección 03</span>
             </div>
-
-            <div className="flex items-center gap-3">
-              <button
-                type="button"
-                onClick={() => stepTote(-1)}
-                aria-label="Anterior en Tote Bags"
-                className={`w-11 h-11 rounded-full border flex items-center justify-center transition-all cursor-pointer ${
-                  isInverted
-                    ? 'bg-white/70 border-[#081f1a]/20 text-[#081f1a] hover:bg-[#081f1a] hover:text-[#e6e1d5]'
-                    : 'bg-black/35 border-[#e6e1d5]/20 text-[#e6e1d5] hover:bg-[#e6e1d5] hover:text-[#081f1a]'
-                }`}
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
-              <button
-                type="button"
-                onClick={() => stepTote(1)}
-                aria-label="Siguiente en Tote Bags"
-                className={`w-11 h-11 rounded-full border flex items-center justify-center transition-all cursor-pointer ${
-                  isInverted
-                    ? 'bg-white/70 border-[#081f1a]/20 text-[#081f1a] hover:bg-[#081f1a] hover:text-[#e6e1d5]'
-                    : 'bg-black/35 border-[#e6e1d5]/20 text-[#e6e1d5] hover:bg-[#e6e1d5] hover:text-[#081f1a]'
-                }`}
-              >
-                <ChevronRight className="w-5 h-5" />
-              </button>
-            </div>
+            <h2
+              className={`text-2xl sm:text-4xl font-bold tracking-tight uppercase ${
+                isInverted ? 'text-[#081f1a]' : 'text-white'
+              }`}
+            >
+              Estampas del Pueblo
+            </h2>
+            <p className="text-xs sm:text-sm opacity-75 max-w-2xl leading-relaxed">
+              El neoclasicismo granadino, las aguas del Cocibolca, el Sol de Sutiaba y la alegría picaresca de las fiestas patronales de León.
+            </p>
           </div>
 
-          <div className="relative">
-            <button
-              type="button"
-              onClick={() => stepTote(-1)}
-              aria-label="Anterior en Tote Bags"
-              className={`flex absolute -left-2 sm:-left-4 md:-left-6 top-1/2 -translate-y-1/2 z-20 w-9 h-9 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-full border shadow-2xl items-center justify-center transition-all cursor-pointer ${
-                isInverted
-                  ? 'bg-[#081f1a] text-[#e6e1d5] border-[#e6e1d5]/20 hover:scale-105'
-                  : 'bg-[#e6e1d5] text-[#081f1a] border-[#081f1a]/20 hover:scale-105'
-              }`}
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-
-            <button
-              type="button"
-              onClick={() => stepTote(1)}
-              aria-label="Siguiente en Tote Bags"
-              className={`flex absolute -right-2 sm:-right-4 md:-right-6 top-1/2 -translate-y-1/2 z-20 w-9 h-9 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-full border shadow-2xl items-center justify-center transition-all cursor-pointer ${
-                isInverted
-                  ? 'bg-[#081f1a] text-[#e6e1d5] border-[#e6e1d5]/20 hover:scale-105'
-                  : 'bg-[#e6e1d5] text-[#081f1a] border-[#081f1a]/20 hover:scale-105'
-              }`}
-            >
-              <ChevronRight className="w-5 h-5" />
-            </button>
-
-            <AnimatePresence mode="wait" custom={toteDir}>
-              <motion.div
-                key={toteIdx}
-                custom={toteDir}
-                variants={heroItemVariants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                onTouchStart={handleTouchStart}
-                onTouchEnd={(e) => handleTouchEnd(e, stepTote)}
-                className="grid grid-cols-1 md:grid-cols-3 gap-6"
-              >
-                {visibleTotes.map(({ item: tote }, index) => {
-                  const qty = toteQty[tote.id] || 1;
-                  return (
-                    <div
-                      key={tote.id}
-                      className={`rounded-3xl overflow-hidden border flex-col justify-between transition-colors duration-300 ${
-                        index > 0 ? 'hidden md:flex' : 'flex w-full md:w-auto'
-                      } ${
-                        isInverted
-                          ? 'bg-white/60 border-[#081f1a]/15'
-                          : 'bg-black/35 border-[#e6e1d5]/15'
-                      }`}
-                    >
-                      <div className="relative aspect-[4/5] w-full overflow-hidden bg-black/20">
-                        <img
-                          src={tote.image}
-                          alt={tote.name}
-                          loading="lazy"
-                          decoding="async"
-                          className="w-full h-full object-cover object-center hover:scale-105 transition-transform duration-700"
-                        />
-                        {tote.soldOut && (
-                          <div className="absolute inset-0 bg-red-800/70 backdrop-blur-[2px] flex items-center justify-center">
-                            <span className="text-white font-extrabold text-xs sm:text-base tracking-[0.28em] uppercase px-6 py-2.5 border border-white/40 rounded shadow-xl text-center">
-                              {tote.soldOutLabel || 'AGOTADO TEMPORALMENTE'}
-                            </span>
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="p-6 space-y-5 flex-1 flex flex-col justify-between">
-                        <div className="space-y-1.5">
-                          <div className="flex items-start justify-between gap-2">
-                            <h3
-                              className={`text-xl font-bold tracking-tight ${
-                                isInverted ? 'text-[#081f1a]' : 'text-white'
-                              }`}
-                            >
-                              {tote.name}
-                            </h3>
-                            <span
-                              className={`text-xl font-bold shrink-0 ${
-                                isInverted ? 'text-[#081f1a]' : 'text-white'
-                              }`}
-                            >
-                              {formatPrice(tote.price)}
-                            </span>
-                          </div>
-                          <p className="text-xs opacity-75">{tote.detail}</p>
-                        </div>
-
-                        <div className="space-y-4 pt-2">
-                          <div className="flex items-center justify-between">
-                            <span className="text-xs uppercase tracking-wider opacity-75">
-                              Cantidad:
-                            </span>
-                            <div
-                              className={`flex items-center gap-3 px-3 py-1.5 rounded-full border ${
-                                isInverted
-                                  ? 'border-[#081f1a]/25'
-                                  : 'border-[#e6e1d5]/25'
-                              }`}
-                            >
-                              <button
-                                type="button"
-                                onClick={() =>
-                                  setToteQty((prev) => ({
-                                    ...prev,
-                                    [tote.id]: Math.max(1, qty - 1)
-                                  }))
-                                }
-                                className="p-1 opacity-75 hover:opacity-100 cursor-pointer"
-                                aria-label="Disminuir cantidad"
-                              >
-                                <Minus className="w-3.5 h-3.5" />
-                              </button>
-                              <span className="text-xs font-bold w-5 text-center">
-                                {qty}
-                              </span>
-                              <button
-                                type="button"
-                                onClick={() =>
-                                  setToteQty((prev) => ({
-                                    ...prev,
-                                    [tote.id]: qty + 1
-                                  }))
-                                }
-                                className="p-1 opacity-75 hover:opacity-100 cursor-pointer"
-                                aria-label="Aumentar cantidad"
-                              >
-                                <Plus className="w-3.5 h-3.5" />
-                              </button>
-                            </div>
-                          </div>
-
-                          <button
-                            type="button"
-                            onClick={() => handleAddToteToCart(tote)}
-                            disabled={tote.soldOut}
-                            className={`w-full py-3.5 px-5 rounded-full font-semibold text-xs uppercase tracking-wider transition-all shadow-md ${
-                              tote.soldOut
-                                ? 'bg-red-900/70 text-white/80 cursor-not-allowed'
-                                : isInverted
-                                ? 'bg-[#081f1a] text-[#e6e1d5] hover:bg-[#0e3831] cursor-pointer'
-                                : 'bg-[#e6e1d5] text-[#081f1a] hover:bg-white cursor-pointer'
-                            }`}
-                          >
-                            {tote.soldOut ? tote.soldOutLabel || 'AGOTADO' : '+ Añadir a la bolsa'}
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </motion.div>
-            </AnimatePresence>
+          {/* Grid de Productos */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            {ESTAMPAS_ITEMS.map((product) => (
+              <CollectionProductCard
+                key={product.id}
+                product={product}
+                currency={currency}
+                formatPrice={formatPrice}
+                isInverted={isInverted}
+                onAddToCart={addItemToCart}
+                onOpenSizeGuide={() => setIsSizeGuideOpen(true)}
+              />
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ================= SECCIÓN NUESTRA HISTORIA (#historia) ================= */}
+      {/* ================= SECCIÓN 4: TOTE BAGS ================= */}
+      <section
+        id="totebags"
+        className={`py-20 px-4 sm:px-6 md:px-10 border-t transition-colors duration-500 ${
+          isInverted ? 'border-[#081f1a]/12' : 'border-[#e6e1d5]/12'
+        }`}
+      >
+        <div className="max-w-7xl mx-auto space-y-10">
+          {/* Encabezado Editorial */}
+          <div className="space-y-2 text-left">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] uppercase tracking-widest font-bold bg-white/10 border border-white/10">
+              <span>Accesorios Utilitarios</span>
+            </div>
+            <h2
+              className={`text-2xl sm:text-4xl font-bold tracking-tight uppercase ${
+                isInverted ? 'text-[#081f1a]' : 'text-white'
+              }`}
+            >
+              Bolsos Tote Bags
+            </h2>
+            <p className="text-xs sm:text-sm opacity-75 max-w-2xl leading-relaxed">
+              Confeccionados en lona 100% algodón crudo de 12oz de alto gramaje. Ilustración serigráfica resistente, amplitud interior y asas reforzadas.
+            </p>
+          </div>
+
+          {/* Grid de Bolsos */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            {TOTE_ITEMS.map((product) => (
+              <CollectionProductCard
+                key={product.id}
+                product={product}
+                currency={currency}
+                formatPrice={formatPrice}
+                isInverted={isInverted}
+                onAddToCart={addItemToCart}
+                onOpenSizeGuide={() => setIsSizeGuideOpen(true)}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ================= SECCIÓN 5: NUESTRA HISTORIA / MANIFIESTO (#historia) ================= */}
       <section
         id="historia"
         className={`py-16 sm:py-24 px-4 sm:px-6 md:px-10 border-t transition-colors duration-500 ${
@@ -1925,7 +1500,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* ================= SECCIÓN POLÍTICAS & FAQ ================= */}
+      {/* ================= SECCIÓN 6: POLÍTICAS & FAQ (#politicas) ================= */}
       <section
         id="politicas"
         className={`py-14 sm:py-20 px-4 sm:px-6 md:px-10 border-t transition-colors duration-500 ${
@@ -2007,7 +1582,7 @@ export default function App() {
       >
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex flex-col items-center md:items-start space-y-2 text-center md:text-left">
-            {/* Logo Oficial MiPEUE monocromático en el Footer */}
+            {/* Logo Oficial MiPEUE en el Footer */}
             <img
               src={isInverted ? '/assets/brand/mipeue-logo-negro.png' : '/assets/brand/mipeue-logo-crema.png'}
               alt="MiPEUE"
@@ -2048,13 +1623,18 @@ export default function App() {
             </a>
           </div>
 
-          <div className="text-center md:text-right opacity-60 text-[11px]">
-            Desarrollado por <span className="font-semibold opacity-90">Cristian Wildcane</span>
+          <div className="flex flex-col items-center md:items-end space-y-1 text-center md:text-right">
+            <span className="opacity-60 text-[11px]">
+              © {new Date().getFullYear()} MiPEUE. Todos los derechos reservados.
+            </span>
+            <span className="opacity-40 text-[10px]">
+              Desarrollado por Cristian Wildcane
+            </span>
           </div>
         </div>
       </footer>
 
-      {/* ================= MODAL GUÍA DE TALLAS ================= */}
+      {/* ================= MODAL GUÍA DE MEDIDAS ================= */}
       <AnimatePresence>
         {isSizeGuideOpen && (
           <>
@@ -2063,90 +1643,80 @@ export default function App() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsSizeGuideOpen(false)}
-              className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm"
+              className="fixed inset-0 z-40 bg-black/70 backdrop-blur-xs"
             />
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className={`fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-lg p-6 sm:p-8 rounded-3xl border shadow-2xl max-h-[90vh] overflow-y-auto ${
+              className={`fixed z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-11/12 max-w-lg rounded-3xl p-6 sm:p-8 shadow-2xl border ${
                 isInverted
                   ? 'bg-[#e6e1d5] text-[#081f1a] border-[#081f1a]/20'
-                  : 'bg-[#081f1a] text-[#e6e1d5] border-[#e6e1d5]/20'
+                  : 'bg-[#0b241f] text-[#e6e1d5] border-[#e6e1d5]/20'
               }`}
             >
               <div className="flex items-center justify-between pb-4 border-b border-current/15">
                 <div className="flex items-center gap-2">
                   <Ruler className="w-5 h-5" />
-                  <h3 className="text-lg font-bold uppercase tracking-wider">
-                    Guía de Tallas y Medidas
+                  <h3 className="text-base sm:text-lg font-bold uppercase tracking-wider">
+                    Guía de Medidas Oficial (cm)
                   </h3>
                 </div>
                 <button
                   type="button"
                   onClick={() => setIsSizeGuideOpen(false)}
-                  className="w-8 h-8 rounded-full border border-current/20 flex items-center justify-center hover:opacity-60 cursor-pointer"
+                  className="p-1 rounded-full opacity-60 hover:opacity-100 cursor-pointer"
                 >
-                  <X className="w-4 h-4" />
+                  <X className="w-5 h-5" />
                 </button>
               </div>
 
-              <div className="py-5 space-y-6 text-xs sm:text-sm">
-                <div>
-                  <h4 className="font-bold uppercase tracking-wider mb-2 opacity-80">
-                    Camisetas Unisex (Algodón Peinado)
-                  </h4>
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-left border-collapse">
-                      <thead>
-                        <tr className="border-b border-current/20 opacity-60 text-[11px] uppercase">
-                          <th className="py-2">Talla</th>
-                          <th className="py-2">Ancho (Pecho)</th>
-                          <th className="py-2">Largo</th>
-                          <th className="py-2">Hombro</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-current/10">
-                        <tr><td className="py-2 font-bold">S</td><td>48 cm</td><td>70 cm</td><td>43 cm</td></tr>
-                        <tr><td className="py-2 font-bold">M</td><td>52 cm</td><td>72 cm</td><td>46 cm</td></tr>
-                        <tr><td className="py-2 font-bold">L</td><td>56 cm</td><td>75 cm</td><td>49 cm</td></tr>
-                        <tr><td className="py-2 font-bold">XL</td><td>60 cm</td><td>78 cm</td><td>52 cm</td></tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
+              <div className="py-4 space-y-4">
+                <p className="text-xs opacity-75">
+                  Nuestras camisetas son de corte unisex estándar regular con un ligero toque holgado contemporáneo:
+                </p>
 
-                <div>
-                  <h4 className="font-bold uppercase tracking-wider mb-2 opacity-80">
-                    Tops Raglán y Bolsos
-                  </h4>
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-left border-collapse">
-                      <thead>
-                        <tr className="border-b border-current/20 opacity-60 text-[11px] uppercase">
-                          <th className="py-2">Pieza</th>
-                          <th className="py-2">Medidas</th>
-                          <th className="py-2">Corte</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-current/10">
-                        <tr>
-                          <td className="py-2 font-bold">Top Raglán</td>
-                          <td>Ancho 42 cm • Largo 46 cm</td>
-                          <td>Unitalla / Bicolor</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2 font-bold">Tote Bag</td>
-                          <td>32 × 35 cm (Asas 60 cm)</td>
-                          <td>Lona cruda resistente</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-xs text-left border-collapse">
+                    <thead>
+                      <tr className="border-b border-current/20 opacity-70">
+                        <th className="py-2 px-3">Talla</th>
+                        <th className="py-2 px-3">Ancho (pecho)</th>
+                        <th className="py-2 px-3">Largo total</th>
+                        <th className="py-2 px-3">Manga</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-current/10">
+                      <tr>
+                        <td className="py-2.5 px-3 font-bold">S</td>
+                        <td className="py-2.5 px-3">48 cm</td>
+                        <td className="py-2.5 px-3">69 cm</td>
+                        <td className="py-2.5 px-3">20 cm</td>
+                      </tr>
+                      <tr>
+                        <td className="py-2.5 px-3 font-bold">M</td>
+                        <td className="py-2.5 px-3">51 cm</td>
+                        <td className="py-2.5 px-3">71 cm</td>
+                        <td className="py-2.5 px-3">21 cm</td>
+                      </tr>
+                      <tr>
+                        <td className="py-2.5 px-3 font-bold">L</td>
+                        <td className="py-2.5 px-3">54 cm</td>
+                        <td className="py-2.5 px-3">74 cm</td>
+                        <td className="py-2.5 px-3">22 cm</td>
+                      </tr>
+                      <tr>
+                        <td className="py-2.5 px-3 font-bold">XL</td>
+                        <td className="py-2.5 px-3">57 cm</td>
+                        <td className="py-2.5 px-3">76 cm</td>
+                        <td className="py-2.5 px-3">23 cm</td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
 
                 <p className="text-[11px] opacity-65 leading-relaxed pt-2 border-t border-current/10">
-                  * Medidas tomadas sobre prenda plana en centímetros. Si requieres confección en otra talla específica (XXL o XS), consúltanos al confirmar tu pedido.
+                  * Medidas tomadas sobre prenda plana en centímetros. Si requieres confección en otra talla específica (XXL o XS), consúltanos al confirmar tu pedido por WhatsApp.
                 </p>
               </div>
             </motion.div>
@@ -2205,7 +1775,7 @@ export default function App() {
                           alt={item.name}
                           loading="lazy"
                           decoding="async"
-                          className="w-12 h-12 object-cover rounded-lg shrink-0 border border-[#081f1a]/10"
+                          className="w-12 h-12 object-contain rounded-lg shrink-0 border border-[#081f1a]/10 bg-black/5"
                         />
                         <div className="min-w-0">
                           <h3 className="text-sm font-bold truncate">
@@ -2233,7 +1803,7 @@ export default function App() {
               </div>
 
               <div className="pt-4 border-t border-[#081f1a]/15 space-y-3.5">
-                {/* Formulario minimalista de Checkout */}
+                {/* Formulario de Checkout */}
                 <div className="space-y-2.5">
                   <div className="space-y-1">
                     <label className="text-[11px] font-bold uppercase tracking-wider opacity-75">
@@ -2263,7 +1833,7 @@ export default function App() {
                               onClick={() => setPaymentMethod(method)}
                               className={`px-2 py-2 rounded-xl text-[11px] font-semibold border transition-all cursor-pointer text-center leading-tight ${
                                 isSelected
-                                  ? 'bg-[#081f1a] text-[#e6e1d5] border-[#081f1a] shadow-sm'
+                                  ? 'bg-[#081f1a] text-[#e6e1d5] border-[#081f1a] shadow-xs'
                                   : 'bg-white/60 text-[#081f1a]/75 border-[#081f1a]/15 hover:border-[#081f1a]/40'
                               }`}
                             >
@@ -2283,11 +1853,11 @@ export default function App() {
                 <div className="space-y-1.5 text-sm pt-1">
                   <div className="flex justify-between opacity-70">
                     <span>Subtotal</span>
-                    <span>{formatPrice(cartTotal)}</span>
+                    <span className="shrink-0 font-medium">{formatPrice(cartTotal)}</span>
                   </div>
                   <div className="flex justify-between text-base font-bold pt-1">
                     <span>Total</span>
-                    <span>{formatPrice(cartTotal)}</span>
+                    <span className="shrink-0 font-bold">{formatPrice(cartTotal)}</span>
                   </div>
                 </div>
 
