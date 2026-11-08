@@ -18,7 +18,6 @@ const EXCHANGE_RATE = 36.62;
 
 // Colecciones oficiales del inventario Drive
 const COLLECTIONS_TABS = [
-  { id: 'todos', label: 'TODOS' },
   { id: 'mitos', label: 'MITOS DE LA NOCHE' },
   { id: 'raices', label: 'RAÍCES' },
   { id: 'sazon', label: 'SAZÓN Y SON NICA' },
@@ -251,12 +250,12 @@ const ALL_CATALOG_PRODUCTS = [
     detail: '100% Algodón peinado • Hecho en Nicaragua',
     price: 490,
     sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
-    image: '/assets/catalog/sopa-de-queso/crema-1.webp',
+    image: '/assets/products/sopa-photo.png',
     soldOut: false,
     darkBg: '#2e260c',
     lightBg: '#f0e6c8',
     colors: [
-      { id: 'crema', label: 'Crema', bgClass: 'bg-[#e6e1d5]', price: 490, image: '/assets/catalog/sopa-de-queso/crema-1.webp' },
+      { id: 'crema', label: 'Crema', bgClass: 'bg-[#e6e1d5]', price: 490, image: '/assets/products/sopa-photo.png' },
       { id: 'blanco', label: 'Blanco', bgClass: 'bg-white', price: 480, image: '/assets/products/page2-cutout-2.png' }
     ],
     defaultColor: 'crema'
@@ -270,13 +269,13 @@ const ALL_CATALOG_PRODUCTS = [
     detail: '100% Algodón peinado • Hecho en Nicaragua',
     price: 480,
     sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
-    image: '/assets/catalog/nacatamal/default-1.webp',
+    image: '/assets/products/nacatamal-photo.jpg',
     soldOut: true,
     soldOutLabel: 'AGOTADO TEMPORALMENTE',
     darkBg: '#1f1b14',
     lightBg: '#eee8dc',
     colors: [
-      { id: 'blanco', label: 'Blanco', bgClass: 'bg-white', price: 480, image: '/assets/catalog/nacatamal/default-1.webp' }
+      { id: 'blanco', label: 'Blanco', bgClass: 'bg-white', price: 480, image: '/assets/products/nacatamal-photo.jpg' }
     ],
     defaultColor: 'blanco'
   },
@@ -289,12 +288,12 @@ const ALL_CATALOG_PRODUCTS = [
     detail: '100% Algodón peinado • Hecho en Nicaragua',
     price: 490,
     sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
-    image: '/assets/catalog/bunuelos/crema-1.webp',
+    image: '/assets/products/bunuelos-shirt-photo.png',
     soldOut: false,
     darkBg: '#2a1a0e',
     lightBg: '#efe2d4',
     colors: [
-      { id: 'crema', label: 'Crema', bgClass: 'bg-[#e6e1d5]', price: 490, image: '/assets/catalog/bunuelos/crema-1.webp' },
+      { id: 'crema', label: 'Crema', bgClass: 'bg-[#e6e1d5]', price: 490, image: '/assets/products/bunuelos-shirt-photo.png' },
       { id: 'blanco', label: 'Blanco', bgClass: 'bg-white', price: 480, image: '/assets/catalog/bunuelos/blanco-1.webp' },
       { id: 'negro', label: 'Negro', bgClass: 'bg-[#111111]', price: 480, image: '/assets/catalog/bunuelos/negro-1.webp' }
     ],
@@ -311,14 +310,14 @@ const ALL_CATALOG_PRODUCTS = [
     detail: '100% Algodón peinado • Hecho en Nicaragua',
     price: 490,
     sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
-    image: '/assets/catalog/catedral-de-granada/crema-1.webp',
+    image: '/assets/products/catedral-photo.png',
     soldOut: true,
     soldOutLabel: 'AGOTADO TEMPORALMENTE',
     darkBg: '#361713',
     lightBg: '#eedbd5',
     colors: [
-      { id: 'crema', label: 'Crema', bgClass: 'bg-[#e6e1d5]', price: 490, image: '/assets/catalog/catedral-de-granada/crema-1.webp' },
-      { id: 'blanco', label: 'Blanco', bgClass: 'bg-white', price: 480, image: '/assets/products/cultural-cutout-2.png' }
+      { id: 'crema', label: 'Crema', bgClass: 'bg-[#e6e1d5]', price: 490, image: '/assets/products/catedral-photo.png' },
+      { id: 'blanco', label: 'Blanco', bgClass: 'bg-white', price: 480, image: '/assets/catalog/catedral-de-granada/crema-1.webp' }
     ],
     defaultColor: 'crema'
   },
@@ -331,13 +330,13 @@ const ALL_CATALOG_PRODUCTS = [
     detail: '100% Algodón peinado • Hecho en Nicaragua',
     price: 480,
     sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
-    image: '/assets/catalog/isletas-de-granada/blanco-1.webp',
+    image: '/assets/products/isletas-photo.png',
     soldOut: true,
     soldOutLabel: 'AGOTADO TEMPORALMENTE',
     darkBg: '#0e282e',
     lightBg: '#d8eaec',
     colors: [
-      { id: 'blanco', label: 'Blanco', bgClass: 'bg-white', price: 480, image: '/assets/catalog/isletas-de-granada/blanco-1.webp' }
+      { id: 'blanco', label: 'Blanco', bgClass: 'bg-white', price: 480, image: '/assets/products/isletas-photo.png' }
     ],
     defaultColor: 'blanco'
   },
@@ -350,12 +349,12 @@ const ALL_CATALOG_PRODUCTS = [
     detail: '100% Algodón peinado • Hecho en Nicaragua',
     price: 480,
     sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
-    image: '/assets/catalog/leon-y-sol-de-sutiaba/blanco-1.webp',
+    image: '/assets/products/leon-photo.jpg',
     soldOut: false,
     darkBg: '#211828',
     lightBg: '#e8dfea',
     colors: [
-      { id: 'blanco', label: 'Blanco', bgClass: 'bg-white', price: 480, image: '/assets/catalog/leon-y-sol-de-sutiaba/blanco-1.webp' },
+      { id: 'blanco', label: 'Blanco', bgClass: 'bg-white', price: 480, image: '/assets/products/leon-photo.jpg' },
       { id: 'crema', label: 'Crema', bgClass: 'bg-[#e6e1d5]', price: 490, image: '/assets/catalog/leon-y-sol-de-sutiaba/crema-1.webp' },
       { id: 'negro', label: 'Negro', bgClass: 'bg-[#111111]', price: 480, image: '/assets/catalog/leon-y-sol-de-sutiaba/negro-1.webp' }
     ],
@@ -370,12 +369,12 @@ const ALL_CATALOG_PRODUCTS = [
     detail: '100% Algodón peinado • Hecho en Nicaragua',
     price: 480,
     sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
-    image: '/assets/catalog/gigantona-y-enano-cabezon/blanco-1.webp',
+    image: '/assets/products/gigantona-photo.jpg',
     soldOut: false,
     darkBg: '#241416',
     lightBg: '#ecdfe0',
     colors: [
-      { id: 'blanco', label: 'Blanco', bgClass: 'bg-white', price: 480, image: '/assets/catalog/gigantona-y-enano-cabezon/blanco-1.webp' },
+      { id: 'blanco', label: 'Blanco', bgClass: 'bg-white', price: 480, image: '/assets/products/gigantona-photo.jpg' },
       { id: 'crema', label: 'Crema', bgClass: 'bg-[#e6e1d5]', price: 490, image: '/assets/catalog/gigantona-y-enano-cabezon/crema-1.webp' },
       { id: 'negro', label: 'Negro', bgClass: 'bg-[#111111]', price: 480, image: '/assets/catalog/gigantona-y-enano-cabezon/negro-1.webp' }
     ],
@@ -544,12 +543,11 @@ export default function App() {
   // Modo Oscuro (false) vs Modo Claro Invertido (true)
   const [isInverted, setIsInverted] = useState(false);
 
-  // Filtro de Colección activa en Header
-  const [selectedCollection, setSelectedCollection] = useState('todos');
+  // Filtro de Colección activa en Header (inicia por defecto en MITOS DE LA NOCHE)
+  const [selectedCollection, setSelectedCollection] = useState('mitos');
 
   // Productos filtrados según la colección seleccionada
   const activeProducts = useMemo(() => {
-    if (selectedCollection === 'todos') return ALL_CATALOG_PRODUCTS;
     return ALL_CATALOG_PRODUCTS.filter((p) => p.collection === selectedCollection);
   }, [selectedCollection]);
 
@@ -869,9 +867,9 @@ export default function App() {
           />
         </a>
 
-        {/* Centro: Píldora de Colecciones Oficiales [ TODOS | MITOS DE LA NOCHE | RAÍCES | SAZÓN Y SON NICA | ESTAMPAS DEL PUEBLO | TOTE BAGS ] */}
+        {/* Centro: Píldora de Colecciones Oficiales [ MITOS DE LA NOCHE | RAÍCES | SAZÓN Y SON NICA | ESTAMPAS DEL PUEBLO | TOTE BAGS ] */}
         <nav
-          className={`pointer-events-auto backdrop-blur-md rounded-full p-1 md:p-1.5 border flex items-center gap-1 order-3 w-full justify-start md:justify-center overflow-x-auto no-scrollbar md:order-none md:w-auto max-w-full transition-colors duration-300 ${
+          className={`pointer-events-auto backdrop-blur-md rounded-full p-1 md:p-1.5 border flex items-center gap-1 order-3 w-full justify-start md:justify-center overflow-x-auto whitespace-nowrap no-scrollbar scroll-smooth md:order-none md:w-auto max-w-full transition-colors duration-300 ${
             isInverted
               ? 'bg-white/60 border-[#081f1a]/15'
               : 'bg-black/35 border-[#e6e1d5]/15'
@@ -886,22 +884,19 @@ export default function App() {
                 onClick={() => {
                   setSelectedCollection(tab.id);
                   setCurrentIndex(0);
-                  const firstProd =
-                    tab.id === 'todos'
-                      ? ALL_CATALOG_PRODUCTS[0]
-                      : ALL_CATALOG_PRODUCTS.find((p) => p.collection === tab.id);
+                  const firstProd = ALL_CATALOG_PRODUCTS.find((p) => p.collection === tab.id);
                   if (firstProd) {
                     syncProductDefaults(firstProd);
                   }
                 }}
-                className={`px-2.5 py-1.5 md:px-3.5 md:py-2 rounded-full text-[10px] sm:text-xs font-semibold tracking-[0.11em] md:tracking-[0.13em] uppercase transition-all duration-200 whitespace-nowrap cursor-pointer ${
+                className={`px-3 py-2 md:px-3.5 md:py-2 rounded-full text-[10px] sm:text-xs font-semibold tracking-[0.11em] md:tracking-[0.13em] uppercase transition-all duration-200 whitespace-nowrap shrink-0 min-h-[36px] flex items-center justify-center cursor-pointer ${
                   active
                     ? isInverted
                       ? 'bg-[#081f1a] text-[#e6e1d5] shadow-sm'
                       : 'bg-[#e6e1d5] text-[#081f1a] shadow-sm'
                     : isInverted
-                    ? 'text-[#081f1a]/75 hover:text-[#081f1a]'
-                    : 'text-[#e6e1d5]/75 hover:text-white'
+                    ? 'text-[#081f1a]/75 hover:text-[#081f1a] hover:bg-[#081f1a]/5'
+                    : 'text-[#e6e1d5]/75 hover:text-white hover:bg-white/5'
                 }`}
               >
                 {tab.label}
@@ -1091,25 +1086,24 @@ export default function App() {
             </button>
           </div>
 
-          {/* Centro: Imagen del producto REACTIVA AL COLOR SELECCIONADO */}
+          {/* Centro: Imagen del producto REACTIVA AL COLOR SELECCIONADO CON CROSS-FADE EDITORIAL */}
           <div className="md:col-span-6 flex flex-col items-center justify-center relative order-1 md:order-2">
-            <div className="relative flex items-center justify-center">
-              <AnimatePresence mode="wait" custom={direction}>
+            <div className="relative flex items-center justify-center w-full min-h-[50vh] sm:min-h-[64vh] md:min-h-[72vh]">
+              <AnimatePresence mode="popLayout" initial={false}>
                 <motion.div
                   key={`${currentHeroProduct.id}-${currentHeroColorVariant?.id || 'default'}`}
-                  custom={direction}
-                  variants={heroItemVariants}
-                  initial="enter"
-                  animate="center"
-                  exit="exit"
-                  className="relative flex items-center justify-center"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.28, ease: 'easeInOut' }}
+                  className="relative flex items-center justify-center w-full"
                 >
                   <img
                     src={currentHeroImage}
                     alt={`${currentHeroProduct.name} ${currentHeroColorVariant?.label || ''}`}
                     fetchPriority="high"
                     decoding="async"
-                    className="h-[52vh] sm:h-[68vh] md:h-[74vh] max-h-[750px] w-auto object-contain drop-shadow-2xl pointer-events-none transition-all duration-300"
+                    className="h-[52vh] sm:h-[68vh] md:h-[74vh] max-h-[750px] w-auto object-contain drop-shadow-2xl pointer-events-none garment-stage-blend select-none"
                   />
 
                   {currentHeroProduct.soldOut && (
@@ -1155,7 +1149,7 @@ export default function App() {
               </motion.div>
             </AnimatePresence>
 
-            {/* Selector de Color Reactivo: cambia inmediatamente la foto y el precio */}
+            {/* Selector de Color Reactivo: cambia inmediatamente la foto y el precio con cross-fade suave */}
             {currentHeroProduct.colors && currentHeroProduct.colors.length > 1 && (
               <div className="flex flex-col items-start md:items-end space-y-2.5">
                 <span className="text-xs opacity-80 tracking-wide">
@@ -1171,12 +1165,12 @@ export default function App() {
                         onClick={() => setHeroColor(color.id)}
                         title={`${color.label} — ${formatPrice(color.price)}`}
                         aria-label={`${color.label} ${formatPrice(color.price)}`}
-                        className={`w-7 h-7 rounded-full ${color.bgClass} border border-black/25 transition-transform cursor-pointer ${
+                        className={`w-9 h-9 sm:w-10 sm:h-10 min-w-[36px] min-h-[36px] rounded-full ${color.bgClass} border border-black/25 transition-transform cursor-pointer flex items-center justify-center shrink-0 ${
                           activeSwatch
                             ? isInverted
                               ? 'ring-2 ring-[#081f1a] ring-offset-2 ring-offset-[#e6e1d5] scale-110'
                               : 'ring-2 ring-white/80 ring-offset-2 ring-offset-black/50 scale-110'
-                            : 'opacity-70 hover:opacity-100'
+                            : 'opacity-70 hover:opacity-100 hover:scale-105'
                         }`}
                       />
                     );
@@ -1210,7 +1204,7 @@ export default function App() {
                       onClick={() => setHeroSize(size)}
                       className={`${
                         size === 'Unitalla' || size === 'Otra talla' ? 'px-3.5 h-11' : 'w-11 h-11'
-                      } rounded-full text-xs font-semibold transition-all flex items-center justify-center cursor-pointer ${
+                      } rounded-full text-xs font-semibold transition-all flex items-center justify-center cursor-pointer shrink-0 min-w-[36px] min-h-[36px] ${
                         isSelected
                           ? isInverted
                             ? 'bg-[#081f1a] text-[#e6e1d5] shadow-md scale-105'
@@ -1551,7 +1545,7 @@ export default function App() {
                           alt={product.name}
                           loading="lazy"
                           decoding="async"
-                          className="w-full h-full object-cover object-center hover:scale-105 transition-transform duration-700"
+                          className="w-full h-full object-cover object-center hover:scale-105 transition-transform duration-700 garment-stage-blend"
                         />
                         {product.soldOut && (
                           <div className="absolute inset-0 bg-red-800/70 backdrop-blur-[2px] flex items-center justify-center">
@@ -1610,12 +1604,12 @@ export default function App() {
                                       }
                                       title={`${color.label} — ${formatPrice(color.price)}`}
                                       aria-label={`${color.label} ${formatPrice(color.price)}`}
-                                      className={`w-7 h-7 rounded-full ${color.bgClass} border border-black/25 transition-transform cursor-pointer ${
+                                      className={`w-9 h-9 min-w-[36px] min-h-[36px] rounded-full ${color.bgClass} border border-black/25 transition-transform cursor-pointer flex items-center justify-center shrink-0 ${
                                         activeSwatch
                                           ? isInverted
                                             ? 'ring-2 ring-[#081f1a] ring-offset-2 ring-offset-[#e6e1d5] scale-110'
                                             : 'ring-2 ring-white/80 ring-offset-2 ring-offset-black/50 scale-110'
-                                          : 'opacity-75 hover:opacity-100'
+                                          : 'opacity-75 hover:opacity-100 hover:scale-105'
                                       }`}
                                     />
                                   );
@@ -1642,8 +1636,8 @@ export default function App() {
                                       }))
                                     }
                                     className={`${
-                                      sz === 'Unitalla' || sz === 'Otra talla' ? 'px-2.5 h-9' : 'w-9 h-9'
-                                    } rounded-full text-xs font-semibold border transition-all flex items-center justify-center cursor-pointer ${
+                                      sz === 'Unitalla' || sz === 'Otra talla' ? 'px-3 h-9' : 'w-9 h-9 min-w-[36px]'
+                                    } rounded-full text-xs font-semibold border transition-all flex items-center justify-center cursor-pointer shrink-0 ${
                                       activeSz
                                         ? isInverted
                                           ? 'bg-[#081f1a] text-[#e6e1d5] border-[#081f1a]'
@@ -1896,7 +1890,7 @@ export default function App() {
       {/* ================= SECCIÓN NUESTRA HISTORIA (#historia) ================= */}
       <section
         id="historia"
-        className={`py-24 px-6 md:px-10 border-t transition-colors duration-500 ${
+        className={`py-16 sm:py-24 px-4 sm:px-6 md:px-10 border-t transition-colors duration-500 ${
           isInverted ? 'border-[#081f1a]/12' : 'border-[#e6e1d5]/12'
         }`}
       >
@@ -1934,7 +1928,7 @@ export default function App() {
       {/* ================= SECCIÓN POLÍTICAS & FAQ ================= */}
       <section
         id="politicas"
-        className={`py-20 px-6 md:px-10 border-t transition-colors duration-500 ${
+        className={`py-14 sm:py-20 px-4 sm:px-6 md:px-10 border-t transition-colors duration-500 ${
           isInverted ? 'border-[#081f1a]/12' : 'border-[#e6e1d5]/12'
         }`}
       >
@@ -2005,7 +1999,7 @@ export default function App() {
 
       {/* ================= FOOTER ================= */}
       <footer
-        className={`py-12 px-6 md:px-10 border-t transition-colors duration-500 text-xs ${
+        className={`py-10 sm:py-12 px-4 sm:px-6 md:px-10 border-t transition-colors duration-500 text-xs ${
           isInverted
             ? 'border-[#081f1a]/15 text-[#081f1a]'
             : 'border-[#e6e1d5]/15 text-[#e6e1d5]'
@@ -2176,7 +2170,7 @@ export default function App() {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', stiffness: 320, damping: 32 }}
-              className="fixed top-0 right-0 bottom-0 z-50 w-full max-w-md border-l p-6 flex flex-col justify-between shadow-2xl transition-colors duration-300 bg-[#e6e1d5] text-[#081f1a] border-[#081f1a]/15"
+              className="fixed top-0 right-0 bottom-0 z-50 w-full sm:max-w-md max-w-full border-l p-4 sm:p-6 flex flex-col justify-between shadow-2xl transition-colors duration-300 bg-[#e6e1d5] text-[#081f1a] border-[#081f1a]/15 overflow-hidden"
             >
               <div className="flex items-center justify-between pb-4 border-b border-[#081f1a]/15">
                 <div className="flex items-center gap-2">

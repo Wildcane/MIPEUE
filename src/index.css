@@ -18,3 +18,19 @@
   background: radial-gradient(50% 50% at 50% 50%, rgba(8, 31, 26, 0.36) 0%, rgba(8, 31, 26, 0.14) 55%, rgba(8, 31, 26, 0) 100%);
   filter: blur(10px);
 }
+
+/* Difuminado suave perimetral para disolver fotos rectangulares orgánicamente en el fondo oscuro */
+.garment-stage-blend {
+  -webkit-mask-image: radial-gradient(ellipse 90% 88% at 50% 48%, rgba(0, 0, 0, 1) 68%, rgba(0, 0, 0, 0.82) 84%, rgba(0, 0, 0, 0) 100%);
+  mask-image: radial-gradient(ellipse 90% 88% at 50% 48%, rgba(0, 0, 0, 1) 68%, rgba(0, 0, 0, 0.82) 84%, rgba(0, 0, 0, 0) 100%);
+}
+
+/* Ocultar scrollbar preservando funcionalidad de scroll táctil horizontal en móviles */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
