@@ -9,7 +9,8 @@ import {
   MessageCircle,
   ArrowLeftRight,
   Plus,
-  Minus
+  Minus,
+  Ruler
 } from 'lucide-react';
 
 const WHATSAPP_NUMBER = '50583332316';
@@ -36,7 +37,7 @@ const HERO_SHOWCASE = [
       'Inspirada en el mítico guardián nocturno de los caminos de Nicaragua. Edición especial en tono morado/azul profundo con trazos de grabado folclórico.',
     detail: '100% Algodón peinado • Hecho en Nicaragua',
     price: 490,
-    sizes: ['S', 'M', 'L', 'XL'],
+    sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
     image: '/assets/products/cadejo-cutout-1.png',
     soldOut: true,
     soldOutLabel: 'AGOTADO TEMPORALMENTE',
@@ -52,7 +53,7 @@ const HERO_SHOWCASE = [
       'La dualidad del espectro nocturno nicaragüense plasmada sobre algodón crema cálido con serigrafía artesanal de alto contraste.',
     detail: '100% Algodón peinado • Hecho en Nicaragua',
     price: 490,
-    sizes: ['S', 'M', 'L', 'XL'],
+    sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
     image: '/assets/products/cadejo-cutout-2.png',
     soldOut: true,
     soldOutLabel: 'AGOTADO TEMPORALMENTE',
@@ -68,7 +69,7 @@ const HERO_SHOWCASE = [
       'Reinterpretación gráfica de la leyenda colonial nicaragüense que sorprende a los trasnochadores. Arte serigráfico sobre algodón negro profundo.',
     detail: '100% Algodón peinado • Hecho en Nicaragua',
     price: 490,
-    sizes: ['S', 'M', 'L', 'XL'],
+    sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
     image: '/assets/products/cegua-cutout-1.png',
     soldOut: false,
     hasSwatches: false,
@@ -83,7 +84,7 @@ const HERO_SHOWCASE = [
       'Silueta individual de nuestra edición mística de La Cegua en tinta color hueso envejecido sobre tejido suave 100% algodón.',
     detail: '100% Algodón peinado • Hecho en Nicaragua',
     price: 490,
-    sizes: ['S', 'M', 'L', 'XL'],
+    sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
     image: '/assets/products/cegua-cutout-2.png',
     soldOut: false,
     hasSwatches: false,
@@ -98,7 +99,7 @@ const HERO_SHOWCASE = [
       'Homenaje al habla popular pinolera coronado por el Guardabarranco en vuelo. Silueta raglán bicolor de calce cómodo y fresco.',
     detail: 'Top Raglán Unitalla • Hecho en Nicaragua',
     price: 550,
-    sizes: ['Unitalla'],
+    sizes: ['Unitalla', 'Otra talla'],
     image: '/assets/products/deacachimba-cutout.png',
     soldOut: false,
     hasSwatches: false,
@@ -113,7 +114,7 @@ const HERO_SHOWCASE = [
       'Tierra de lagos y volcanes plasmada en un corte raglán clásico con mangas en contraste verde bosque y arte colonial.',
     detail: 'Top Raglán Unitalla • Hecho en Nicaragua',
     price: 550,
-    sizes: ['Unitalla'],
+    sizes: ['Unitalla', 'Otra talla'],
     image: '/assets/products/nicaragua-cutout.png',
     soldOut: false,
     hasSwatches: false,
@@ -130,7 +131,7 @@ const HERO_SHOWCASE = [
       'Hecha como manda la abuela desde la época colonial. Un tributo gráfico al sabor y la memoria de la gastronomía tradicional nicaragüense.',
     detail: '100% Algodón peinado • Frente o espalda a elección',
     price: 480,
-    sizes: ['S', 'M', 'L', 'XL'],
+    sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
     image: '/assets/products/page2-cutout-2.png',
     soldOut: false,
     hasSwatches: true,
@@ -145,10 +146,10 @@ const HERO_SHOWCASE = [
       'La joya arquitectónica neoclásica de La Gran Sultana junto a la flor nacional Sacuanjoche y la cordillera volcánica.',
     detail: '100% Algodón peinado • Frente o espalda a elección',
     price: 480,
-    sizes: ['S', 'M', 'L', 'XL'],
+    sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
     image: '/assets/products/cultural-cutout-2.png',
     soldOut: true,
-    soldOutLabel: 'AGOTADO',
+    soldOutLabel: 'AGOTADO TEMPORALMENTE',
     hasSwatches: true,
     darkBg: '#361713',
     lightBg: '#eedbd5'
@@ -161,10 +162,10 @@ const HERO_SHOWCASE = [
       'Postal serigráfica del archipiélago volcánico del Gran Lago Cocibolca, con lanchas tradicionales, palmeras y el volcán Mombacho.',
     detail: '100% Algodón peinado • Frente o espalda a elección',
     price: 480,
-    sizes: ['S', 'M', 'L', 'XL'],
+    sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
     image: '/assets/products/cultural-cutout-1.png',
     soldOut: true,
-    soldOutLabel: 'AGOTADO',
+    soldOutLabel: 'AGOTADO TEMPORALMENTE',
     hasSwatches: true,
     darkBg: '#0e282e',
     lightBg: '#d8eaec'
@@ -179,7 +180,7 @@ const HERO_SHOWCASE = [
       'Ilustración botánica y ornitológica del Guardabarranco sobre lona cruda de alta resistencia para uso diario.',
     detail: 'Lona cruda resistente 32×35 cm • Hecho en Nicaragua',
     price: 430,
-    sizes: ['Unitalla'],
+    sizes: ['Unitalla', 'Otra talla'],
     image: '/assets/products/page2-cutout-1.png',
     soldOut: true,
     soldOutLabel: 'AGOTADO',
@@ -195,7 +196,7 @@ const HERO_SHOWCASE = [
       'Dedicado al postre más querido de nuestras fiestas y tardes pinoleras: buñuelos de yuca y queso bañados en miel.',
     detail: 'Lona cruda resistente 32×35 cm • Hecho en Nicaragua',
     price: 430,
-    sizes: ['Unitalla'],
+    sizes: ['Unitalla', 'Otra talla'],
     image: '/assets/products/page2-cutout-2.png',
     soldOut: false,
     hasSwatches: false,
@@ -210,7 +211,7 @@ const HERO_SHOWCASE = [
       'Catedral colonial, volcán y Sacuanjoche estampados en verde bosque profundo sobre bolso de lona artesanal.',
     detail: 'Lona cruda resistente 32×35 cm • Hecho en Nicaragua',
     price: 430,
-    sizes: ['Unitalla'],
+    sizes: ['Unitalla', 'Otra talla'],
     image: '/assets/products/cultural-cutout-2.png',
     soldOut: true,
     soldOutLabel: 'AGOTADO',
@@ -227,7 +228,7 @@ const DROP_OCTUBRE_ITEMS = [
     name: 'CADEJO (Morado / Lila)',
     subtitle: 'Leyenda nocturna • 100% Algodón peinado',
     price: 490,
-    sizes: ['S', 'M', 'L', 'XL'],
+    sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
     image: '/assets/products/cadejo-photo-1.jpg',
     soldOut: true,
     soldOutText: 'AGOTADO TEMPORALMENTE'
@@ -237,7 +238,7 @@ const DROP_OCTUBRE_ITEMS = [
     name: 'CADEJO (Crema / Beige)',
     subtitle: 'Edición Crema Natural • 100% Algodón peinado',
     price: 490,
-    sizes: ['S', 'M', 'L', 'XL'],
+    sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
     image: '/assets/products/cadejo-photo-2.png',
     soldOut: true,
     soldOutText: 'AGOTADO TEMPORALMENTE'
@@ -247,7 +248,7 @@ const DROP_OCTUBRE_ITEMS = [
     name: 'LA CEGUA (Frente)',
     subtitle: 'Espectro colonial • 100% Algodón negro profundo',
     price: 490,
-    sizes: ['S', 'M', 'L', 'XL'],
+    sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
     image: '/assets/products/cegua-photo-1.jpg',
     soldOut: false
   },
@@ -256,7 +257,7 @@ const DROP_OCTUBRE_ITEMS = [
     name: 'LA CEGUA (Variante / Modelo)',
     subtitle: 'Grabado folclórico • 100% Algodón negro profundo',
     price: 490,
-    sizes: ['S', 'M', 'L', 'XL'],
+    sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
     image: '/assets/products/cegua-photo-2.png',
     soldOut: false
   },
@@ -265,7 +266,7 @@ const DROP_OCTUBRE_ITEMS = [
     name: 'TOP MUY DEACACHIMBA',
     subtitle: 'Baby Tee Raglán Bicolor • Unitalla',
     price: 550,
-    sizes: ['Unitalla'],
+    sizes: ['Unitalla', 'Otra talla'],
     image: '/assets/products/deacachimba-photo.png',
     soldOut: false
   },
@@ -274,7 +275,7 @@ const DROP_OCTUBRE_ITEMS = [
     name: 'TOP NICARAGUA',
     subtitle: 'Tierra de Lagos y Volcanes • Unitalla',
     price: 550,
-    sizes: ['Unitalla'],
+    sizes: ['Unitalla', 'Otra talla'],
     image: '/assets/products/nicaragua-photo.png',
     soldOut: false
   }
@@ -287,7 +288,7 @@ const COLECCION_CULTURAL_ITEMS = [
     name: 'Sopa de Queso',
     subtitle: 'Hecha como manda la abuela • 100% Algodón',
     image: '/assets/products/sopa-photo.png',
-    sizes: ['S', 'M', 'L', 'XL'],
+    sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
     soldOut: false
   },
   {
@@ -295,7 +296,7 @@ const COLECCION_CULTURAL_ITEMS = [
     name: 'Catedral de Granada',
     subtitle: 'Joya neoclásica y Sacuanjoche • 100% Algodón',
     image: '/assets/products/catedral-photo.png',
-    sizes: ['S', 'M', 'L', 'XL'],
+    sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
     soldOut: true
   },
   {
@@ -303,7 +304,7 @@ const COLECCION_CULTURAL_ITEMS = [
     name: 'Isletas de Granada',
     subtitle: 'Gran Lago Cocibolca y Mombacho • 100% Algodón',
     image: '/assets/products/isletas-photo.png',
-    sizes: ['S', 'M', 'L', 'XL'],
+    sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
     soldOut: true
   },
   {
@@ -311,7 +312,7 @@ const COLECCION_CULTURAL_ITEMS = [
     name: 'Sacuanjoche',
     subtitle: 'Flor Nacional de Nicaragua • 100% Algodón',
     image: '/assets/products/sacuanjoche-photo.jpg',
-    sizes: ['S', 'M', 'L', 'XL'],
+    sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
     soldOut: true
   },
   {
@@ -319,7 +320,7 @@ const COLECCION_CULTURAL_ITEMS = [
     name: 'Güegüense & Macho Ratón',
     subtitle: 'Patrimonio Oral e Inmaterial • 100% Algodón',
     image: '/assets/products/gueguense-photo.jpg',
-    sizes: ['S', 'M', 'L', 'XL'],
+    sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
     soldOut: false
   },
   {
@@ -327,7 +328,7 @@ const COLECCION_CULTURAL_ITEMS = [
     name: 'Guardabarranco',
     subtitle: 'Ave Nacional de Nicaragua • 100% Algodón',
     image: '/assets/products/guardabarranco-photo.jpg',
-    sizes: ['S', 'M', 'L', 'XL'],
+    sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
     soldOut: false
   },
   {
@@ -335,7 +336,7 @@ const COLECCION_CULTURAL_ITEMS = [
     name: 'León y Sol de Sutiaba',
     subtitle: 'Herencia indígena y colonial • 100% Algodón',
     image: '/assets/products/leon-photo.jpg',
-    sizes: ['S', 'M', 'L', 'XL'],
+    sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
     soldOut: false
   },
   {
@@ -343,7 +344,7 @@ const COLECCION_CULTURAL_ITEMS = [
     name: 'Nacatamal',
     subtitle: 'Tradición de fin de semana • 100% Algodón',
     image: '/assets/products/nacatamal-photo.jpg',
-    sizes: ['S', 'M', 'L', 'XL'],
+    sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
     soldOut: true
   },
   {
@@ -351,7 +352,7 @@ const COLECCION_CULTURAL_ITEMS = [
     name: 'Gigantona y Enano Cabezón',
     subtitle: 'Folclor leonés y coplas • 100% Algodón',
     image: '/assets/products/gigantona-photo.jpg',
-    sizes: ['S', 'M', 'L', 'XL'],
+    sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
     soldOut: false
   },
   {
@@ -359,7 +360,7 @@ const COLECCION_CULTURAL_ITEMS = [
     name: 'Fauna Local Camiseta',
     subtitle: 'Biodiversidad pinolera • 100% Algodón',
     image: '/assets/products/fauna-shirt-photo.jpg',
-    sizes: ['S', 'M', 'L', 'XL'],
+    sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
     soldOut: false
   },
   {
@@ -367,7 +368,7 @@ const COLECCION_CULTURAL_ITEMS = [
     name: 'Buñuelos Camiseta',
     subtitle: 'Dulce tradición en miel • 100% Algodón',
     image: '/assets/products/bunuelos-shirt-photo.png',
-    sizes: ['S', 'M', 'L', 'XL'],
+    sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
     soldOut: false
   },
   {
@@ -375,21 +376,36 @@ const COLECCION_CULTURAL_ITEMS = [
     name: 'Nicaragua Camiseta',
     subtitle: 'Tierra de lagos y volcanes • 100% Algodón',
     image: '/assets/products/nicaragua-shirt-photo.jpg',
-    sizes: ['S', 'M', 'L', 'XL'],
+    sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
     soldOut: false
   }
 ];
 
 // ================= SECCIÓN C: TOTE BAGS (LOS 3 BOLSOS OFICIALES) =================
-const TOTE_BAGS_ITEMS = [
+
+const FAQS = [
   {
-    id: 'tote-fauna-local',
-    name: 'Fauna Local - Guardabarranco',
-    subtitle: 'Lona cruda resistente 32×35 cm • Hecho en Nicaragua',
-    price: 430,
-    image: '/assets/products/tote-fauna.jpg',
-    soldOut: true
+    q: '¿Cómo funcionan los envíos en Managua y Departamentos?',
+    a: 'En Managua realizamos entregas rápidas con servicio motorizado privado (tarifa estándar C$ 80 - 120 según tu sector). Para todos los departamentos de Nicaragua, despachamos vía CargoTrans directo a sucursal o con entrega a domicilio.'
   },
+  {
+    q: '¿Puedo retirar mi pedido personalmente (Pick Up)?',
+    a: '¡Sí! Puedes retirar tu pedido sin costo adicional en El Cortijo de la Sierra, km 13 Carretera a Masaya, coordinando previamente tu horario de recogida por WhatsApp.'
+  },
+  {
+    q: '¿Cuáles son los horarios de despacho?',
+    a: 'Los pedidos confirmados de lunes a viernes antes de las 3:00 PM se procesan y despachan el mismo día o al día hábil siguiente.'
+  },
+  {
+    q: '¿Cuál es la política de cambios y garantías?',
+    a: 'Dispones de un lapso estricto de hasta 24 horas tras recibir tu pedido para solicitar un cambio por talla o prenda de igual valor. La pieza debe entregarse físicamente sin señales de uso, con sus etiquetas y en su empaque original.'
+  },
+  {
+    q: '¿Qué métodos de pago aceptan?',
+    a: 'Aceptamos transferencias bancarias directas en Córdobas (C$) y Dólares (USD) a través de BAC, Banpro y Lafise. En Managua también disponemos de pago en efectivo contra entrega con el motorizado.'
+  }
+];
+const TOTE_BAGS_ITEMS = [
   {
     id: 'tote-bunuelos-bag',
     name: 'Buñuelos',
@@ -399,12 +415,36 @@ const TOTE_BAGS_ITEMS = [
     soldOut: false
   },
   {
+    id: 'tote-fauna-local',
+    name: 'Fauna Local - Guardabarranco',
+    subtitle: 'Lona cruda resistente 32×35 cm • Hecho en Nicaragua',
+    price: 430,
+    image: '/assets/products/tote-fauna.jpg',
+    soldOut: true
+  },
+  {
     id: 'tote-nicaragua-bag',
     name: 'Nicaragua',
     subtitle: 'Lona cruda resistente 32×35 cm • Hecho en Nicaragua',
     price: 430,
     image: '/assets/products/tote-nicaragua.jpg',
     soldOut: true
+  },
+  {
+    id: 'tote-catedral-bag',
+    name: 'Catedral de Granada',
+    subtitle: 'Lona cruda resistente 32×35 cm • Hecho en Nicaragua',
+    price: 430,
+    image: '/assets/products/catedral-photo.png',
+    soldOut: false
+  },
+  {
+    id: 'tote-sopa-bag',
+    name: 'Sopa de Queso',
+    subtitle: 'Lona cruda resistente 32×35 cm • Hecho en Nicaragua',
+    price: 430,
+    image: '/assets/products/sopa-photo.png',
+    soldOut: false
   }
 ];
 
@@ -493,10 +533,36 @@ export default function App() {
 
   // Cantidades para Tote Bags
   const [toteQty, setToteQty] = useState({
-    'tote-fauna-local': 1,
     'tote-bunuelos-bag': 1,
-    'tote-nicaragua-bag': 1
+    'tote-fauna-local': 1,
+    'tote-nicaragua-bag': 1,
+    'tote-catedral-bag': 1,
+    'tote-sopa-bag': 1
   });
+
+  // Selector de Moneda: Córdobas (NIO) vs Dólares (USD)
+  const [currency, setCurrency] = useState('NIO');
+  const EXCHANGE_RATE = 36.62;
+
+  // Checkout inputs
+  const [deliveryAddress, setDeliveryAddress] = useState('');
+  const [paymentMethod, setPaymentMethod] = useState('Transferencia bancaria');
+
+  // Modal Guía de Tallas y FAQ acordeón
+  const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
+  const [openFaq, setOpenFaq] = useState(null);
+
+  // Helper de formateo de precio dual
+  const formatPrice = useCallback(
+    (nioAmount, curr = currency) => {
+      if (curr === 'USD') {
+        const usd = (nioAmount / EXCHANGE_RATE).toFixed(2);
+        return `${usd} USD`;
+      }
+      return `C$ ${nioAmount}`;
+    },
+    [currency]
+  );
 
   // Carrito Lateral (Drawer)
   const [cart, setCart] = useState([]);
@@ -686,12 +752,22 @@ export default function App() {
     const itemsList = cart
       .map(
         (item) =>
-          `• ${item.qty}x ${item.name} (Talla: ${item.size}) — C$ ${
-            item.price * item.qty
-          }`
+          `• ${item.qty}x ${item.name} (Talla: ${item.size}) — ${formatPrice(
+            item.price * item.qty,
+            currency
+          )}`
       )
       .join('\n');
-    const text = `¡Hola MIPEUE! Quiero realizar el siguiente pedido:\n\n${itemsList}\n\nTotal: C$ ${cartTotal}`;
+
+    const addressText = deliveryAddress.trim()
+      ? `Dirección de entrega: ${deliveryAddress.trim()}`
+      : 'Dirección de entrega: (A coordinar)';
+
+    const text = `¡Hola MIPEUE! Quiero realizar el siguiente pedido:\n\n${itemsList}\n\nTotal artículos: ${formatPrice(
+      cartTotal,
+      currency
+    )} (Envío pendiente de cotizar)\n${addressText}\nMétodo de pago previsto: ${paymentMethod}`;
+
     return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
   };
 
@@ -799,8 +875,40 @@ export default function App() {
           })}
         </nav>
 
-        {/* Derecha: Switch Invertir Color + WhatsApp + Bolsa */}
+        {/* Derecha: Switch Invertir Color + Selector C$/USD + WhatsApp + Bolsa */}
         <div className="pointer-events-auto flex items-center gap-2 sm:gap-2.5">
+          {/* Selector de Moneda C$ / USD */}
+          <button
+            onClick={() => setCurrency((c) => (c === 'NIO' ? 'USD' : 'NIO'))}
+            className={`h-10 px-3 rounded-full border backdrop-blur-md flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer ${
+              isInverted
+                ? 'bg-white/60 border-[#081f1a]/15 text-[#081f1a] hover:bg-[#081f1a]/10'
+                : 'bg-black/35 border-[#e6e1d5]/15 text-[#e6e1d5] hover:bg-[#e6e1d5]/10'
+            }`}
+            title="Alternar entre Córdobas (C$) y Dólares (USD)"
+            aria-label="Alternar moneda"
+          >
+            <span
+              className={
+                currency === 'NIO'
+                  ? 'font-extrabold opacity-100 underline underline-offset-4 decoration-2'
+                  : 'opacity-55'
+              }
+            >
+              C$
+            </span>
+            <span className="opacity-30 text-[10px]">|</span>
+            <span
+              className={
+                currency === 'USD'
+                  ? 'font-extrabold opacity-100 underline underline-offset-4 decoration-2'
+                  : 'opacity-55'
+              }
+            >
+              USD
+            </span>
+          </button>
+
           <button
             onClick={() => setIsInverted((prev) => !prev)}
             className={`h-10 px-3.5 rounded-full border backdrop-blur-md flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wider transition-all duration-300 cursor-pointer ${
@@ -988,7 +1096,7 @@ export default function App() {
           <div className="md:col-span-3 flex flex-col items-start md:items-end justify-center space-y-6 order-3 z-10">
             <AnimatePresence mode="wait" custom={direction}>
               <motion.div
-                key={`${currentHeroProduct.id}-${currentHeroPrice}`}
+                key={`${currentHeroProduct.id}-${currentHeroPrice}-${currency}`}
                 custom={direction}
                 variants={heroItemVariants}
                 initial="enter"
@@ -1001,7 +1109,7 @@ export default function App() {
                     isInverted ? 'text-[#081f1a]' : 'text-white'
                   }`}
                 >
-                  C$ {currentHeroPrice}
+                  {formatPrice(currentHeroPrice)}
                 </div>
               </motion.div>
             </AnimatePresence>
@@ -1009,7 +1117,7 @@ export default function App() {
             {currentHeroProduct.hasSwatches && (
               <div className="flex flex-col items-start md:items-end space-y-2.5">
                 <span className="text-xs opacity-80 tracking-wide">
-                  Tono ({heroTone === 'crema' ? 'Crema C$ 490' : 'Blanco C$ 480'}):
+                  Tono ({heroTone === 'crema' ? `Crema ${formatPrice(490)}` : `Blanco ${formatPrice(480)}`}):
                 </span>
                 <div className="flex items-center gap-3">
                   {TONE_SWATCHES.map((swatch) => {
@@ -1018,8 +1126,8 @@ export default function App() {
                       <button
                         key={swatch.id}
                         onClick={() => setHeroTone(swatch.id)}
-                        title={`${swatch.label} — C$ ${swatch.price}`}
-                        aria-label={`${swatch.label} C$ ${swatch.price}`}
+                        title={`${swatch.label} — ${formatPrice(swatch.price)}`}
+                        aria-label={`${swatch.label} ${formatPrice(swatch.price)}`}
                         className={`w-7 h-7 rounded-full ${swatch.bgClass} border border-black/25 transition-transform cursor-pointer ${
                           activeSwatch
                             ? isInverted
@@ -1035,9 +1143,19 @@ export default function App() {
             )}
 
             <div className="flex flex-col items-start md:items-end space-y-3">
-              <span className="text-xs opacity-80 tracking-wide">
-                Elige tu talla:
-              </span>
+              <div className="flex items-center gap-2">
+                <span className="text-xs opacity-80 tracking-wide">
+                  Elige tu talla:
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setIsSizeGuideOpen(true)}
+                  className="text-[11px] underline opacity-65 hover:opacity-100 flex items-center gap-1 cursor-pointer transition-opacity"
+                >
+                  <Ruler className="w-3 h-3" />
+                  <span>Guía de medidas</span>
+                </button>
+              </div>
               <div className="flex items-center gap-2.5 flex-wrap md:justify-end">
                 {currentHeroProduct.sizes.map((size) => {
                   const isSelected = heroSize === size;
@@ -1046,7 +1164,7 @@ export default function App() {
                       key={size}
                       onClick={() => setHeroSize(size)}
                       className={`${
-                        size === 'Unitalla' ? 'px-4 h-11' : 'w-11 h-11'
+                        size === 'Unitalla' || size === 'Otra talla' ? 'px-3.5 h-11' : 'w-11 h-11'
                       } rounded-full text-xs font-semibold transition-all flex items-center justify-center cursor-pointer ${
                         isSelected
                           ? isInverted
@@ -1202,7 +1320,7 @@ export default function App() {
                                 isInverted ? 'text-[#081f1a]' : 'text-white'
                               }`}
                             >
-                              C$ {item.price}
+                              {formatPrice(item.price)}
                             </span>
                           </div>
                           <p className="text-xs opacity-75">{item.subtitle}</p>
@@ -1226,7 +1344,7 @@ export default function App() {
                                       }))
                                     }
                                     className={`${
-                                      sz === 'Unitalla' ? 'px-3 h-9' : 'w-9 h-9'
+                                      sz === 'Unitalla' || sz === 'Otra talla' ? 'px-2.5 h-9' : 'w-9 h-9'
                                     } rounded-full text-xs font-semibold border transition-all flex items-center justify-center cursor-pointer ${
                                       activeSz
                                         ? isInverted
@@ -1402,7 +1520,7 @@ export default function App() {
                                 isInverted ? 'text-[#081f1a]' : 'text-white'
                               }`}
                             >
-                              C$ {currentPrice}
+                              {formatPrice(currentPrice)}
                             </span>
                           </div>
                           <p className="text-xs opacity-75">
@@ -1414,7 +1532,7 @@ export default function App() {
                           {/* Selector de Tono en Círculos: Blanco (C$ 480) y Crema (C$ 490) */}
                           <div className="flex items-center justify-between">
                             <span className="text-[11px] uppercase tracking-wider opacity-75">
-                              Color ({cfg.tone === 'crema' ? 'Crema' : 'Blanco'}):
+                              Color ({cfg.tone === 'crema' ? `Crema ${formatPrice(490)}` : `Blanco ${formatPrice(480)}`}):
                             </span>
                             <div className="flex items-center gap-3">
                               {TONE_SWATCHES.map((swatch) => {
@@ -1463,7 +1581,7 @@ export default function App() {
                                         [product.id]: { ...cfg, size: sz }
                                       }))
                                     }
-                                    className={`w-9 h-9 rounded-full text-xs font-semibold border transition-all flex items-center justify-center cursor-pointer ${
+                                    className={`${sz === 'Unitalla' || sz === 'Otra talla' ? 'px-2.5 h-9' : 'w-9 h-9'} rounded-full text-xs font-semibold border transition-all flex items-center justify-center cursor-pointer ${
                                       activeSz
                                         ? isInverted
                                           ? 'bg-[#081f1a] text-[#e6e1d5] border-[#081f1a]'
@@ -1633,7 +1751,7 @@ export default function App() {
                                 isInverted ? 'text-[#081f1a]' : 'text-white'
                               }`}
                             >
-                              C$ {tote.price}
+                              {formatPrice(tote.price)}
                             </span>
                           </div>
                           <p className="text-xs opacity-75">{tote.subtitle}</p>
@@ -1705,7 +1823,230 @@ export default function App() {
         </div>
       </section>
 
-      {/* ================= CARRITO LATERAL (DRAWER) ================= */}
+      {/* ================= SECCIÓN POLÍTICAS & FAQ ================= */}
+      <section
+        id="politicas"
+        className={`py-20 px-6 md:px-10 border-t transition-colors duration-500 ${
+          isInverted ? 'border-[#081f1a]/12' : 'border-[#e6e1d5]/12'
+        }`}
+      >
+        <div className="max-w-4xl mx-auto space-y-10">
+          <div className="text-center space-y-3">
+            <h2
+              className={`text-2xl sm:text-4xl font-bold tracking-tight uppercase ${
+                isInverted ? 'text-[#081f1a]' : 'text-white'
+              }`}
+            >
+              Políticas y Preguntas Frecuentes
+            </h2>
+            <p className="text-xs sm:text-sm opacity-75 max-w-xl mx-auto">
+              Información sobre entregas, tiempos de despacho, retiros y garantía de cambio de MiPEUE.
+            </p>
+          </div>
+
+          <div className="space-y-3">
+            {FAQS.map((faq, idx) => {
+              const isOpen = openFaq === idx;
+              return (
+                <div
+                  key={idx}
+                  className={`rounded-2xl border transition-colors ${
+                    isInverted
+                      ? 'bg-white/60 border-[#081f1a]/15'
+                      : 'bg-black/30 border-[#e6e1d5]/15'
+                  }`}
+                >
+                  <button
+                    onClick={() => setOpenFaq(isOpen ? null : idx)}
+                    className="w-full p-4 sm:p-5 flex items-center justify-between text-left gap-4 cursor-pointer"
+                  >
+                    <span className="font-semibold text-sm sm:text-base">
+                      {faq.q}
+                    </span>
+                    <span className="text-lg opacity-60 shrink-0">
+                      {isOpen ? '−' : '+'}
+                    </span>
+                  </button>
+                  {isOpen && (
+                    <div className="px-5 pb-5 pt-1 text-xs sm:text-sm opacity-80 leading-relaxed border-t border-current/10">
+                      {faq.a}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="flex justify-center pt-4">
+            <button
+              onClick={() => setIsSizeGuideOpen(true)}
+              className={`px-6 py-3 rounded-full border text-xs font-semibold uppercase tracking-wider flex items-center gap-2 transition-all cursor-pointer ${
+                isInverted
+                  ? 'border-[#081f1a]/30 hover:bg-[#081f1a] hover:text-[#e6e1d5]'
+                  : 'border-[#e6e1d5]/30 hover:bg-[#e6e1d5] hover:text-[#081f1a]'
+              }`}
+            >
+              <Ruler className="w-4 h-4" />
+              <span>Ver Guía de Medidas Completa</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* ================= FOOTER ================= */}
+      <footer
+        className={`py-12 px-6 md:px-10 border-t transition-colors duration-500 text-xs ${
+          isInverted
+            ? 'border-[#081f1a]/15 text-[#081f1a]'
+            : 'border-[#e6e1d5]/15 text-[#e6e1d5]'
+        }`}
+      >
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="flex flex-col items-center md:items-start space-y-1 text-center md:text-left">
+            <span className="font-bold tracking-[0.25em] uppercase text-sm">
+              MIPEUE
+            </span>
+            <span className="opacity-70 text-[11px]">
+              Cultura, arte e identidad nicaragüense que se lleva puesta.
+            </span>
+            <span className="opacity-50 text-[10px] pt-0.5">
+              Retiro Pick Up: El Cortijo de la Sierra km 13 Carretera a Masaya, Managua.
+            </span>
+          </div>
+
+          <div className="flex items-center gap-6">
+            <a
+              href="https://instagram.com/mipeue"
+              target="_blank"
+              rel="noreferrer"
+              className="opacity-75 hover:opacity-100 transition-opacity font-semibold tracking-wider uppercase text-[11px]"
+            >
+              Instagram
+            </a>
+            <a
+              href="https://tiktok.com/@mipeue"
+              target="_blank"
+              rel="noreferrer"
+              className="opacity-75 hover:opacity-100 transition-opacity font-semibold tracking-wider uppercase text-[11px]"
+            >
+              TikTok
+            </a>
+            <a
+              href={`https://wa.me/${WHATSAPP_NUMBER}`}
+              target="_blank"
+              rel="noreferrer"
+              className="opacity-75 hover:opacity-100 transition-opacity font-semibold tracking-wider uppercase text-[11px]"
+            >
+              WhatsApp
+            </a>
+          </div>
+
+          <div className="text-center md:text-right opacity-60 text-[11px]">
+            Desarrollado por <span className="font-semibold opacity-90">Cristian Wildcane</span>
+          </div>
+        </div>
+      </footer>
+
+      {/* ================= MODAL GUÍA DE TALLAS ================= */}
+      <AnimatePresence>
+        {isSizeGuideOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsSizeGuideOpen(false)}
+              className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className={`fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-lg p-6 sm:p-8 rounded-3xl border shadow-2xl max-h-[90vh] overflow-y-auto ${
+                isInverted
+                  ? 'bg-[#e6e1d5] text-[#081f1a] border-[#081f1a]/20'
+                  : 'bg-[#081f1a] text-[#e6e1d5] border-[#e6e1d5]/20'
+              }`}
+            >
+              <div className="flex items-center justify-between pb-4 border-b border-current/15">
+                <div className="flex items-center gap-2">
+                  <Ruler className="w-5 h-5" />
+                  <h3 className="text-lg font-bold uppercase tracking-wider">
+                    Guía de Tallas y Medidas
+                  </h3>
+                </div>
+                <button
+                  onClick={() => setIsSizeGuideOpen(false)}
+                  className="w-8 h-8 rounded-full border border-current/20 flex items-center justify-center hover:opacity-60 cursor-pointer"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              <div className="py-5 space-y-6 text-xs sm:text-sm">
+                <div>
+                  <h4 className="font-bold uppercase tracking-wider mb-2 opacity-80">
+                    Camisetas Unisex (Algodón Peinado)
+                  </h4>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left border-collapse">
+                      <thead>
+                        <tr className="border-b border-current/20 opacity-60 text-[11px] uppercase">
+                          <th className="py-2">Talla</th>
+                          <th className="py-2">Ancho (Pecho)</th>
+                          <th className="py-2">Largo</th>
+                          <th className="py-2">Hombro</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-current/10">
+                        <tr><td className="py-2 font-bold">S</td><td>48 cm</td><td>70 cm</td><td>43 cm</td></tr>
+                        <tr><td className="py-2 font-bold">M</td><td>52 cm</td><td>72 cm</td><td>46 cm</td></tr>
+                        <tr><td className="py-2 font-bold">L</td><td>56 cm</td><td>75 cm</td><td>49 cm</td></tr>
+                        <tr><td className="py-2 font-bold">XL</td><td>60 cm</td><td>78 cm</td><td>52 cm</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div>
+                  <h4 className="font-bold uppercase tracking-wider mb-2 opacity-80">
+                    Tops Raglán y Bolsos
+                  </h4>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left border-collapse">
+                      <thead>
+                        <tr className="border-b border-current/20 opacity-60 text-[11px] uppercase">
+                          <th className="py-2">Pieza</th>
+                          <th className="py-2">Medidas</th>
+                          <th className="py-2">Corte</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-current/10">
+                        <tr>
+                          <td className="py-2 font-bold">Top Raglán</td>
+                          <td>Ancho 42 cm • Largo 46 cm</td>
+                          <td>Unitalla / Bicolor</td>
+                        </tr>
+                        <tr>
+                          <td className="py-2 font-bold">Tote Bag</td>
+                          <td>32 × 35 cm (Asas 60 cm)</td>
+                          <td>Lona cruda resistente</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <p className="text-[11px] opacity-65 leading-relaxed pt-2 border-t border-current/10">
+                  * Medidas tomadas sobre prenda plana en centímetros. Si requieres confección en otra talla específica (XXL o XS), consúltanos al confirmar tu pedido.
+                </p>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* ================= CARRITO LATERAL (DRAWER COLOR CREMA) ================= */}
       <AnimatePresence>
         {isCartOpen && (
           <>
@@ -1721,17 +2062,9 @@ export default function App() {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', stiffness: 320, damping: 32 }}
-              className={`fixed top-0 right-0 bottom-0 z-50 w-full max-w-md border-l p-6 flex flex-col justify-between shadow-2xl transition-colors duration-300 ${
-                isInverted
-                  ? 'bg-[#e6e1d5] text-[#081f1a] border-[#081f1a]/15'
-                  : 'bg-[#081f1a] text-[#e6e1d5] border-[#e6e1d5]/15'
-              }`}
+              className="fixed top-0 right-0 bottom-0 z-50 w-full max-w-md border-l p-6 flex flex-col justify-between shadow-2xl transition-colors duration-300 bg-[#e6e1d5] text-[#081f1a] border-[#081f1a]/15"
             >
-              <div
-                className={`flex items-center justify-between pb-4 border-b ${
-                  isInverted ? 'border-[#081f1a]/15' : 'border-[#e6e1d5]/15'
-                }`}
-              >
+              <div className="flex items-center justify-between pb-4 border-b border-[#081f1a]/15">
                 <div className="flex items-center gap-2">
                   <ShoppingBag className="w-5 h-5" />
                   <h2 className="text-base font-bold tracking-wide uppercase">
@@ -1740,11 +2073,7 @@ export default function App() {
                 </div>
                 <button
                   onClick={() => setIsCartOpen(false)}
-                  className={`w-8 h-8 rounded-full border flex items-center justify-center cursor-pointer ${
-                    isInverted
-                      ? 'bg-white/70 border-[#081f1a]/15 text-[#081f1a]'
-                      : 'bg-[#051714] border-[#e6e1d5]/15 text-[#e6e1d5]'
-                  }`}
+                  className="w-8 h-8 rounded-full border border-[#081f1a]/15 bg-white/70 text-[#081f1a] flex items-center justify-center cursor-pointer hover:bg-white transition-colors"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -1759,11 +2088,7 @@ export default function App() {
                   cart.map((item) => (
                     <div
                       key={item.key}
-                      className={`flex items-center justify-between gap-3 p-3 rounded-2xl border ${
-                        isInverted
-                          ? 'bg-white/60 border-[#081f1a]/10'
-                          : 'bg-[#051714]/70 border-[#e6e1d5]/10'
-                      }`}
+                      className="flex items-center justify-between gap-3 p-3 rounded-2xl border bg-white/70 border-[#081f1a]/10"
                     >
                       <div className="flex items-center gap-3 min-w-0">
                         <img
@@ -1771,7 +2096,7 @@ export default function App() {
                           alt={item.name}
                           loading="lazy"
                           decoding="async"
-                          className="w-12 h-12 object-cover rounded-lg shrink-0"
+                          className="w-12 h-12 object-cover rounded-lg shrink-0 border border-[#081f1a]/10"
                         />
                         <div className="min-w-0">
                           <h3 className="text-sm font-bold truncate">
@@ -1781,7 +2106,7 @@ export default function App() {
                             Talla: {item.size} • Cant: {item.qty}
                           </p>
                           <p className="text-xs font-semibold mt-0.5">
-                            C$ {item.price * item.qty}
+                            {formatPrice(item.price * item.qty)}
                           </p>
                         </div>
                       </div>
@@ -1797,19 +2122,62 @@ export default function App() {
                 )}
               </div>
 
-              <div
-                className={`pt-4 border-t space-y-4 ${
-                  isInverted ? 'border-[#081f1a]/15' : 'border-[#e6e1d5]/15'
-                }`}
-              >
-                <div className="space-y-1.5 text-sm">
+              <div className="pt-4 border-t border-[#081f1a]/15 space-y-3.5">
+                {/* Formulario minimalista de Checkout */}
+                <div className="space-y-2.5">
+                  <div className="space-y-1">
+                    <label className="text-[11px] font-bold uppercase tracking-wider opacity-75">
+                      Dirección o departamento de entrega
+                    </label>
+                    <input
+                      type="text"
+                      value={deliveryAddress}
+                      onChange={(e) => setDeliveryAddress(e.target.value)}
+                      placeholder="Ej. Managua, Los Robles / Matagalpa centro"
+                      className="w-full px-3 py-2 text-xs rounded-xl border border-[#081f1a]/20 bg-white/80 focus:outline-none focus:border-[#081f1a] text-[#081f1a] placeholder:text-[#081f1a]/40"
+                    />
+                  </div>
+
+                  <div className="space-y-1">
+                    <label className="text-[11px] font-bold uppercase tracking-wider opacity-75">
+                      Método de pago previsto
+                    </label>
+                    <div className="grid grid-cols-2 gap-2">
+                      {['Transferencia bancaria', 'Efectivo contra entrega'].map(
+                        (method) => {
+                          const isSelected = paymentMethod === method;
+                          return (
+                            <button
+                              key={method}
+                              type="button"
+                              onClick={() => setPaymentMethod(method)}
+                              className={`px-2 py-2 rounded-xl text-[11px] font-semibold border transition-all cursor-pointer text-center leading-tight ${
+                                isSelected
+                                  ? 'bg-[#081f1a] text-[#e6e1d5] border-[#081f1a] shadow-sm'
+                                  : 'bg-white/60 text-[#081f1a]/75 border-[#081f1a]/15 hover:border-[#081f1a]/40'
+                              }`}
+                            >
+                              {method}
+                            </button>
+                          );
+                        }
+                      )}
+                    </div>
+                  </div>
+
+                  <p className="text-[10px] opacity-65 leading-tight italic">
+                    * Tarifa no incluye costo de envío (se cotiza según destino por CargoTrans o motorizado en Managua).
+                  </p>
+                </div>
+
+                <div className="space-y-1.5 text-sm pt-1">
                   <div className="flex justify-between opacity-70">
                     <span>Subtotal</span>
-                    <span>C$ {cartTotal}</span>
+                    <span>{formatPrice(cartTotal)}</span>
                   </div>
                   <div className="flex justify-between text-base font-bold pt-1">
                     <span>Total</span>
-                    <span>C$ {cartTotal}</span>
+                    <span>{formatPrice(cartTotal)}</span>
                   </div>
                 </div>
 
@@ -1817,11 +2185,7 @@ export default function App() {
                   href={getCheckoutWhatsAppUrl()}
                   target="_blank"
                   rel="noreferrer"
-                  className={`w-full py-3.5 px-6 rounded-full font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-colors shadow-lg ${
-                    isInverted
-                      ? 'bg-[#081f1a] text-[#e6e1d5] hover:bg-[#0e3831]'
-                      : 'bg-[#e6e1d5] text-[#081f1a] hover:bg-white'
-                  }`}
+                  className="w-full py-3.5 px-6 rounded-full font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-colors shadow-lg bg-[#081f1a] text-[#e6e1d5] hover:bg-[#0e3831] cursor-pointer"
                 >
                   <MessageCircle className="w-4 h-4" />
                   <span>Finalizar Pedido por WhatsApp</span>
