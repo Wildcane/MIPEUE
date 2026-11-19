@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, useRef, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ChevronLeft,
@@ -12,6 +12,10 @@ import {
   Ruler,
   ArrowLeftRight
 } from 'lucide-react';
+import { deepFreeze } from './data/catalog';
+
+// Carga diferida (lazy loading) del modal de medidas para optimizar el bundle inicial
+const SizeGuideModal = React.lazy(() => import('./components/SizeGuideModal'));
 
 const WHATSAPP_NUMBER = '50583332316';
 const EXCHANGE_RATE = 36.6243;
@@ -394,6 +398,81 @@ const ALL_CATALOG_PRODUCTS = [
   }
 ];
 
+// Blindaje de inmutabilidad contra manipulaciones en runtime
+deepFreeze(NAV_SECTIONS);
+deepFreeze(ALL_CATALOG_PRODUCTS);
+
+/**
+ * Sanitizador de texto libre contra inyección de HTML, scripts y URLs externas.
+ */
+function sanitizeUserInput(input, maxLength = 140) {
+  if (typeof input !== 'string') return '';
+  return input
+    .slice(0, maxLength)
+    /* eslint-disable-next-line no-control-regex */
+    .replace(/[\x00-\x1F\x7F]/g, ' ')
+    .replace(/<[^>]*>/g, '')
+    .replace(/(https?:\/\/|www\.)[^\s]+/gi, '[enlace no permitido]')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+/**
+ * Reconciliador canónico de artículos del carrito.
+ * Valida cada ítem contra el catálogo congelado inmutable.
+ * Descarta automáticamente IDs inexistentes o manipulados y sobreescribe precios.
+ */
+function resolveCanonicalCartItem(rawItem) {
+  if (!rawItem || typeof rawItem !== 'object') return null;
+
+  let prod = ALL_CATALOG_PRODUCTS.find((p) => p.id === rawItem.productId);
+  let colorId = rawItem.colorId;
+
+  if (!prod && rawItem.id) {
+    prod = ALL_CATALOG_PRODUCTS.find(
+      (p) => p.id === rawItem.id || rawItem.id.startsWith(`${p.id}-`)
+    );
+    if (prod && !colorId) {
+      colorId = rawItem.id.replace(`${prod.id}-`, '');
+    }
+  }
+
+  if (!prod) return null; // ID inválido o manipulado -> se descarta
+
+  let variant = null;
+  if (prod.colors && prod.colors.length > 0) {
+    variant =
+      prod.colors.find((c) => c.id === colorId) ||
+      prod.colors.find((c) => c.id === prod.defaultColor) ||
+      prod.colors[0];
+  }
+
+  const verifiedPrice = variant?.price ?? prod.price;
+  if (typeof verifiedPrice !== 'number' || isNaN(verifiedPrice) || verifiedPrice <= 0) {
+    return null;
+  }
+
+  const validSizes = Array.isArray(prod.sizes) && prod.sizes.length > 0 ? prod.sizes : ['Unitalla'];
+  const sanitizedSize = typeof rawItem.size === 'string' && rawItem.size.trim()
+    ? rawItem.size.trim()
+    : validSizes[0];
+
+  const colorLabel = variant?.label ? ` (${variant.label})` : '';
+  const qty = Math.max(1, Math.min(99, parseInt(rawItem.qty, 10) || 1));
+
+  return {
+    key: `${prod.id}-${variant?.id || 'default'}-${sanitizedSize}`,
+    id: `${prod.id}-${variant?.id || 'default'}`,
+    productId: prod.id,
+    colorId: variant?.id || 'default',
+    name: `${prod.name}${colorLabel}`,
+    size: sanitizedSize,
+    price: verifiedPrice, // Precio canónico inmutable verificado
+    image: variant?.image || prod.image,
+    qty: qty
+  };
+}
+
 // Divisiones por colección para las secciones y carruseles
 const MITOS_ITEMS = ALL_CATALOG_PRODUCTS.filter((p) => p.collection === 'mitos');
 const RAICES_ITEMS = ALL_CATALOG_PRODUCTS.filter((p) => p.collection === 'raices');
@@ -557,13 +636,10 @@ function CarouselProductCard({
 
   const handleAdd = () => {
     if (product?.soldOut) return;
-    const colorLabel = currentColorVariant ? ` (${currentColorVariant.label})` : '';
     onAddToCart?.({
-      id: `${product?.id || 'item'}-${currentColorVariant?.id || 'default'}`,
-      name: `${product?.name || 'Prenda MiPEUE'}${colorLabel}`,
+      productId: product?.id,
+      colorId: currentColorVariant?.id || 'default',
       size: selectedSize,
-      price: currentPrice,
-      image: currentImage,
       qty: qty
     });
   };
@@ -923,11 +999,40 @@ function AppContent() {
   const [heroSize, setHeroSize] = useState('M');
   const [heroColor, setHeroColor] = useState('negro');
 
-  // Carrito lateral
-  const [cart, setCart] = useState([]);
+  // Carrito lateral con persistencia en localStorage y blindaje anti-manipulación
+  const [cart, setCart] = useState(() => {
+    try {
+      const saved = localStorage.getItem('mipeue_cart');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) {
+          return parsed.map(resolveCanonicalCartItem).filter(Boolean);
+        }
+      }
+    } catch {
+      // Ignorar fallos de parsing en storage
+    }
+    return [];
+  });
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [deliveryAddress, setDeliveryAddress] = useState('');
+  const [customSizeNote, setCustomSizeNote] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('Transferencia bancaria');
+
+  // Sincronizar storage con estructura mínima verificable
+  useEffect(() => {
+    try {
+      const minimalCart = cart.map((i) => ({
+        productId: i.productId,
+        colorId: i.colorId,
+        size: i.size,
+        qty: i.qty
+      }));
+      localStorage.setItem('mipeue_cart', JSON.stringify(minimalCart));
+    } catch {
+      // Manejar excepciones de almacenamiento
+    }
+  }, [cart]);
 
   // Modales
   const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
@@ -1034,17 +1139,21 @@ function AppContent() {
     }
   };
 
-  // Carrito helpers
-  const addItemToCart = (item) => {
+  // Carrito helpers con reconciliación canónica estricta
+  const addItemToCart = (rawItem) => {
+    const verified = resolveCanonicalCartItem(rawItem);
+    if (!verified) return;
+
     setCart((prev) => {
-      const key = `${item.id}-${item.size}`;
-      const existing = prev.find((i) => i.key === key);
+      const existing = prev.find((i) => i.key === verified.key);
       if (existing) {
         return prev.map((i) =>
-          i.key === key ? { ...i, qty: i.qty + (item.qty || 1) } : i
+          i.key === verified.key
+            ? { ...i, qty: Math.min(99, i.qty + verified.qty) }
+            : i
         );
       }
-      return [...prev, { ...item, key }];
+      return [...prev, verified];
     });
     setIsCartOpen(true);
   };
@@ -1054,13 +1163,10 @@ function AppContent() {
     const sizeToUse = currentHeroProduct.sizes.includes(heroSize)
       ? heroSize
       : currentHeroProduct.sizes[0];
-    const colorLabel = currentHeroColorVariant ? ` (${currentHeroColorVariant.label})` : '';
     addItemToCart({
-      id: `${currentHeroProduct.id}-${currentHeroColorVariant?.id || 'default'}`,
-      name: `${currentHeroProduct.name}${colorLabel}`,
+      productId: currentHeroProduct.id,
+      colorId: currentHeroColorVariant?.id || 'default',
       size: sizeToUse,
-      price: currentHeroPrice,
-      image: currentHeroImage,
       qty: 1
     });
   };
@@ -1069,31 +1175,46 @@ function AppContent() {
     setCart((prev) => prev.filter((item) => item.key !== key));
   };
 
-  const cartTotal = useMemo(() => {
-    return cart.reduce((acc, item) => acc + item.price * item.qty, 0);
+  // Carrito verificado contra catálogo inmutable
+  const verifiedCart = useMemo(() => {
+    return cart.map(resolveCanonicalCartItem).filter(Boolean);
   }, [cart]);
+
+  const cartTotal = useMemo(() => {
+    return verifiedCart.reduce((acc, item) => acc + item.price * item.qty, 0);
+  }, [verifiedCart]);
 
   const cartCount = useMemo(() => {
-    return cart.reduce((acc, item) => acc + item.qty, 0);
-  }, [cart]);
+    return verifiedCart.reduce((acc, item) => acc + item.qty, 0);
+  }, [verifiedCart]);
 
-  // Generador de enlace de WhatsApp
+  // Generador de enlace de WhatsApp blindado contra manipulación de precios
   const getCheckoutWhatsAppUrl = () => {
+    const safeItems = cart.map(resolveCanonicalCartItem).filter(Boolean);
+    if (safeItems.length === 0) return '#';
+
+    const safeTotal = safeItems.reduce((acc, item) => acc + item.price * item.qty, 0);
+    const cleanAddress = sanitizeUserInput(deliveryAddress, 140);
+    const cleanCustomSize = sanitizeUserInput(customSizeNote, 25);
+
     let msg = `Hola equipo MiPEUE, quiero realizar el siguiente pedido:\n\n`;
     msg += `*DETALLES DEL PEDIDO*\n`;
     msg += `--------------------------------------\n`;
-    cart.forEach((item, idx) => {
+    safeItems.forEach((item, idx) => {
       msg += `${idx + 1}. *${item.name}*\n`;
       msg += `   • Talla: ${item.size}\n`;
       msg += `   • Cantidad: ${item.qty}\n`;
       msg += `   • Subtotal: ${formatPrice(item.price * item.qty)}\n`;
     });
     msg += `--------------------------------------\n`;
-    msg += `*TOTAL ESTIMADO:* ${formatPrice(cartTotal)}\n`;
+    msg += `*TOTAL ESTIMADO:* ${formatPrice(safeTotal)}\n`;
     msg += `*MONEDA PREFERIDA:* ${currency === 'USD' ? 'Dólares (USD)' : 'Córdobas (C$)'}\n`;
     msg += `*MÉTODO DE PAGO:* ${paymentMethod}\n`;
-    if (deliveryAddress.trim()) {
-      msg += `*DIRECCIÓN DE ENTREGA:* ${deliveryAddress.trim()}\n`;
+    if (cleanAddress) {
+      msg += `*DIRECCIÓN DE ENTREGA:* ${cleanAddress}\n`;
+    }
+    if (cleanCustomSize) {
+      msg += `*MEDIDA PERSONALIZADA ("OTRA TALLA"):* ${cleanCustomSize}\n`;
     }
     msg += `--------------------------------------\n`;
     msg += `Quedo a la espera de su confirmación para coordinar el pago y la entrega. ¡Muchas gracias!`;
@@ -1691,158 +1812,14 @@ function AppContent() {
         </div>
       </footer>
 
-      {/* ================= MODAL GUÍA DE MEDIDAS ================= */}
-      <AnimatePresence>
-        {isSizeGuideOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
-            {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setIsSizeGuideOpen(false)}
-              className="fixed inset-0 bg-black/75 backdrop-blur-xs cursor-pointer"
-            />
-
-            {/* Modal Dialog Box */}
-            <motion.div
-              role="dialog"
-              aria-modal="true"
-              initial={{ opacity: 0, scale: 0.95, y: 16 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 16 }}
-              transition={{ duration: 0.25, ease: 'easeOut' }}
-              className={`relative z-10 max-w-lg w-full max-h-[85vh] overflow-y-auto rounded-3xl p-4 sm:p-6 shadow-2xl border ${
-                isInverted
-                  ? 'bg-[#e6e1d5] text-[#081f1a] border-[#081f1a]/20'
-                  : 'bg-[#0b241f] text-[#e6e1d5] border-[#e6e1d5]/20'
-              }`}
-            >
-              {/* Header sticky con botón de cierre X accesible */}
-              <div
-                className={`sticky top-0 z-10 -mx-4 -mt-4 sm:-mx-6 sm:-mt-6 px-4 py-3 sm:px-6 sm:py-4 border-b border-current/15 flex items-center justify-between backdrop-blur-md ${
-                  isInverted ? 'bg-[#e6e1d5]/95' : 'bg-[#0b241f]/95'
-                }`}
-              >
-                <div className="flex items-center gap-2 min-w-0">
-                  <Ruler className="w-5 h-5 shrink-0" />
-                  <h3 className="text-sm sm:text-base font-bold uppercase tracking-wider truncate">
-                    Guía de Medidas Oficial (cm)
-                  </h3>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setIsSizeGuideOpen(false)}
-                  aria-label="Cerrar guía de medidas"
-                  className="p-1.5 rounded-full opacity-70 hover:opacity-100 hover:bg-black/10 transition-colors cursor-pointer shrink-0 ml-2"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-
-              {/* Contenido responsivo con tablas scrolleables */}
-              <div className="pt-4 space-y-4 text-xs sm:text-sm">
-                <p className="opacity-80 leading-relaxed text-xs">
-                  Medidas oficiales tomadas sobre prenda plana en centímetros (100% algodón peinado nicaragüense):
-                </p>
-
-                {/* Camisetas Unisex */}
-                <div className="space-y-1.5">
-                  <span className="font-bold text-xs uppercase tracking-wider opacity-90 block">
-                    Camisetas Unisex (Corte Regular / Clásico)
-                  </span>
-                  <div className="w-full overflow-x-auto my-2 -mx-2 px-2 scrollbar-thin">
-                    <table className="min-w-[320px] w-full text-xs sm:text-sm text-left border-collapse whitespace-nowrap">
-                      <thead>
-                        <tr className="border-b border-current/20 opacity-70">
-                          <th className="py-2 px-3 font-semibold">Talla</th>
-                          <th className="py-2 px-3 font-semibold">Ancho (pecho)</th>
-                          <th className="py-2 px-3 font-semibold">Largo total</th>
-                          <th className="py-2 px-3 font-semibold">Hombro</th>
-                          <th className="py-2 px-3 font-semibold">Manga</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-current/10">
-                        <tr>
-                          <td className="py-2 px-3 font-bold">S</td>
-                          <td className="py-2 px-3">48 cm</td>
-                          <td className="py-2 px-3">69 cm</td>
-                          <td className="py-2 px-3">43 cm</td>
-                          <td className="py-2 px-3">20 cm</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2 px-3 font-bold">M</td>
-                          <td className="py-2 px-3">51 cm</td>
-                          <td className="py-2 px-3">71 cm</td>
-                          <td className="py-2 px-3">46 cm</td>
-                          <td className="py-2 px-3">21 cm</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2 px-3 font-bold">L</td>
-                          <td className="py-2 px-3">55 cm</td>
-                          <td className="py-2 px-3">74 cm</td>
-                          <td className="py-2 px-3">48 cm</td>
-                          <td className="py-2 px-3">22 cm</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2 px-3 font-bold">XL</td>
-                          <td className="py-2 px-3">58 cm</td>
-                          <td className="py-2 px-3">77 cm</td>
-                          <td className="py-2 px-3">50 cm</td>
-                          <td className="py-2 px-3">23 cm</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-
-                {/* Tops Bicolor */}
-                <div className="space-y-1.5 pt-2 border-t border-current/10">
-                  <span className="font-bold text-xs uppercase tracking-wider opacity-90 block">
-                    Tops Raglán / Baby Tees
-                  </span>
-                  <div className="w-full overflow-x-auto my-2 -mx-2 px-2 scrollbar-thin">
-                    <table className="min-w-[320px] w-full text-xs sm:text-sm text-left border-collapse whitespace-nowrap">
-                      <thead>
-                        <tr className="border-b border-current/20 opacity-70">
-                          <th className="py-2 px-3 font-semibold">Talla</th>
-                          <th className="py-2 px-3 font-semibold">Ancho (pecho)</th>
-                          <th className="py-2 px-3 font-semibold">Largo</th>
-                          <th className="py-2 px-3 font-semibold">Manga</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-current/10">
-                        <tr>
-                          <td className="py-2 px-3 font-bold">Unitalla</td>
-                          <td className="py-2 px-3">46 cm</td>
-                          <td className="py-2 px-3">50.5 cm</td>
-                          <td className="py-2 px-3">26 cm</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-
-                {/* Tote Bags */}
-                <div className="space-y-1.5 pt-2 border-t border-current/10">
-                  <span className="font-bold text-xs uppercase tracking-wider opacity-90 block">
-                    Tote Bags (Lona Cruda 12oz)
-                  </span>
-                  <p className="text-xs opacity-75">
-                    Medida única estándar: <strong>32 × 35 cm</strong> con asas reforzadas de 60 cm para colgar cómodamente al hombro.
-                  </p>
-                </div>
-
-                <div className="pt-3 border-t border-current/10">
-                  <p className="text-[11px] opacity-65 leading-relaxed">
-                    * Si necesitas confección en una talla especial (XS o XXL), consúltanos al confirmar tu pedido por WhatsApp para coordinar tu pieza personalizada.
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
+      {/* ================= MODAL GUÍA DE MEDIDAS (LAZY LOADED) ================= */}
+      <Suspense fallback={null}>
+        <SizeGuideModal
+          isOpen={isSizeGuideOpen}
+          onClose={() => setIsSizeGuideOpen(false)}
+          isInverted={isInverted}
+        />
+      </Suspense>
 
       {/* ================= CARRITO LATERAL (DRAWER COLOR CREMA) ================= */}
       <AnimatePresence>
@@ -1879,12 +1856,12 @@ function AppContent() {
               </div>
 
               <div className="flex-1 overflow-y-auto py-4 space-y-3">
-                {cart.length === 0 ? (
+                {verifiedCart.length === 0 ? (
                   <div className="h-full flex flex-col items-center justify-center text-center opacity-55 text-sm">
                     Tu bolsa está vacía.
                   </div>
                 ) : (
-                  cart.map((item) => (
+                  verifiedCart.map((item) => (
                     <div
                       key={item.key}
                       className="flex items-center justify-between gap-3 p-3 rounded-2xl border bg-white/70 border-[#081f1a]/10"
@@ -1927,16 +1904,33 @@ function AppContent() {
                 <div className="space-y-2.5">
                   <div className="space-y-1">
                     <label className="text-[11px] font-bold uppercase tracking-wider opacity-75">
-                      Dirección o departamento de entrega
+                      Dirección o departamento de entrega (máx 140 caracteres)
                     </label>
                     <input
                       type="text"
+                      maxLength={140}
                       value={deliveryAddress}
                       onChange={(e) => setDeliveryAddress(e.target.value)}
                       placeholder="Ej. Managua, Los Robles / Matagalpa centro"
                       className="w-full px-3 py-2 text-xs rounded-xl border border-[#081f1a]/20 bg-white/80 focus:outline-none focus:border-[#081f1a] text-[#081f1a] placeholder:text-[#081f1a]/40"
                     />
                   </div>
+
+                  {verifiedCart.some((i) => i.size === 'Otra talla') && (
+                    <div className="space-y-1">
+                      <label className="text-[11px] font-bold uppercase tracking-wider opacity-75">
+                        Especificar medida para &ldquo;Otra talla&rdquo; (máx 25 caracteres)
+                      </label>
+                      <input
+                        type="text"
+                        maxLength={25}
+                        value={customSizeNote}
+                        onChange={(e) => setCustomSizeNote(e.target.value)}
+                        placeholder="Ej. XS / 2XL / 54 cm pecho"
+                        className="w-full px-3 py-2 text-xs rounded-xl border border-[#081f1a]/20 bg-white/80 focus:outline-none focus:border-[#081f1a] text-[#081f1a] placeholder:text-[#081f1a]/40"
+                      />
+                    </div>
+                  )}
 
                   <div className="space-y-1">
                     <label className="text-[11px] font-bold uppercase tracking-wider opacity-75">

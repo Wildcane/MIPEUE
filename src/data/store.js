@@ -1,4 +1,6 @@
 // Datos de contacto, historia, FAQ y políticas oficiales MiPEUE.
+import { deepFreeze } from './catalog';
+
 export const EXCHANGE_RATE = 36.6243; // 1 USD = 36.6243 C$
 export const WHATSAPP_NUMBER = '50583332316';
 export const WHATSAPP_DISPLAY = '+505 8333-2316';
@@ -81,3 +83,10 @@ export const FAQS = [
       'Al seleccionar la opción "Otra talla" en la ficha de producto y confirmar tu pedido por WhatsApp, nuestro equipo te asesorará para confeccionar o reservar la talla específica que necesitás.',
   },
 ];
+
+// Congelamiento profundo de constantes oficiales
+deepFreeze(SOCIALS);
+deepFreeze(BUSINESS_HOURS);
+deepFreeze(ABOUT_US);
+deepFreeze(POLICIES);
+deepFreeze(FAQS);

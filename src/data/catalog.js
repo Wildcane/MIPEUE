@@ -2,6 +2,26 @@
 // Precios base en Córdobas (NIO) con conversión a USD.
 // Regla: Camisetas negras C$ 480, Crema/colores C$ 490, Colecciones nuevas C$ 490, Tops C$ 550, Tote bags C$ 430.
 
+/**
+ * Función de congelamiento profundo recursivo contra alteraciones en runtime.
+ */
+export function deepFreeze(obj) {
+  if (obj === null || typeof obj !== 'object') {
+    return obj;
+  }
+  Object.freeze(obj);
+  Object.keys(obj).forEach((prop) => {
+    if (
+      obj[prop] !== null &&
+      (typeof obj[prop] === 'object' || typeof obj[prop] === 'function') &&
+      !Object.isFrozen(obj[prop])
+    ) {
+      deepFreeze(obj[prop]);
+    }
+  });
+  return obj;
+}
+
 export const COLLECTIONS = [
   {
     id: 'granada',
@@ -317,6 +337,14 @@ export const PRODUCTS = [
     ],
   },
 ];
+
+// Congelamiento profundo inmutable de todas las estructuras oficiales
+deepFreeze(COLLECTIONS);
+deepFreeze(COLOR_SWATCHES);
+deepFreeze(STANDARD_SIZES);
+deepFreeze(TOP_SIZES);
+deepFreeze(TOTE_SIZES);
+deepFreeze(PRODUCTS);
 
 export const isAvailable = (variant) => variant.status === IN_STOCK;
 
