@@ -12,7 +12,7 @@ import {
   Ruler,
   ArrowLeftRight
 } from 'lucide-react';
-import { deepFreeze } from './data/catalog';
+import { deepFreeze, sanitizeUserInput, resolveCanonicalCartItem } from './utils/security';
 
 // Carga diferida (lazy loading) del modal de medidas para optimizar el bundle inicial
 const SizeGuideModal = React.lazy(() => import('./components/SizeGuideModal'));
@@ -402,76 +402,8 @@ const ALL_CATALOG_PRODUCTS = [
 deepFreeze(NAV_SECTIONS);
 deepFreeze(ALL_CATALOG_PRODUCTS);
 
-/**
- * Sanitizador de texto libre contra inyección de HTML, scripts y URLs externas.
- */
-function sanitizeUserInput(input, maxLength = 140) {
-  if (typeof input !== 'string') return '';
-  return input
-    .slice(0, maxLength)
-    /* eslint-disable-next-line no-control-regex */
-    .replace(/[\x00-\x1F\x7F]/g, ' ')
-    .replace(/<[^>]*>/g, '')
-    .replace(/(https?:\/\/|www\.)[^\s]+/gi, '[enlace no permitido]')
-    .replace(/\s+/g, ' ')
-    .trim();
-}
-
-/**
- * Reconciliador canónico de artículos del carrito.
- * Valida cada ítem contra el catálogo congelado inmutable.
- * Descarta automáticamente IDs inexistentes o manipulados y sobreescribe precios.
- */
-function resolveCanonicalCartItem(rawItem) {
-  if (!rawItem || typeof rawItem !== 'object') return null;
-
-  let prod = ALL_CATALOG_PRODUCTS.find((p) => p.id === rawItem.productId);
-  let colorId = rawItem.colorId;
-
-  if (!prod && rawItem.id) {
-    prod = ALL_CATALOG_PRODUCTS.find(
-      (p) => p.id === rawItem.id || rawItem.id.startsWith(`${p.id}-`)
-    );
-    if (prod && !colorId) {
-      colorId = rawItem.id.replace(`${prod.id}-`, '');
-    }
-  }
-
-  if (!prod) return null; // ID inválido o manipulado -> se descarta
-
-  let variant = null;
-  if (prod.colors && prod.colors.length > 0) {
-    variant =
-      prod.colors.find((c) => c.id === colorId) ||
-      prod.colors.find((c) => c.id === prod.defaultColor) ||
-      prod.colors[0];
-  }
-
-  const verifiedPrice = variant?.price ?? prod.price;
-  if (typeof verifiedPrice !== 'number' || isNaN(verifiedPrice) || verifiedPrice <= 0) {
-    return null;
-  }
-
-  const validSizes = Array.isArray(prod.sizes) && prod.sizes.length > 0 ? prod.sizes : ['Unitalla'];
-  const sanitizedSize = typeof rawItem.size === 'string' && rawItem.size.trim()
-    ? rawItem.size.trim()
-    : validSizes[0];
-
-  const colorLabel = variant?.label ? ` (${variant.label})` : '';
-  const qty = Math.max(1, Math.min(99, parseInt(rawItem.qty, 10) || 1));
-
-  return {
-    key: `${prod.id}-${variant?.id || 'default'}-${sanitizedSize}`,
-    id: `${prod.id}-${variant?.id || 'default'}`,
-    productId: prod.id,
-    colorId: variant?.id || 'default',
-    name: `${prod.name}${colorLabel}`,
-    size: sanitizedSize,
-    price: verifiedPrice, // Precio canónico inmutable verificado
-    image: variant?.image || prod.image,
-    qty: qty
-  };
-}
+// Helper para reconciliación contra el catálogo oficial congelado
+const resolveCanonicalItem = (rawItem) => resolveCanonicalCartItem(rawItem, ALL_CATALOG_PRODUCTS);
 
 // Divisiones por colección para las secciones y carruseles
 const MITOS_ITEMS = ALL_CATALOG_PRODUCTS.filter((p) => p.collection === 'mitos');
@@ -1006,7 +938,7 @@ function AppContent() {
       if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed)) {
-          return parsed.map(resolveCanonicalCartItem).filter(Boolean);
+          return parsed.map(resolveCanonicalItem).filter(Boolean);
         }
       }
     } catch {
@@ -1141,7 +1073,7 @@ function AppContent() {
 
   // Carrito helpers con reconciliación canónica estricta
   const addItemToCart = (rawItem) => {
-    const verified = resolveCanonicalCartItem(rawItem);
+    const verified = resolveCanonicalItem(rawItem);
     if (!verified) return;
 
     setCart((prev) => {
@@ -1177,7 +1109,7 @@ function AppContent() {
 
   // Carrito verificado contra catálogo inmutable
   const verifiedCart = useMemo(() => {
-    return cart.map(resolveCanonicalCartItem).filter(Boolean);
+    return cart.map(resolveCanonicalItem).filter(Boolean);
   }, [cart]);
 
   const cartTotal = useMemo(() => {
@@ -1190,7 +1122,7 @@ function AppContent() {
 
   // Generador de enlace de WhatsApp blindado contra manipulación de precios
   const getCheckoutWhatsAppUrl = () => {
-    const safeItems = cart.map(resolveCanonicalCartItem).filter(Boolean);
+    const safeItems = cart.map(resolveCanonicalItem).filter(Boolean);
     if (safeItems.length === 0) return '#';
 
     const safeTotal = safeItems.reduce((acc, item) => acc + item.price * item.qty, 0);

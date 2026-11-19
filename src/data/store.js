@@ -1,5 +1,5 @@
 // Datos de contacto, historia, FAQ y políticas oficiales MiPEUE.
-import { deepFreeze } from './catalog';
+import { deepFreeze } from './catalog.js';
 
 export const EXCHANGE_RATE = 36.6243; // 1 USD = 36.6243 C$
 export const WHATSAPP_NUMBER = '50583332316';
