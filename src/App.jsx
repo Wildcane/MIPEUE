@@ -14,7 +14,7 @@ import {
 } from 'lucide-react';
 
 const WHATSAPP_NUMBER = '50583332316';
-const EXCHANGE_RATE = 36.62;
+const EXCHANGE_RATE = 36.6243;
 
 // Secciones de navegación
 const NAV_SECTIONS = [
@@ -33,8 +33,8 @@ const ALL_CATALOG_PRODUCTS = [
     collection: 'mitos',
     name: 'LA CEGUA (FRENTE)',
     description:
-      'Inspirada en el espanto que castiga a los trasnochadores en los caminos solitarios. Serigrafía técnica sobre algodón peinado nicaragüense.',
-    detail: '100% Algodón peinado • Hecho en Nicaragua',
+      'Inspirada en el espanto que castiga a los trasnochadores en los caminos solitarios. Estampado DTF de alta definición sobre algodón peinado nicaragüense.',
+    detail: '100% Algodón peinado • Estampado DTF de alta definición • Hecho en Nicaragua',
     price: 490,
     sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
     image: '/assets/products/cegua-cutout-1.webp',
@@ -51,8 +51,8 @@ const ALL_CATALOG_PRODUCTS = [
     collection: 'mitos',
     name: 'LA CEGUA (VARIANTE / MODELO)',
     description:
-      'Segunda perspectiva del mito colonial. Corte holgado con caída perfecta para el clima tropical de Managua y Granada.',
-    detail: '100% Algodón peinado • Hecho en Nicaragua',
+      'Segunda perspectiva del mito colonial. Corte holgado con caída perfecta para el clima tropical de Managua y Granada con estampado DTF.',
+    detail: '100% Algodón peinado • Estampado DTF de alta definición • Hecho en Nicaragua',
     price: 490,
     sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
     image: '/assets/products/cegua-cutout-2.webp',
@@ -65,79 +65,40 @@ const ALL_CATALOG_PRODUCTS = [
     defaultColor: 'negro'
   },
   {
-    id: 'cadejo-morado',
-    collection: 'mitos',
-    name: 'CADEJO (MORADO / LILA)',
-    description:
-      'El guardián de la noche. Tonalidad lila místico que captura el misterio del can de ojos encendidos.',
-    detail: '100% Algodón peinado • Hecho en Nicaragua',
-    price: 490,
-    sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
-    image: '/assets/products/cadejo-cutout-1.webp',
-    soldOut: false,
-    darkBg: '#120d1a',
-    lightBg: '#e8e0f0',
-    colors: [
-      { id: 'morado', label: 'Lila Místico', bgClass: 'bg-[#4a2e63]', price: 490, image: '/assets/products/cadejo-cutout-1.webp' },
-      { id: 'crema', label: 'Crema', bgClass: 'bg-[#e6e1d5]', price: 490, image: '/assets/products/cadejo-cutout-2.webp' }
-    ],
-    defaultColor: 'morado'
-  },
-  {
-    id: 'cadejo-crema',
-    collection: 'mitos',
-    name: 'CADEJO (CREMA / BEIGE)',
-    description:
-      'El protector blanco de los caminos. Pieza de coleccionista actualmente con demanda extraordinaria.',
-    detail: '100% Algodón peinado • Hecho en Nicaragua',
-    price: 490,
-    sizes: ['S', 'M', 'L', 'XL', 'Otra talla'],
-    image: '/assets/products/cadejo-cutout-2.webp',
-    soldOut: true,
-    soldOutLabel: 'AGOTADO TEMPORALMENTE',
-    darkBg: '#1a1814',
-    lightBg: '#f2eee6',
-    colors: [
-      { id: 'crema', label: 'Crema', bgClass: 'bg-[#e6e1d5]', price: 490, image: '/assets/products/cadejo-cutout-2.webp' },
-      { id: 'morado', label: 'Lila Místico', bgClass: 'bg-[#4a2e63]', price: 490, image: '/assets/products/cadejo-cutout-1.webp' }
-    ],
-    defaultColor: 'crema'
-  },
-  {
     id: 'deacachimba',
     collection: 'mitos',
     name: 'TOP MUY DEACACHIMBA',
     description:
-      'Expresión cumbre de la jerga popular nicaragüense. Top cropped fresco y versátil con arte serigráfico de autor.',
-    detail: 'Algodón peinado elástico • Hecho en Nicaragua',
+      'Expresión cumbre de la jerga popular nicaragüense. Top cropped fresco y versátil con estampado DTF de alta definición.',
+    detail: 'Rib de algodón peinado • Estampado DTF de alta definición • Hecho en Nicaragua',
     price: 360,
-    sizes: ['Unitalla', 'S', 'M', 'Otra talla'],
+    sizes: ['Unitalla'],
     image: '/assets/products/deacachimba-cutout.webp',
     soldOut: false,
     darkBg: '#0f1713',
     lightBg: '#e2ede7',
     colors: [
-      { id: 'negro', label: 'Negro Grafito', bgClass: 'bg-[#181818]', price: 360, image: '/assets/products/deacachimba-cutout.webp' }
+      { id: 'verde', label: 'Blanco / Mangas Verdes', bgClass: 'bg-[#1b4332]', price: 360, image: '/assets/products/deacachimba-cutout.webp' }
     ],
-    defaultColor: 'negro'
+    defaultColor: 'verde'
   },
   {
     id: 'top-nicaragua',
     collection: 'mitos',
     name: 'TOP NICARAGUA',
     description:
-      'Orgullo patrio llevado a la moda urbana contemporánea. Silueta ceñida y fresca para el día a día.',
-    detail: 'Algodón peinado elástico • Hecho en Nicaragua',
+      'Orgullo patrio llevado a la moda urbana contemporánea. Silueta ceñida y fresca con estampado DTF de alta definición.',
+    detail: 'Rib de algodón peinado • Estampado DTF de alta definición • Hecho en Nicaragua',
     price: 360,
-    sizes: ['Unitalla', 'S', 'M', 'Otra talla'],
+    sizes: ['Unitalla'],
     image: '/assets/products/nicaragua-cutout.webp',
     soldOut: false,
     darkBg: '#0e131f',
     lightBg: '#e0e7f0',
     colors: [
-      { id: 'negro', label: 'Negro Grafito', bgClass: 'bg-[#181818]', price: 360, image: '/assets/products/nicaragua-cutout.webp' }
+      { id: 'verde', label: 'Blanco / Mangas Verdes', bgClass: 'bg-[#1b4332]', price: 360, image: '/assets/products/nicaragua-cutout.webp' }
     ],
-    defaultColor: 'negro'
+    defaultColor: 'verde'
   },
 
   // --- SECCIÓN 1: COLECCIÓN RAÍCES ---
@@ -382,8 +343,8 @@ const ALL_CATALOG_PRODUCTS = [
     collection: 'totebags',
     name: 'TOTE BUÑUELOS (TIRAS ROJAS)',
     description:
-      'Bolso utilitario en lona pesada con ilustración serigráfica de Buñuelos tradicionales y tiras rojas de alto contraste. Espacioso y duradero.',
-    detail: 'Lona 100% Algodón 12oz • Medidas 32x35 cm • Asas Rojas',
+      'Bolso utilitario en lona pesada con estampado DTF de alta definición de Buñuelos tradicionales y tiras rojas de alto contraste. Espacioso y duradero.',
+    detail: 'Lona 100% Algodón 12oz • Medidas 32x35 cm • Tiras Rojas • Técnica DTF',
     price: 430,
     sizes: ['Unitalla (32×35 cm)'],
     image: '/assets/products/tote-bunuelos.webp',
@@ -400,8 +361,8 @@ const ALL_CATALOG_PRODUCTS = [
     collection: 'totebags',
     name: 'TOTE FAUNA LOCAL',
     description:
-      'Bolso de autor con aves autóctonas nicaragüenses estampadas con nitidez sobre lona rústica natural. Costuras reforzadas.',
-    detail: 'Lona 100% Algodón 12oz • Medidas 32x35 cm',
+      'Bolso de autor con aves autóctonas nicaragüenses estampadas con nitidez en técnica DTF sobre lona rústica natural. Costuras reforzadas.',
+    detail: 'Lona 100% Algodón 12oz • Medidas 32x35 cm • Tiras Crema • Técnica DTF',
     price: 430,
     sizes: ['Unitalla (32×35 cm)'],
     image: '/assets/products/tote-fauna.webp',
@@ -409,7 +370,7 @@ const ALL_CATALOG_PRODUCTS = [
     darkBg: '#12241e',
     lightBg: '#dbece5',
     colors: [
-      { id: 'crema', label: 'Lona Cruda', bgClass: 'bg-[#e6e1d5]', price: 430, image: '/assets/products/tote-fauna.webp' }
+      { id: 'crema', label: 'Tiras Crema / Lona Cruda', bgClass: 'bg-[#e6e1d5]', price: 430, image: '/assets/products/tote-fauna.webp' }
     ],
     defaultColor: 'crema'
   },
@@ -418,8 +379,8 @@ const ALL_CATALOG_PRODUCTS = [
     collection: 'totebags',
     name: 'TOTE NICARAGUA',
     description:
-      'Estampa completa de identidad nacional sobre lienzo natural. Asas resistentes para llevar al hombro cómodamente.',
-    detail: 'Lona 100% Algodón 12oz • Medidas 32x35 cm',
+      'Estampa completa de identidad nacional sobre lienzo natural en técnica DTF. Asas resistentes para llevar al hombro cómodamente.',
+    detail: 'Lona 100% Algodón 12oz • Medidas 32x35 cm • Tiras Crema • Técnica DTF',
     price: 430,
     sizes: ['Unitalla (32×35 cm)'],
     image: '/assets/products/tote-nicaragua.webp',
@@ -427,7 +388,7 @@ const ALL_CATALOG_PRODUCTS = [
     darkBg: '#122026',
     lightBg: '#dbe6ec',
     colors: [
-      { id: 'crema', label: 'Lona Cruda', bgClass: 'bg-[#e6e1d5]', price: 430, image: '/assets/products/tote-nicaragua.webp' }
+      { id: 'crema', label: 'Tiras Crema / Lona Cruda', bgClass: 'bg-[#e6e1d5]', price: 430, image: '/assets/products/tote-nicaragua.webp' }
     ],
     defaultColor: 'crema'
   }
@@ -987,17 +948,13 @@ function AppContent() {
   const currentHeroImage = currentHeroColorVariant?.image || currentHeroProduct?.image;
   const currentHeroPrice = currentHeroColorVariant?.price || currentHeroProduct?.price || 480;
 
-  // Fondo Dinámico Reactivo por prenda/color en el Showcase
+  // Fondo Dinámico Reactivo por prenda en el Showcase
   const activeHeroBg = useMemo(() => {
     if (isInverted) {
       return currentHeroProduct?.lightBg || '#e6e1d5';
     }
-    // Si la variante activa es crema en el Cadejo, usar fondo arena oscuro
-    if (heroColor === 'crema') {
-      return '#1a1814';
-    }
     return currentHeroProduct?.darkBg || '#081f1a';
-  }, [isInverted, currentHeroProduct, heroColor]);
+  }, [isInverted, currentHeroProduct]);
 
   const adaptiveSurfaceStyle = useMemo(() => {
     return {
@@ -1122,7 +1079,8 @@ function AppContent() {
 
   // Generador de enlace de WhatsApp
   const getCheckoutWhatsAppUrl = () => {
-    let msg = `*NUEVO PEDIDO — MiPEUE OFICIAL*\n`;
+    let msg = `Hola equipo MiPEUE, quiero realizar el siguiente pedido:\n\n`;
+    msg += `*DETALLES DEL PEDIDO*\n`;
     msg += `--------------------------------------\n`;
     cart.forEach((item, idx) => {
       msg += `${idx + 1}. *${item.name}*\n`;
@@ -1138,7 +1096,7 @@ function AppContent() {
       msg += `*DIRECCIÓN DE ENTREGA:* ${deliveryAddress.trim()}\n`;
     }
     msg += `--------------------------------------\n`;
-    msg += `Hola Meysi / Equipo MiPEUE, deseo confirmar este pedido y coordinar el envío.`;
+    msg += `Quedo a la espera de su confirmación para coordinar el pago y la entrega. ¡Muchas gracias!`;
     return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
   };
 
@@ -1552,7 +1510,7 @@ function AppContent() {
       <CollectionCarouselSection
         id="totebags"
         title="TOTE BAGS"
-        subtitle="Bolsos utilitarios confeccionados en lona 100% algodón crudo de 12oz de alto gramaje con serigrafía DTF de alta definición y asas reforzadas."
+        subtitle="Bolsos utilitarios confeccionados en lona 100% algodón crudo de 12oz de alto gramaje con estampado DTF de alta definición y asas reforzadas."
         items={TOTE_ITEMS}
         currency={currency}
         formatPrice={formatPrice}

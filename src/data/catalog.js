@@ -45,7 +45,7 @@ export const OUT_OF_STOCK = 'Agotado';
 export const TEMP_UNAVAILABLE = 'No disponible temporalmente';
 
 export const STANDARD_SIZES = ['S', 'M', 'L', 'XL', 'Otra talla'];
-export const TOP_SIZES = ['Unitalla', 'Otra talla'];
+export const TOP_SIZES = ['Unitalla'];
 export const TOTE_SIZES = ['Unitalla (32×35 cm)'];
 
 const SHIRT = 'Camiseta';
@@ -237,27 +237,12 @@ export const PRODUCTS = [
   // 4. COLECCIÓN MITOS & MASAYA (ÚLTIMA COLECCIÓN)
   // ──────────────────────────────────────────
   {
-    id: 'cadejo',
-    name: 'Cadejo',
-    type: SHIRT,
-    collection: 'mitos',
-    isLatest: true,
-    material: '100% Algodón peinado prémium • Ilustración mística de autor',
-    description:
-      'El guardián espectral de los caminos solitarios. La eterna dualidad entre el espíritu blanco protector y el espíritu negro que reta a los trasnochadores.',
-    variants: [
-      v('Blanco', 490, STANDARD_SIZES, IN_STOCK, pick('cadejo', ['blanco-2', 'blanco-1', 'blanco-3'])),
-      v('Crema', 490, STANDARD_SIZES, IN_STOCK, pick('cadejo', ['crema-1', 'crema-2'])),
-      v('Azul', 490, STANDARD_SIZES, OUT_OF_STOCK, pick('cadejo', ['azul-1'])),
-    ],
-  },
-  {
     id: 'la-cegua',
     name: 'La Cegua',
     type: SHIRT,
     collection: 'mitos',
     isLatest: true,
-    material: '100% Algodón peinado negro • Tinta marfil sobre tela profunda',
+    material: '100% Algodón peinado negro • Estampado DTF de alta definición • Hecho en Nicaragua',
     description:
       'La mujer espectral de las quebradas de Masaya y los caminos coloniales. Rostro hechicero que revela ante los infieles una calavera de caballo.',
     variants: [
@@ -271,7 +256,7 @@ export const PRODUCTS = [
     type: TOP,
     collection: 'mitos',
     isLatest: true,
-    material: 'Rib de algodón peinado con stretch • Corte raglán femenino',
+    material: 'Rib de algodón peinado con stretch • Estampado DTF de alta definición • Corte raglán femenino',
     description:
       'Homenaje al habla cotidiana nicaragüense. Silueta baby tee fresca con mangas en contraste verde bosque corporativo y cuello acanalado.',
     variants: [
@@ -284,9 +269,9 @@ export const PRODUCTS = [
     type: TOP,
     collection: 'mitos',
     isLatest: true,
-    material: 'Rib de algodón peinado con stretch • Corte raglán bicolor',
+    material: 'Rib de algodón peinado con stretch • Estampado DTF de alta definición • Corte raglán bicolor',
     description:
-      'Corte raglán retro con la palabra "Nicaragua" estampada al pecho en serigrafía de alta densidad y mangas verde bosque.',
+      'Corte raglán retro con la palabra "Nicaragua" estampada al pecho en DTF de alta definición y mangas verde bosque.',
     variants: [
       v('Verde', 550, TOP_SIZES, IN_STOCK, pick('top-nicaragua', ['default-2', 'default-4', 'default-3', 'default-1'])),
     ],

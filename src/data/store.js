@@ -1,4 +1,5 @@
 // Datos de contacto, historia, FAQ y políticas oficiales MiPEUE.
+export const EXCHANGE_RATE = 36.6243; // 1 USD = 36.6243 C$
 export const WHATSAPP_NUMBER = '50583332316';
 export const WHATSAPP_DISPLAY = '+505 8333-2316';
 
